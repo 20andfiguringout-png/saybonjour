@@ -260,7 +260,7 @@ const PhraseOfTheDay = () => {
   }
 
   return (
-    <div className="flex h-screen pt-16">
+    <div className="flex h-screen pt-16 bg-white dark:bg-dark-warm-300">
       <ContentSidebar
         sections={sections}
         selectedSection={selectedSection}
@@ -278,12 +278,12 @@ const PhraseOfTheDay = () => {
             <div className="mb-6 sm:mb-8">
               <div className="flex items-center space-x-3 sm:space-x-4 mb-3 sm:mb-4">
                 <Calendar className="w-6 h-6 sm:w-8 sm:h-8 text-burgundy-600" />
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-cream-50">
                   French Phrase
                 </h1>
               </div>
 
-              <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-sm text-gray-600 mb-4 sm:mb-6">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-sm text-gray-600 dark:text-gray-400 mb-4 sm:mb-6">
                 <div className="flex items-center space-x-1">
                   <span className="font-medium">Type:</span>
                   <span className="capitalize">{selectedPhrase.type}</span>
@@ -301,7 +301,7 @@ const PhraseOfTheDay = () => {
             </div>
 
             {/* Main Phrase Display */}
-            <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl overflow-hidden mb-6 sm:mb-8">
+            <div className="bg-white dark:bg-dark-warm-100 rounded-2xl sm:rounded-3xl shadow-xl overflow-hidden mb-6 sm:mb-8">
               {/* Header with actions */}
               <div className="bg-gradient-to-r from-burgundy-600 to-burgundy-700 text-white p-4 sm:p-6">
                 <div className="flex items-center justify-between">
@@ -353,7 +353,7 @@ const PhraseOfTheDay = () => {
               <div className="p-4 sm:p-6 md:p-8">
                 {/* French phrase */}
                 <div className="text-center mb-6 sm:mb-8">
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4 leading-tight px-2">
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-cream-50 mb-3 sm:mb-4 leading-tight px-2">
                     "{selectedPhrase.french}"
                   </h2>
 
@@ -384,41 +384,41 @@ const PhraseOfTheDay = () => {
                   </div>
 
                   {/* English translation */}
-                  <p className="text-lg sm:text-xl md:text-2xl text-gray-700 mb-2 px-2">
+                  <p className="text-lg sm:text-xl md:text-2xl text-gray-700 dark:text-gray-300 mb-2 px-2">
                     "{selectedPhrase.english}"
                   </p>
 
                   {/* Literal translation */}
-                  <p className="text-sm sm:text-base md:text-lg text-gray-500 italic px-2">
+                  <p className="text-sm sm:text-base md:text-lg text-gray-500 dark:text-gray-400 italic px-2">
                     Literal: "{selectedPhrase.literal}"
                   </p>
                 </div>
 
                 {/* Meaning and usage */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 mb-6 sm:mb-8">
-                  <div className="bg-amber-50 rounded-xl sm:rounded-2xl p-4 sm:p-6">
-                    <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-2 sm:mb-3 flex items-center">
+                  <div className="bg-amber-50 dark:bg-amber-900/20 rounded-xl sm:rounded-2xl p-4 sm:p-6">
+                    <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-cream-50 mb-2 sm:mb-3 flex items-center">
                       <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-burgundy-600" />
                       Meaning
                     </h3>
-                    <p className="text-sm sm:text-base text-gray-700">{selectedPhrase.meaning}</p>
+                    <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300">{selectedPhrase.meaning}</p>
                   </div>
 
-                  <div className="bg-blue-50 rounded-xl sm:rounded-2xl p-4 sm:p-6">
-                    <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-2 sm:mb-3 flex items-center">
+                  <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl sm:rounded-2xl p-4 sm:p-6">
+                    <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-cream-50 mb-2 sm:mb-3 flex items-center">
                       <Star className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-burgundy-600" />
                       Usage
                     </h3>
-                    <p className="text-sm sm:text-base text-gray-700">{selectedPhrase.usage}</p>
+                    <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300">{selectedPhrase.usage}</p>
                   </div>
                 </div>
 
                 {/* Example */}
-                <div className="bg-gray-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8">
-                  <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-3 sm:mb-4">Example in Context</h3>
+                <div className="bg-gray-50 dark:bg-dark-warm-200 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8">
+                  <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-cream-50 mb-3 sm:mb-4">Example in Context</h3>
                   <div className="space-y-2 sm:space-y-3">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
-                      <p className="text-sm sm:text-base md:text-lg text-gray-900 font-medium flex-1">
+                      <p className="text-sm sm:text-base md:text-lg text-gray-900 dark:text-cream-50 font-medium flex-1">
                         🇫🇷 {selectedPhrase.example}
                       </p>
                       <SpeakButton
@@ -427,16 +427,16 @@ const PhraseOfTheDay = () => {
                         variant="ghost"
                       />
                     </div>
-                    <p className="text-sm sm:text-base text-gray-600">
+                    <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
                       🇺🇸 {selectedPhrase.exampleTranslation}
                     </p>
                   </div>
                 </div>
 
                 {/* Cultural note */}
-                <div className="bg-gradient-to-r from-burgundy-50 to-amber-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-burgundy-100">
-                  <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-2 sm:mb-3">💡 Cultural Note</h3>
-                  <p className="text-sm sm:text-base text-gray-700">{selectedPhrase.culturalNote}</p>
+                <div className="bg-gradient-to-r from-burgundy-50 to-amber-50 dark:from-dark-warm-200 dark:to-dark-warm-200 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-burgundy-100 dark:border-dark-warm-50">
+                  <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-cream-50 mb-2 sm:mb-3">💡 Cultural Note</h3>
+                  <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300">{selectedPhrase.culturalNote}</p>
                 </div>
               </div>
             </div>
@@ -445,10 +445,10 @@ const PhraseOfTheDay = () => {
           <div className="flex items-center justify-center h-full">
             <div className="text-center">
               <Calendar size={48} className="text-gray-400 mx-auto mb-4" />
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-cream-50 mb-2">
                 Select a Phrase
               </h2>
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-gray-400">
                 Choose a French phrase from the sidebar to start learning
               </p>
             </div>

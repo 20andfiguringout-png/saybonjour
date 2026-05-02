@@ -429,7 +429,7 @@ Free concerts throughout France. Everyone can play in the street.
 
   if (selectedArticle) {
     return (
-      <div className="min-h-screen bg-gray-50 pt-16">
+      <div className="min-h-screen bg-gray-50 dark:bg-dark-warm-300 pt-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 md:py-8">
           {/* Article Header */}
           <div className="mb-6 sm:mb-8">
@@ -447,13 +447,13 @@ Free concerts throughout France. Everyone can play in the street.
                   <selectedArticle.icon className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-amber-50" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 leading-tight">{selectedArticle.title}</h1>
-                  <p className="text-base sm:text-lg text-gray-600 mt-1">{selectedArticle.subtitle}</p>
+                  <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-cream-50 leading-tight">{selectedArticle.title}</h1>
+                  <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 mt-1">{selectedArticle.subtitle}</p>
                   <div className="flex flex-wrap items-center gap-2 sm:gap-4 mt-2">
                     <span className="text-xs sm:text-sm bg-burgundy-100 text-burgundy-700 px-2 py-1 rounded">
                       {selectedArticle.difficulty}
                     </span>
-                    <span className="text-xs sm:text-sm text-gray-500">
+                    <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                       📖 {selectedArticle.readTime}
                     </span>
                   </div>
@@ -534,19 +534,19 @@ Free concerts throughout France. Everyone can play in the street.
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-16">
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-warm-300 pt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 md:py-8">
         {/* Header */}
         <div className="mb-6 sm:mb-8 text-center">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4 px-2">Cultural Insights</h1>
-          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto px-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-cream-50 mb-3 sm:mb-4 px-2">Cultural Insights</h1>
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto px-2">
             Découvrez la richesse culturelle française à travers des articles interactifs en français avec traductions.
           </p>
         </div>
 
         {/* Regional Differences */}
         <div className="mb-8 sm:mb-10 md:mb-12">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 px-2">French-Speaking Regions</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-cream-50 mb-4 sm:mb-6 px-2">French-Speaking Regions</h2>
 
           {/* Region Selector */}
           <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-4 mb-4 sm:mb-6 px-2">
@@ -557,7 +557,7 @@ Free concerts throughout France. Everyone can play in the street.
                 className={`flex items-center space-x-1 sm:space-x-2 px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-lg text-sm sm:text-base font-medium transition-colors ${
                   activeRegion === key
                     ? 'bg-burgundy-600 text-amber-50'
-                    : 'bg-amber-50 text-gray-700 hover:bg-burgundy-50 border border-gray-200'
+                    : 'bg-amber-50 dark:bg-dark-warm-100 text-gray-700 dark:text-gray-300 hover:bg-burgundy-50 border border-gray-200 dark:border-dark-warm-50'
                 }`}
               >
                 <span className="text-base sm:text-lg md:text-xl">{region.flag}</span>
@@ -572,17 +572,17 @@ Free concerts throughout France. Everyone can play in the street.
             <div className="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4">
               <div className="text-3xl sm:text-4xl flex-shrink-0">{regions[activeRegion].flag}</div>
               <div className="flex-1 min-w-0">
-                <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-cream-50 mb-2">
                   {regions[activeRegion].name}
                 </h3>
-                <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4">
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-3 sm:mb-4">
                   {regions[activeRegion].description}
                 </p>
                 <ul className="space-y-1.5 sm:space-y-2">
                   {regions[activeRegion].highlights.map((highlight, index) => (
                     <li key={index} className="flex items-start space-x-2">
                       <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-burgundy-600 mt-1 flex-shrink-0" />
-                      <span className="text-sm sm:text-base text-gray-700">{highlight}</span>
+                      <span className="text-sm sm:text-base text-gray-700 dark:text-gray-300">{highlight}</span>
                     </li>
                   ))}
                 </ul>
@@ -593,7 +593,7 @@ Free concerts throughout France. Everyone can play in the street.
 
         {/* Cultural Articles */}
         <div className="mb-8 sm:mb-10 md:mb-12">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 px-2">Articles Culturels</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-cream-50 mb-4 sm:mb-6 px-2">Articles Culturels</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             {culturalArticles.map((article) => (
               <div
@@ -607,13 +607,13 @@ Free concerts throughout France. Everyone can play in the street.
                   </div>
                   <div className="flex-1 min-w-0 text-center sm:text-left">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-0 mb-2">
-                      <h3 className="text-base sm:text-lg font-semibold text-gray-900 group-hover:text-burgundy-600 transition-colors">
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-cream-50 group-hover:text-burgundy-600 transition-colors">
                         {article.title}
                       </h3>
                       <BookOpen className="w-4 h-4 text-gray-400 group-hover:text-burgundy-600 transition-colors mx-auto sm:mx-0" />
                     </div>
-                    <p className="text-xs sm:text-sm text-gray-500 mb-2">{article.subtitle}</p>
-                    <p className="text-gray-600 mb-3 sm:mb-4 text-xs sm:text-sm leading-relaxed">
+                    <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2">{article.subtitle}</p>
+                    <p className="text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 text-xs sm:text-sm leading-relaxed">
                       {article.description}
                     </p>
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
@@ -638,38 +638,38 @@ Free concerts throughout France. Everyone can play in the street.
 
         {/* Language in Context */}
         <div className="mb-8 sm:mb-10 md:mb-12">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 px-2">Language in Cultural Context</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-cream-50 mb-4 sm:mb-6 px-2">Language in Cultural Context</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             <div className="card p-4 sm:p-6">
-              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Formal vs. Informal</h3>
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-cream-50 mb-3 sm:mb-4">Formal vs. Informal</h3>
               <div className="space-y-3 sm:space-y-4">
                 <div>
                   <h4 className="font-medium text-burgundy-600 text-sm sm:text-base">Formal (Vous)</h4>
-                  <p className="text-xs sm:text-sm text-gray-600">Used with strangers, elders, professionals, and in business settings.</p>
-                  <p className="text-xs sm:text-sm italic text-gray-500">"Comment allez-vous?" (How are you?)</p>
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Used with strangers, elders, professionals, and in business settings.</p>
+                  <p className="text-xs sm:text-sm italic text-gray-500 dark:text-gray-400">"Comment allez-vous?" (How are you?)</p>
                 </div>
                 <div>
                   <h4 className="font-medium text-burgundy-600 text-sm sm:text-base">Informal (Tu)</h4>
-                  <p className="text-xs sm:text-sm text-gray-600">Used with friends, family, children, and peers.</p>
-                  <p className="text-xs sm:text-sm italic text-gray-500">"Comment ça va?" (How's it going?)</p>
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Used with friends, family, children, and peers.</p>
+                  <p className="text-xs sm:text-sm italic text-gray-500 dark:text-gray-400">"Comment ça va?" (How's it going?)</p>
                 </div>
               </div>
             </div>
 
             <div className="card p-4 sm:p-6">
-              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Regional Expressions</h3>
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-cream-50 mb-3 sm:mb-4">Regional Expressions</h3>
               <div className="space-y-2 sm:space-y-3">
                 <div>
                   <span className="font-medium text-burgundy-600 text-sm sm:text-base">France:</span>
-                  <span className="text-xs sm:text-sm text-gray-600 ml-2">"C'est le pied!" (That's awesome!)</span>
+                  <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 ml-2">"C'est le pied!" (That's awesome!)</span>
                 </div>
                 <div>
                   <span className="font-medium text-burgundy-600 text-sm sm:text-base">Quebec:</span>
-                  <span className="text-xs sm:text-sm text-gray-600 ml-2">"C'est le fun!" (That's fun!)</span>
+                  <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 ml-2">"C'est le fun!" (That's fun!)</span>
                 </div>
                 <div>
                   <span className="font-medium text-burgundy-600 text-sm sm:text-base">Belgium:</span>
-                  <span className="text-xs sm:text-sm text-gray-600 ml-2">"Une fois" (used for emphasis)</span>
+                  <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 ml-2">"Une fois" (used for emphasis)</span>
                 </div>
               </div>
             </div>
@@ -678,28 +678,28 @@ Free concerts throughout France. Everyone can play in the street.
 
         {/* Cultural Calendar */}
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 px-2">Cultural Calendar</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-cream-50 mb-4 sm:mb-6 px-2">Cultural Calendar</h2>
           <div className="card p-4 sm:p-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               <div className="text-center">
                 <Calendar className="w-6 h-6 sm:w-8 sm:h-8 text-burgundy-600 mx-auto mb-2" />
-                <h3 className="font-semibold text-gray-900 text-sm sm:text-base">Spring</h3>
-                <p className="text-xs sm:text-sm text-gray-600">Easter traditions, May Day celebrations</p>
+                <h3 className="font-semibold text-gray-900 dark:text-cream-50 text-sm sm:text-base">Spring</h3>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Easter traditions, May Day celebrations</p>
               </div>
               <div className="text-center">
                 <Calendar className="w-6 h-6 sm:w-8 sm:h-8 text-burgundy-600 mx-auto mb-2" />
-                <h3 className="font-semibold text-gray-900 text-sm sm:text-base">Summer</h3>
-                <p className="text-xs sm:text-sm text-gray-600">Bastille Day, summer festivals</p>
+                <h3 className="font-semibold text-gray-900 dark:text-cream-50 text-sm sm:text-base">Summer</h3>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Bastille Day, summer festivals</p>
               </div>
               <div className="text-center">
                 <Calendar className="w-6 h-6 sm:w-8 sm:h-8 text-burgundy-600 mx-auto mb-2" />
-                <h3 className="font-semibold text-gray-900 text-sm sm:text-base">Autumn</h3>
-                <p className="text-xs sm:text-sm text-gray-600">Harvest festivals, back to school</p>
+                <h3 className="font-semibold text-gray-900 dark:text-cream-50 text-sm sm:text-base">Autumn</h3>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Harvest festivals, back to school</p>
               </div>
               <div className="text-center">
                 <Calendar className="w-6 h-6 sm:w-8 sm:h-8 text-burgundy-600 mx-auto mb-2" />
-                <h3 className="font-semibold text-gray-900 text-sm sm:text-base">Winter</h3>
-                <p className="text-xs sm:text-sm text-gray-600">Christmas markets, New Year traditions</p>
+                <h3 className="font-semibold text-gray-900 dark:text-cream-50 text-sm sm:text-base">Winter</h3>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Christmas markets, New Year traditions</p>
               </div>
             </div>
           </div>

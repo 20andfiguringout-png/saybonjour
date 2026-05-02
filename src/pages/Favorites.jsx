@@ -57,7 +57,7 @@ const Favorites = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white pt-16">
+    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white dark:from-dark-warm-300 dark:to-dark-warm-300 pt-16">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <motion.div
@@ -73,22 +73,22 @@ const Favorites = () => {
             <Heart className="w-4 h-4 mr-2 fill-current" />
             Mes Favoris • My Favorites
           </motion.div>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-cream-50 mb-6">
             ❤️ Your Learning Collection
           </h1>
-          <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 max-w-4xl mx-auto">
+          <div className="bg-white dark:bg-dark-warm-100 rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-dark-warm-50 max-w-4xl mx-auto">
             {getTotalCount() > 0 ? (
               <div className="text-center">
-                <p className="text-2xl font-semibold text-gray-900 mb-2">
+                <p className="text-2xl font-semibold text-gray-900 dark:text-cream-50 mb-2">
                   Welcome back! You have {getTotalCount()} {getTotalCount() === 1 ? 'item' : 'items'} saved.
                 </p>
-                <p className="text-lg text-gray-600">
+                <p className="text-lg text-gray-600 dark:text-gray-400">
                   Keep exploring and building your personalized French learning collection! 🌟
                 </p>
               </div>
             ) : (
               <div className="text-center">
-                <p className="text-xl text-gray-600">
+                <p className="text-xl text-gray-600 dark:text-gray-400">
                   Start favoriting content to build your personalized learning collection!
                 </p>
               </div>
@@ -105,8 +105,8 @@ const Favorites = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <Heart size={64} className="text-gray-300 mx-auto mb-6" />
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">No favorites yet</h2>
-            <p className="text-gray-600 mb-8 max-w-md mx-auto">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-cream-50 mb-4">No favorites yet</h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">
               Start exploring our content and click the heart icon to save your favorite phrases, 
               media, articles, and more!
             </p>
@@ -131,7 +131,7 @@ const Favorites = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-2">
+              <div className="bg-white dark:bg-dark-warm-100 rounded-2xl shadow-lg border border-gray-100 dark:border-dark-warm-50 p-2">
                 <div className="flex flex-wrap justify-center gap-2">
                   {tabs.map((tab) => {
                     const Icon = getTabIcon(tab.id)
@@ -142,7 +142,7 @@ const Favorites = () => {
                         className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-medium transition-all duration-300 relative ${
                           activeTab === tab.id
                             ? 'bg-burgundy-600 text-white shadow-md'
-                            : 'text-gray-600 hover:text-burgundy-600 hover:bg-gray-50'
+                            : 'text-gray-600 dark:text-gray-400 hover:text-burgundy-600 hover:bg-gray-50 dark:hover:bg-dark-warm-200'
                         }`}
                         whileHover={{ y: -2 }}
                         whileTap={{ scale: 0.98 }}
@@ -180,7 +180,7 @@ const Favorites = () => {
 
             {/* Content */}
             <motion.div
-              className="bg-white rounded-2xl shadow-lg overflow-hidden"
+              className="bg-white dark:bg-dark-warm-100 rounded-2xl shadow-lg overflow-hidden"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -190,10 +190,10 @@ const Favorites = () => {
                   <div className="text-gray-300 mb-6">
                     {React.createElement(getTabIcon(activeTab), { size: 64 })}
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-cream-50 mb-3">
                     No {activeTab} saved yet
                   </h3>
-                  <p className="text-lg text-gray-600 mb-6 max-w-md mx-auto">
+                  <p className="text-lg text-gray-600 dark:text-gray-400 mb-6 max-w-md mx-auto">
                     Start exploring and save your favorite {activeTab} to see them here.
                     Click the ❤️ icon when you find something you love!
                   </p>
@@ -212,17 +212,17 @@ const Favorites = () => {
               ) : (
                 <>
                   {/* Header */}
-                  <div className="bg-gradient-to-r from-burgundy-50 to-cream-100 px-8 py-6 border-b border-gray-100">
+                  <div className="bg-gradient-to-r from-burgundy-50 to-cream-100 dark:from-dark-warm-200 dark:to-dark-warm-200 px-8 py-6 border-b border-gray-100 dark:border-dark-warm-50">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h2 className="text-2xl font-bold text-gray-900 capitalize flex items-center">
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-cream-50 capitalize flex items-center">
                           {React.createElement(getTabIcon(activeTab), {
                             size: 28,
                             className: "text-burgundy-600 mr-3"
                           })}
                           Your Saved {activeTab}
                         </h2>
-                        <p className="text-gray-600 mt-1">
+                        <p className="text-gray-600 dark:text-gray-400 mt-1">
                           {favorites[activeTab].length} {favorites[activeTab].length === 1 ? 'item' : 'items'} in your collection
                         </p>
                       </div>
@@ -230,7 +230,7 @@ const Favorites = () => {
                         <div className="text-3xl font-bold text-burgundy-600">
                           {favorites[activeTab].length}
                         </div>
-                        <div className="text-sm text-gray-500">saved</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">saved</div>
                       </div>
                     </div>
                   </div>
@@ -241,7 +241,7 @@ const Favorites = () => {
                       {favorites[activeTab].map((itemId, index) => (
                         <motion.div
                           key={itemId}
-                          className="bg-gradient-to-br from-cream-50 to-cream-200 rounded-xl p-6 hover:shadow-md transition-all duration-300 border border-gray-200"
+                          className="bg-gradient-to-br from-cream-50 to-cream-200 dark:from-dark-warm-200 dark:to-dark-warm-200 rounded-xl p-6 hover:shadow-md transition-all duration-300 border border-gray-200 dark:border-dark-warm-50"
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.3, delay: index * 0.1 }}
@@ -254,10 +254,10 @@ const Favorites = () => {
                                 className: "text-burgundy-600"
                               })}
                               <div>
-                                <h3 className="font-bold text-gray-900 text-lg">
+                                <h3 className="font-bold text-gray-900 dark:text-cream-50 text-lg">
                                   {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} #{itemId}
                                 </h3>
-                                <p className="text-sm text-gray-500">
+                                <p className="text-sm text-gray-500 dark:text-gray-400">
                                   Added to favorites
                                 </p>
                               </div>
@@ -274,7 +274,7 @@ const Favorites = () => {
                           </div>
 
                           <div className="flex items-center justify-between text-sm">
-                            <span className="text-gray-600">
+                            <span className="text-gray-600 dark:text-gray-400">
                               Tap to view details
                             </span>
                             <Heart size={16} className="text-red-500 fill-current" />

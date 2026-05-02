@@ -301,7 +301,7 @@ startxref
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white pt-16">
+    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white dark:from-dark-warm-300 dark:to-dark-warm-300 pt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <motion.div
@@ -317,10 +317,10 @@ startxref
             <FileText className="w-4 h-4 mr-2" />
             Ressources Imprimables • Printable Resources
           </motion.div>
-          <h1 className="text-4xl md:text-5xl font-bold text-burgundy-900 mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold text-burgundy-900 dark:text-cream-50 mb-6">
             📝 Printable Worksheets
           </h1>
-          <p className="text-xl text-burgundy-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-burgundy-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
             Download high-quality PDF worksheets for offline practice. Perfect for students, 
             teachers, and self-learners who prefer traditional study methods.
           </p>
@@ -328,7 +328,7 @@ startxref
 
         {/* Improved Filters */}
         <motion.div
-          className="bg-cream-50 rounded-2xl shadow-lg p-6 mb-8 border border-burgundy-100"
+          className="bg-cream-50 dark:bg-dark-warm-100 rounded-2xl shadow-lg p-6 mb-8 border border-burgundy-100 dark:border-dark-warm-50"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -343,7 +343,7 @@ startxref
                   placeholder="Search lessons..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 border border-burgundy-300 rounded-full focus:ring-2 focus:ring-burgundy-500 focus:border-burgundy-500 transition-all duration-200 bg-cream-100 focus:bg-cream-50"
+                  className="w-full pl-12 pr-4 py-3 border border-burgundy-300 dark:border-dark-warm-50 rounded-full focus:ring-2 focus:ring-burgundy-500 focus:border-burgundy-500 transition-all duration-200 bg-cream-100 dark:bg-dark-warm-200 dark:text-cream-50 dark:placeholder-gray-500 focus:bg-cream-50 dark:focus:bg-dark-warm-200"
                 />
               </div>
             </div>
@@ -534,17 +534,17 @@ startxref
                 <div className="p-6">
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex-1">
-                      <h3 className="text-lg font-bold text-burgundy-900 mb-2 group-hover:text-burgundy-600 transition-colors duration-300">
+                      <h3 className="text-lg font-bold text-burgundy-900 dark:text-cream-50 mb-2 group-hover:text-burgundy-600 dark:group-hover:text-burgundy-400 transition-colors duration-300">
                         {worksheet.title}
                       </h3>
-                      <p className="text-sm text-burgundy-600 mb-3 line-clamp-2">
+                      <p className="text-sm text-burgundy-600 dark:text-gray-400 mb-3 line-clamp-2">
                         {worksheet.description}
                       </p>
                     </div>
                   </div>
 
                   {/* Stats */}
-                  <div className="flex items-center justify-between text-xs text-burgundy-500 mb-4">
+                  <div className="flex items-center justify-between text-xs text-burgundy-500 dark:text-gray-400 mb-4">
                     <div className="flex items-center space-x-4">
                       <span className="flex items-center">
                         <FileText size={12} className="mr-1" />
@@ -563,7 +563,7 @@ startxref
 
                   {/* Features */}
                   <div className="mb-4">
-                    <h4 className="text-xs font-semibold text-burgundy-700 mb-2">Includes:</h4>
+                    <h4 className="text-xs font-semibold text-burgundy-700 dark:text-gray-400 mb-2">Includes:</h4>
                     <div className="flex flex-wrap gap-1">
                       {worksheet.features.slice(0, 3).map((feature, idx) => (
                         <span key={idx} className="text-xs bg-burgundy-100 text-burgundy-800 px-2 py-1 rounded-full">
@@ -579,8 +579,8 @@ startxref
                   </div>
 
                   {/* Download Stats */}
-                  <div className="flex items-center justify-between pt-4 border-t border-cream-200">
-                    <div className="flex items-center text-xs text-burgundy-500">
+                  <div className="flex items-center justify-between pt-4 border-t border-cream-200 dark:border-dark-warm-50">
+                    <div className="flex items-center text-xs text-burgundy-500 dark:text-gray-400">
                       <Users size={12} className="mr-1" />
                       {worksheet.downloads.toLocaleString()} downloads
                     </div>
@@ -612,15 +612,15 @@ startxref
 
         {/* Usage Tips */}
         <motion.div
-          className="mt-16 bg-gradient-to-r from-burgundy-50 to-amber-50 rounded-2xl p-8 border border-burgundy-100"
+          className="mt-16 bg-gradient-to-r from-burgundy-50 to-amber-50 dark:from-dark-warm-100 dark:to-dark-warm-100 rounded-2xl p-8 border border-burgundy-100 dark:border-dark-warm-50"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
         >
           <div className="text-center mb-8">
             <BookOpen className="w-12 h-12 text-burgundy-600 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-burgundy-900 mb-4">How to Use These Worksheets</h2>
-            <p className="text-burgundy-600 max-w-2xl mx-auto">
+            <h2 className="text-2xl font-bold text-burgundy-900 dark:text-cream-50 mb-4">How to Use These Worksheets</h2>
+            <p className="text-burgundy-600 dark:text-gray-400 max-w-2xl mx-auto">
               Get the most out of your printable resources with these helpful tips.
             </p>
           </div>
@@ -630,28 +630,28 @@ startxref
               <div className="w-16 h-16 bg-burgundy-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">🖨️</span>
               </div>
-              <h3 className="font-semibold text-burgundy-900 mb-2">Print Quality</h3>
-              <p className="text-sm text-burgundy-600">
+              <h3 className="font-semibold text-burgundy-900 dark:text-cream-50 mb-2">Print Quality</h3>
+              <p className="text-sm text-burgundy-600 dark:text-gray-400">
                 Use high-quality paper and print settings for the best experience. All PDFs are optimized for standard printers.
               </p>
             </div>
 
             <div className="text-center">
-              <div className="w-16 h-16 bg-burgundy-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-burgundy-100 dark:bg-dark-warm-200 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">📚</span>
               </div>
-              <h3 className="font-semibold text-burgundy-900 mb-2">Study Schedule</h3>
-              <p className="text-sm text-burgundy-600">
+              <h3 className="font-semibold text-burgundy-900 dark:text-cream-50 mb-2">Study Schedule</h3>
+              <p className="text-sm text-burgundy-600 dark:text-gray-400">
                 Work through worksheets at your own pace. Estimated times are guidelines - take as long as you need.
               </p>
             </div>
 
             <div className="text-center">
-              <div className="w-16 h-16 bg-burgundy-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-burgundy-100 dark:bg-dark-warm-200 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">✅</span>
               </div>
-              <h3 className="font-semibold text-burgundy-900 mb-2">Answer Keys</h3>
-              <p className="text-sm text-burgundy-600">
+              <h3 className="font-semibold text-burgundy-900 dark:text-cream-50 mb-2">Answer Keys</h3>
+              <p className="text-sm text-burgundy-600 dark:text-gray-400">
                 Most worksheets include answer keys. Check your work and learn from mistakes to improve faster.
               </p>
             </div>

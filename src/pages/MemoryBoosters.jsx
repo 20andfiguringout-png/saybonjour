@@ -195,7 +195,7 @@ const MemoryBoosters = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cream-50 to-cream-100 pt-16">
+    <div className="min-h-screen bg-gradient-to-b from-cream-50 to-cream-100 dark:from-dark-warm-300 dark:to-dark-warm-300 pt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 md:py-12">
         {/* Header */}
         <motion.div
@@ -212,10 +212,10 @@ const MemoryBoosters = () => {
             <span className="hidden sm:inline">Curiosités Linguistiques • Linguistic Curiosities</span>
             <span className="sm:hidden">Linguistic Curiosities</span>
           </motion.div>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 px-2">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-cream-50 mb-4 sm:mb-6 px-2">
             🧠 Memory Boosters
           </h1>
-          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-2">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed px-2">
             Discover fascinating linguistic patterns, surprising word origins, and regional variations
             that will help you remember French more effectively.
           </p>
@@ -228,7 +228,7 @@ const MemoryBoosters = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <div className="bg-white rounded-xl sm:rounded-2xl p-1 sm:p-2 shadow-lg border border-gray-100 w-full max-w-4xl">
+          <div className="bg-white dark:bg-dark-warm-100 rounded-xl sm:rounded-2xl p-1 sm:p-2 shadow-lg border border-gray-100 dark:border-dark-warm-50 w-full max-w-4xl">
             <div className="flex flex-col sm:flex-row gap-1 sm:gap-0">
               {categories.map((category) => {
                 const Icon = category.icon
@@ -239,7 +239,7 @@ const MemoryBoosters = () => {
                     className={`flex items-center justify-center sm:justify-start space-x-2 px-3 sm:px-4 md:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base font-medium transition-all duration-300 flex-1 ${
                       activeCategory === category.id
                         ? 'bg-burgundy-600 text-white shadow-md'
-                        : 'text-gray-600 hover:text-burgundy-600 hover:bg-cream-100'
+                        : 'text-gray-600 dark:text-gray-400 hover:text-burgundy-600 hover:bg-cream-100 dark:hover:bg-dark-warm-200'
                     }`}
                   >
                     <Icon size={16} className="sm:w-5 sm:h-5" />
@@ -262,19 +262,19 @@ const MemoryBoosters = () => {
           {memoryData[activeCategory].map((item, index) => (
             <motion.div
               key={item.id}
-              className="bg-white rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
+              className="bg-white dark:bg-dark-warm-100 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
               {/* Header */}
-              <div className="bg-gradient-to-r from-burgundy-50 to-cream-100 p-4 sm:p-6 border-b border-gray-100">
+              <div className="bg-gradient-to-r from-burgundy-50 to-cream-100 dark:from-dark-warm-200 dark:to-dark-warm-200 p-4 sm:p-6 border-b border-gray-100 dark:border-dark-warm-50">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
                     <div className="text-2xl sm:text-3xl md:text-4xl flex-shrink-0">{item.icon}</div>
                     <div className="min-w-0 flex-1">
-                      <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 leading-tight">{item.title}</h3>
-                      <p className="text-sm sm:text-base text-gray-600 leading-tight">{item.subtitle}</p>
+                      <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 dark:text-cream-50 leading-tight">{item.title}</h3>
+                      <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-tight">{item.subtitle}</p>
                     </div>
                   </div>
                   <button
@@ -304,7 +304,7 @@ const MemoryBoosters = () => {
                       {/* Examples Grid */}
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
                         {item.examples.map((example, idx) => (
-                          <div key={idx} className="bg-gray-50 rounded-lg sm:rounded-xl p-3 sm:p-4 hover:bg-gray-100 transition-colors duration-200">
+                          <div key={idx} className="bg-gray-50 dark:bg-dark-warm-200 rounded-lg sm:rounded-xl p-3 sm:p-4 hover:bg-gray-100 dark:hover:bg-dark-warm-300 transition-colors duration-200">
                             {activeCategory === 'cognates' && (
                               <>
                                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
@@ -316,9 +316,9 @@ const MemoryBoosters = () => {
                                       variant="minimal"
                                     />
                                   </div>
-                                  <span className="text-gray-600 text-sm sm:text-base">{example.english}</span>
+                                  <span className="text-gray-600 dark:text-gray-400 text-sm sm:text-base">{example.english}</span>
                                 </div>
-                                <div className="text-xs sm:text-sm text-gray-500 mb-1">
+                                <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1">
                                   Pronunciation: {example.pronunciation}
                                 </div>
                                 {example.falseEnglish && (
@@ -339,13 +339,13 @@ const MemoryBoosters = () => {
                                     variant="minimal"
                                   />
                                 </div>
-                                <div className="text-xs sm:text-sm text-gray-600 mb-1">
+                                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1">
                                   Literal: {example.literal}
                                 </div>
-                                <div className="text-xs sm:text-sm text-gray-800 mb-2">
+                                <div className="text-xs sm:text-sm text-gray-800 dark:text-gray-200 mb-2">
                                   Meaning: {example.meaning}
                                 </div>
-                                <div className="text-xs text-gray-500 italic">
+                                <div className="text-xs text-gray-500 dark:text-gray-400 italic">
                                   Origin: {example.origin}
                                 </div>
                               </>
@@ -407,10 +407,10 @@ const MemoryBoosters = () => {
                                     </div>
                                   </div>
                                 </div>
-                                <div className="text-xs sm:text-sm text-gray-600 mb-1">
+                                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1">
                                   English: {example.english}
                                 </div>
-                                <div className="text-xs text-gray-500 italic">
+                                <div className="text-xs text-gray-500 dark:text-gray-400 italic">
                                   {example.note}
                                 </div>
                               </>
@@ -420,12 +420,12 @@ const MemoryBoosters = () => {
                       </div>
 
                       {/* Tip */}
-                      <div className="bg-gradient-to-r from-cream-100 to-cream-200 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-burgundy-200">
+                      <div className="bg-gradient-to-r from-cream-100 to-cream-200 dark:from-dark-warm-200 dark:to-dark-warm-200 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-burgundy-200 dark:border-dark-warm-50">
                         <div className="flex items-start space-x-2 sm:space-x-3">
                           <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-burgundy-600 mt-0.5 flex-shrink-0" />
                           <div>
-                            <h4 className="font-semibold text-burgundy-800 mb-1 text-sm sm:text-base">Memory Tip</h4>
-                            <p className="text-burgundy-700 text-xs sm:text-sm">{item.tip}</p>
+                            <h4 className="font-semibold text-burgundy-800 dark:text-cream-50 mb-1 text-sm sm:text-base">Memory Tip</h4>
+                            <p className="text-burgundy-700 dark:text-gray-300 text-xs sm:text-sm">{item.tip}</p>
                           </div>
                         </div>
                       </div>
@@ -440,12 +440,12 @@ const MemoryBoosters = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-4 flex-1 min-w-0">
                       {item.examples.slice(0, window.innerWidth < 640 ? 2 : 3).map((example, idx) => (
-                        <span key={idx} className="text-xs sm:text-sm bg-gray-100 text-gray-700 px-2 sm:px-3 py-1 rounded-full whitespace-nowrap">
+                        <span key={idx} className="text-xs sm:text-sm bg-gray-100 dark:bg-dark-warm-200 text-gray-700 dark:text-gray-300 px-2 sm:px-3 py-1 rounded-full whitespace-nowrap">
                           {example.french || example.quebec || example.belgian || example.swiss}
                         </span>
                       ))}
                       {item.examples.length > (window.innerWidth < 640 ? 2 : 3) && (
-                        <span className="text-xs sm:text-sm text-gray-500">+{item.examples.length - (window.innerWidth < 640 ? 2 : 3)} more</span>
+                        <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">+{item.examples.length - (window.innerWidth < 640 ? 2 : 3)} more</span>
                       )}
                     </div>
                     <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 flex-shrink-0 ml-2" />
@@ -465,26 +465,26 @@ const MemoryBoosters = () => {
         >
           <div className="text-center">
             <Star className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-burgundy-600 mx-auto mb-3 sm:mb-4" />
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Did You Know?</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-cream-50 mb-4 sm:mb-6">Did You Know?</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 text-left">
-              <div className="bg-white rounded-lg sm:rounded-xl p-4 sm:p-6 shadow-sm">
+              <div className="bg-white dark:bg-dark-warm-200 rounded-lg sm:rounded-xl p-4 sm:p-6 shadow-sm">
                 <div className="text-2xl sm:text-3xl mb-2 sm:mb-3">🌍</div>
-                <h3 className="font-semibold text-gray-900 mb-2 text-sm sm:text-base">Global Reach</h3>
-                <p className="text-xs sm:text-sm text-gray-600">
+                <h3 className="font-semibold text-gray-900 dark:text-cream-50 mb-2 text-sm sm:text-base">Global Reach</h3>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                   French is spoken by over 280 million people across 5 continents, making regional variations inevitable and fascinating!
                 </p>
               </div>
-              <div className="bg-white rounded-lg sm:rounded-xl p-4 sm:p-6 shadow-sm">
+              <div className="bg-white dark:bg-dark-warm-200 rounded-lg sm:rounded-xl p-4 sm:p-6 shadow-sm">
                 <div className="text-2xl sm:text-3xl mb-2 sm:mb-3">📚</div>
-                <h3 className="font-semibold text-gray-900 mb-2 text-sm sm:text-base">Cognate Power</h3>
-                <p className="text-xs sm:text-sm text-gray-600">
+                <h3 className="font-semibold text-gray-900 dark:text-cream-50 mb-2 text-sm sm:text-base">Cognate Power</h3>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                   English and French share over 30% of their vocabulary due to Norman conquest and Latin roots - instant vocabulary boost!
                 </p>
               </div>
-              <div className="bg-white rounded-lg sm:rounded-xl p-4 sm:p-6 shadow-sm">
+              <div className="bg-white dark:bg-dark-warm-200 rounded-lg sm:rounded-xl p-4 sm:p-6 shadow-sm">
                 <div className="text-2xl sm:text-3xl mb-2 sm:mb-3">🧠</div>
-                <h3 className="font-semibold text-gray-900 mb-2 text-sm sm:text-base">Memory Magic</h3>
-                <p className="text-xs sm:text-sm text-gray-600">
+                <h3 className="font-semibold text-gray-900 dark:text-cream-50 mb-2 text-sm sm:text-base">Memory Magic</h3>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                   Learning word origins and patterns can increase vocabulary retention by up to 60% compared to rote memorization.
                 </p>
               </div>

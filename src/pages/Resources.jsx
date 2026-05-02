@@ -219,7 +219,7 @@ Articles in French agree with the gender and number of the noun they modify.
         section="French Learning"
         tags={selectedArticle ? [selectedArticle.difficulty, "French", "Language Learning"] : ["French", "Resources", "Learning"]}
       />
-      <div className="flex h-screen pt-16">
+      <div className="flex h-screen pt-16 bg-white dark:bg-dark-warm-300">
       <ContentSidebar
         sections={sections}
         selectedSection={selectedSection}
@@ -235,7 +235,7 @@ Articles in French agree with the gender and number of the noun they modify.
           <div className="max-w-4xl mx-auto p-8">
             <div className="mb-6">
               <div className="flex items-start justify-between mb-4">
-                <h1 className="text-3xl font-bold text-gray-900 flex-1">
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-cream-50 flex-1">
                   {selectedArticle.title}
                 </h1>
                 <BookmarkButton
@@ -246,7 +246,7 @@ Articles in French agree with the gender and number of the noun they modify.
                 />
               </div>
 
-              <div className="flex items-center space-x-6 text-sm text-gray-600 mb-6">
+              <div className="flex items-center space-x-6 text-sm text-gray-600 dark:text-gray-400 mb-6">
                 {selectedArticle.lastUpdated && (
                   <div className="flex items-center space-x-1">
                     <Calendar size={16} />
@@ -269,7 +269,7 @@ Articles in French agree with the gender and number of the noun they modify.
             
             <div className="prose prose-lg max-w-none">
               <div
-                className="leading-relaxed text-gray-800 rich-content"
+                className="leading-relaxed text-gray-800 dark:text-gray-200 rich-content"
                 style={{ fontFamily: 'Georgia, serif', fontSize: '16px', lineHeight: '1.7' }}
                 dangerouslySetInnerHTML={{
                   __html: (() => {
@@ -307,10 +307,10 @@ Articles in French agree with the gender and number of the noun they modify.
           <div className="flex items-center justify-center h-full">
             <div className="text-center">
               <BookOpen size={48} className="text-gray-400 mx-auto mb-4" />
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-cream-50 mb-2">
                 Select an Article
               </h2>
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-gray-400">
                 Choose a topic from the sidebar to start learning
               </p>
             </div>

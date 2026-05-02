@@ -178,7 +178,7 @@ const FranceMap = () => {
   )
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cream-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-cream-50 to-white dark:from-dark-warm-300 dark:to-dark-warm-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 md:py-12">
         {/* Header */}
         <motion.div
@@ -195,10 +195,10 @@ const FranceMap = () => {
             <span className="hidden sm:inline">Exploration Géographique • Geographic Exploration</span>
             <span className="sm:hidden">Geographic Exploration</span>
           </motion.div>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 px-2">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-cream-50 mb-4 sm:mb-6 px-2">
             🌍 Interactive Map of France
           </h1>
-          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-2">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed px-2">
             Explore the diverse regions of France, discover local dialects, traditional foods,
             and cultural treasures that make each area unique.
           </p>
@@ -209,12 +209,12 @@ const FranceMap = () => {
           {/* Map Container */}
           <div className="lg:col-span-2">
             <motion.div
-              className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 relative"
+              className="bg-white dark:bg-dark-warm-100 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 relative"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 text-center">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 dark:text-cream-50 mb-4 sm:mb-6 text-center">
                 Regions of France
               </h2>
 
@@ -274,7 +274,7 @@ const FranceMap = () => {
                 </AnimatePresence>
               </div>
 
-              <div className="mt-4 sm:mt-6 text-center text-xs sm:text-sm text-gray-600">
+              <div className="mt-4 sm:mt-6 text-center text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                 <p>Click on any region marker to explore its unique characteristics</p>
               </div>
             </motion.div>
@@ -283,26 +283,26 @@ const FranceMap = () => {
           {/* Notations/Legend - Side Panel */}
           <div className="lg:col-span-1">
             <motion.div
-              className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6"
+              className="bg-white dark:bg-dark-warm-100 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6"
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4 text-center">Region Legend</h3>
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-cream-50 mb-3 sm:mb-4 text-center">Region Legend</h3>
               <div className="space-y-1 sm:space-y-2">
                 {Object.values(regions).map((region) => (
                   <button
                     key={region.id}
                     onClick={() => setSelectedRegion(region)}
-                    className="flex items-center space-x-2 sm:space-x-3 p-2 sm:p-3 rounded-lg hover:bg-gray-50 transition-colors text-left border border-gray-100 hover:border-gray-200 w-full"
+                    className="flex items-center space-x-2 sm:space-x-3 p-2 sm:p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-dark-warm-200 transition-colors text-left border border-gray-100 dark:border-dark-warm-50 hover:border-gray-200 w-full"
                   >
                     <div
                       className="w-3 h-3 sm:w-4 sm:h-4 rounded-full flex-shrink-0 border-2 border-white shadow-md"
                       style={{ backgroundColor: region.color }}
                     />
                     <div className="flex-1 min-w-0">
-                      <span className="text-xs sm:text-sm font-medium text-gray-900 block truncate">{region.name}</span>
-                      <span className="text-xs text-gray-500">{region.capital}</span>
+                      <span className="text-xs sm:text-sm font-medium text-gray-900 dark:text-cream-50 block truncate">{region.name}</span>
+                      <span className="text-xs text-gray-500 dark:text-gray-400">{region.capital}</span>
                     </div>
                   </button>
                 ))}
@@ -315,7 +315,7 @@ const FranceMap = () => {
         <AnimatePresence>
           {selectedRegion && (
             <motion.div
-              className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8"
+              className="bg-white dark:bg-dark-warm-100 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -30 }}
@@ -323,7 +323,7 @@ const FranceMap = () => {
             >
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 mb-4 sm:mb-6">
                 <div className="flex items-center gap-3 sm:gap-4">
-                  <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">{selectedRegion.name}</h3>
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-cream-50">{selectedRegion.name}</h3>
                   <div
                     className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-white shadow-lg flex-shrink-0"
                     style={{ backgroundColor: selectedRegion.color }}
@@ -331,7 +331,7 @@ const FranceMap = () => {
                 </div>
                 <button
                   onClick={() => setSelectedRegion(null)}
-                  className="p-1.5 sm:p-2 rounded-full hover:bg-gray-100 transition-colors self-end sm:self-auto"
+                  className="p-1.5 sm:p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-warm-200 transition-colors self-end sm:self-auto"
                   aria-label="Close region details"
                 >
                   <X size={20} className="sm:w-6 sm:h-6 text-gray-500" />
@@ -406,8 +406,8 @@ const FranceMap = () => {
         >
           {/* Introduction */}
           <div className="text-center mb-8 sm:mb-10 md:mb-12 px-2">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">Understanding French Regional Diversity</h2>
-            <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-cream-50 mb-3 sm:mb-4">Understanding French Regional Diversity</h2>
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-4xl mx-auto leading-relaxed">
               France's rich cultural tapestry is woven from distinct regional identities, each with unique dialects,
               culinary traditions, and historical influences that shape the French language and culture today.
             </p>
@@ -453,31 +453,31 @@ const FranceMap = () => {
         >
           <div className="text-center mb-4 sm:mb-6">
             <Info className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-burgundy-600 mx-auto mb-3 sm:mb-4" />
-            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-2">Regional Learning Tips</h2>
-            <p className="text-sm sm:text-base text-gray-600">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 dark:text-cream-50 mb-2">Regional Learning Tips</h2>
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
               Understanding regional differences will help you communicate more effectively across France.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-            <div className="bg-white rounded-lg sm:rounded-xl p-4 sm:p-6 shadow-sm">
-              <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 flex items-center">
+            <div className="bg-white dark:bg-dark-warm-200 rounded-lg sm:rounded-xl p-4 sm:p-6 shadow-sm">
+              <h3 className="text-sm sm:text-base font-semibold text-gray-900 dark:text-cream-50 mb-2 sm:mb-3 flex items-center">
                 <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-burgundy-600 mr-2" />
                 For Beginners
               </h3>
-              <ul className="text-xs sm:text-sm text-gray-600 space-y-1 sm:space-y-2">
+              <ul className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 space-y-1 sm:space-y-2">
                 <li>• Start with standard Parisian French</li>
                 <li>• Learn basic regional food vocabulary</li>
                 <li>• Practice with media from different regions</li>
               </ul>
             </div>
 
-            <div className="bg-white rounded-lg sm:rounded-xl p-4 sm:p-6 shadow-sm">
-              <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 flex items-center">
+            <div className="bg-white dark:bg-dark-warm-200 rounded-lg sm:rounded-xl p-4 sm:p-6 shadow-sm">
+              <h3 className="text-sm sm:text-base font-semibold text-gray-900 dark:text-cream-50 mb-2 sm:mb-3 flex items-center">
                 <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-burgundy-600 mr-2" />
                 For Advanced Learners
               </h3>
-              <ul className="text-xs sm:text-sm text-gray-600 space-y-1 sm:space-y-2">
+              <ul className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 space-y-1 sm:space-y-2">
                 <li>• Study regional literature and poetry</li>
                 <li>• Watch local news from different regions</li>
                 <li>• Learn about historical language influences</li>

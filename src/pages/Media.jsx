@@ -237,7 +237,7 @@ const Media = () => {
   }
 
   return (
-    <div className="flex h-screen pt-16">
+    <div className="flex h-screen pt-16 bg-white dark:bg-dark-warm-300">
       <ContentSidebar
         sections={sections}
         selectedSection={selectedSection}
@@ -258,7 +258,7 @@ const Media = () => {
                   {selectedMedia.type === 'movie' && <Film className="w-8 h-8 text-burgundy-600 dark:text-burgundy-vibrant-400" />}
                   {selectedMedia.type === 'music' && <Music className="w-8 h-8 text-burgundy-600 dark:text-burgundy-vibrant-400" />}
                   {selectedMedia.type === 'tv' && <Tv className="w-8 h-8 text-burgundy-600 dark:text-burgundy-vibrant-400" />}
-                  <h1 className="text-3xl font-bold text-burgundy-900 dark:text-burgundy-900">
+                  <h1 className="text-3xl font-bold text-burgundy-900 dark:text-cream-50">
                     {selectedMedia.title}
                   </h1>
                 </div>
@@ -271,10 +271,10 @@ const Media = () => {
               </div>
 
               {selectedMedia.originalTitle && selectedMedia.originalTitle !== selectedMedia.title && (
-                <p className="text-xl text-burgundy-700 dark:text-burgundy-700 italic mb-4">{selectedMedia.originalTitle}</p>
+                <p className="text-xl text-burgundy-700 dark:text-cream-200 italic mb-4">{selectedMedia.originalTitle}</p>
               )}
 
-              <div className="flex items-center space-x-6 text-sm text-burgundy-700 dark:text-burgundy-700 mb-6">
+              <div className="flex items-center space-x-6 text-sm text-burgundy-700 dark:text-cream-200 mb-6">
                 {selectedMedia.artist && (
                   <div className="flex items-center space-x-1">
                     <span className="font-medium">Artist:</span>
@@ -319,15 +319,15 @@ const Media = () => {
                     <div className="flex items-center space-x-1">
                       {renderStars(selectedMedia.rating)}
                     </div>
-                    <span className="text-burgundy-700 dark:text-burgundy-700">{selectedMedia.rating}</span>
+                    <span className="text-burgundy-700 dark:text-cream-200">{selectedMedia.rating}</span>
                   </div>
 
-                  <div className="flex items-center space-x-2 text-burgundy-700 dark:text-burgundy-700">
+                  <div className="flex items-center space-x-2 text-burgundy-700 dark:text-cream-200">
                     <Clock size={16} />
                     <span>{selectedMedia.duration || `${selectedMedia.seasons} seasons`}</span>
                   </div>
 
-                  <div className="text-burgundy-700 dark:text-burgundy-700">
+                  <div className="text-burgundy-700 dark:text-cream-200">
                     <span className="font-medium">Genre:</span> {selectedMedia.genre}
                   </div>
                 </div>
@@ -336,13 +336,13 @@ const Media = () => {
               {/* Content */}
               <div className="lg:col-span-2">
                 <div className="prose prose-lg max-w-none">
-                  <p className="text-burgundy-800 dark:text-burgundy-800 text-lg leading-relaxed mb-6">
+                  <p className="text-burgundy-800 dark:text-cream-100 text-lg leading-relaxed mb-6">
                     {selectedMedia.description}
                   </p>
 
                   {/* Learning Points */}
                   <div className="mb-6">
-                    <h3 className="text-xl font-bold text-burgundy-900 dark:text-burgundy-900 mb-4 flex items-center">
+                    <h3 className="text-xl font-bold text-burgundy-900 dark:text-cream-50 mb-4 flex items-center">
                       <BookOpen className="w-5 h-5 mr-2 text-burgundy-600 dark:text-burgundy-vibrant-400" />
                       What You'll Learn
                     </h3>
@@ -364,11 +364,11 @@ const Media = () => {
         ) : (
           <div className="flex items-center justify-center h-full">
             <div className="text-center">
-              <Film size={48} className="text-burgundy-400 dark:text-burgundy-400 mx-auto mb-4" />
-              <h2 className="text-xl font-semibold text-burgundy-900 dark:text-burgundy-900 mb-2">
+              <Film size={48} className="text-burgundy-400 dark:text-burgundy-300 mx-auto mb-4" />
+              <h2 className="text-xl font-semibold text-burgundy-900 dark:text-cream-50 mb-2">
                 Select Media
               </h2>
-              <p className="text-burgundy-700 dark:text-burgundy-700">
+              <p className="text-burgundy-700 dark:text-gray-400">
                 Choose a movie, song, or TV show from the sidebar to start learning
               </p>
             </div>
