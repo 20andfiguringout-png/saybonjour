@@ -61,6 +61,8 @@ export const AuthProvider = ({ children }) => {
       setIsAuthenticated(true)
       return { success: true }
     } catch (error) {
+      // Always fetch a fresh CSRF token after any failed attempt
+      fetchCsrfToken()
       return { 
         success: false, 
         error: error.response?.data?.message || 'Login failed' 
