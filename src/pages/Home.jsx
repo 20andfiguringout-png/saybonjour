@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { BookOpen, Brain, Bookmark, MapPin, ArrowRight, Award, Play, TrendingUp, Globe, Zap, Heart, Users, Film, Lightbulb, Map, FileText, PenTool, MessageCircle, Ear, Building, Theater, Wine, Music, Tv } from 'lucide-react'
 import { motion } from 'framer-motion'
@@ -35,7 +35,28 @@ const TypewriterText = ({ text, delay = 0 }) => {
 
 
 const Home = () => {
+  const particles = useMemo(() => Array.from({ length: 15 }, () => ({
+    left: Math.random() * 100,
+    top: Math.random() * 100,
+    xMid: Math.random() * 20 - 10,
+    duration: 4 + Math.random() * 3,
+    delay: Math.random() * 3,
+  })), [])
 
+  const waves = useMemo(() => Array.from({ length: 3 }, () => ({
+    width: 60 + Math.random() * 40,
+    left: Math.random() * 50,
+  })), [])
+
+  const shapes = useMemo(() => Array.from({ length: 5 }, () => ({
+    width: 20 + Math.random() * 30,
+    height: 20 + Math.random() * 30,
+    left: Math.random() * 100,
+    top: Math.random() * 100,
+    borderRadius: Math.random() > 0.5 ? '50%' : '0%',
+    duration: 10 + Math.random() * 5,
+    delay: Math.random() * 5,
+  })), [])
 
   return (
     <>
@@ -53,37 +74,37 @@ const Home = () => {
         {/* Enhanced Animated Background Particles */}
         <div className="absolute inset-0">
           {/* Floating Particles */}
-          {[...Array(15)].map((_, i) => (
+          {particles.map((p, i) => (
             <motion.div
               key={`particle-${i}`}
               className="absolute w-1 h-1 bg-cream-50 rounded-full"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
+                left: `${p.left}%`,
+                top: `${p.top}%`,
               }}
               animate={{
                 y: [0, -40, 0],
-                x: [0, Math.random() * 20 - 10, 0],
+                x: [0, p.xMid, 0],
                 opacity: [0.1, 0.6, 0.1],
                 scale: [0.5, 1.5, 0.5],
               }}
               transition={{
-                duration: 4 + Math.random() * 3,
+                duration: p.duration,
                 repeat: Infinity,
-                delay: Math.random() * 3,
+                delay: p.delay,
                 ease: "easeInOut"
               }}
             />
           ))}
 
           {/* Animated Wave Lines */}
-          {[...Array(3)].map((_, i) => (
+          {waves.map((w, i) => (
             <motion.div
               key={`wave-${i}`}
               className="absolute h-px bg-gradient-to-r from-transparent via-cream-50 to-transparent opacity-20"
               style={{
-                width: `${60 + Math.random() * 40}%`,
-                left: `${Math.random() * 50}%`,
+                width: `${w.width}%`,
+                left: `${w.left}%`,
                 top: `${20 + i * 25}%`,
               }}
               animate={{
@@ -100,16 +121,16 @@ const Home = () => {
           ))}
 
           {/* Subtle Geometric Shapes */}
-          {[...Array(5)].map((_, i) => (
+          {shapes.map((s, i) => (
             <motion.div
               key={`shape-${i}`}
               className="absolute border border-cream-50 opacity-10"
               style={{
-                width: `${20 + Math.random() * 30}px`,
-                height: `${20 + Math.random() * 30}px`,
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                borderRadius: Math.random() > 0.5 ? '50%' : '0%',
+                width: `${s.width}px`,
+                height: `${s.height}px`,
+                left: `${s.left}%`,
+                top: `${s.top}%`,
+                borderRadius: s.borderRadius,
               }}
               animate={{
                 rotate: [0, 360],
@@ -117,9 +138,9 @@ const Home = () => {
                 opacity: [0.05, 0.15, 0.05],
               }}
               transition={{
-                duration: 10 + Math.random() * 5,
+                duration: s.duration,
                 repeat: Infinity,
-                delay: Math.random() * 5,
+                delay: s.delay,
                 ease: "linear"
               }}
             />

@@ -75,15 +75,15 @@ const QuizSection = ({ quiz }) => {
         <div className="mt-4 flex items-center gap-4">
           <div className="flex items-center gap-2 text-sm font-medium">
             {score === quiz.length ? (
-              <CheckCircle className="w-5 h-5 text-green-600" />
+              <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
             ) : (
-              <XCircle className="w-5 h-5 text-red-500" />
+              <XCircle className="w-5 h-5 text-red-500 dark:text-red-400" />
             )}
-            <span className={score === quiz.length ? 'text-green-700' : 'text-red-600'}>
+            <span className={score === quiz.length ? 'text-green-700 dark:text-green-400' : 'text-red-600 dark:text-red-400'}>
               {score}/{quiz.length} correct — +{score * 10} XP
             </span>
           </div>
-          <button onClick={reset} className="text-sm text-burgundy-600 hover:underline">Try again</button>
+          <button onClick={reset} className="text-sm text-burgundy-600 dark:text-burgundy-400 hover:underline">Try again</button>
         </div>
       )}
     </div>
@@ -92,10 +92,10 @@ const QuizSection = ({ quiz }) => {
 
 const TopicCard = ({ topic, isOpen, onToggle }) => {
   return (
-    <div className="bg-white rounded-xl border border-cream-200 shadow-sm overflow-hidden">
+    <div className="bg-white dark:bg-dark-warm-100 rounded-xl border border-cream-200 dark:border-dark-warm-50 shadow-sm overflow-hidden">
       <button
         onClick={onToggle}
-        className="w-full flex items-start justify-between p-5 text-left hover:bg-cream-50 transition-colors"
+        className="w-full flex items-start justify-between p-5 text-left hover:bg-cream-50 dark:hover:bg-dark-warm-200 transition-colors"
       >
         <div className="flex-1 pr-4">
           <h3 className="font-bold text-burgundy-800 mb-1">{topic.title}</h3>

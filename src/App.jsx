@@ -56,7 +56,7 @@ function App() {
       <ThemeProvider>
         <AuthProvider>
           <UserProvider>
-            <Router>
+            <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
               <DailyLoginReward />
               <div className="min-h-screen bg-cream-50 dark:bg-dark-warm-300 transition-colors duration-300">
                 <Navbar />
