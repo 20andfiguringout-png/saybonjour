@@ -46,6 +46,13 @@ const Navbar = () => {
   }, [])
 
   useEffect(() => {
+    setIsOpen(false)
+    setIsLearnOpen(false)
+    setIsResourcesOpen(false)
+    setIsUserOpen(false)
+  }, [location.pathname])
+
+  useEffect(() => {
     const handleClick = (e) => {
       if (userMenuRef.current && !userMenuRef.current.contains(e.target)) setIsUserOpen(false)
     }

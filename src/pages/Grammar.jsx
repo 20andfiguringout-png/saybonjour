@@ -29,15 +29,15 @@ const QuizSection = ({ quiz }) => {
   const score = submitted ? quiz.filter((q, i) => answers[i] === q.answer).length : 0
 
   return (
-    <div className="mt-6 bg-cream-50 rounded-xl border border-cream-200 p-5">
-      <h4 className="font-bold text-burgundy-800 mb-4 flex items-center gap-2">
+    <div className="mt-6 bg-cream-50 dark:bg-dark-warm-200 rounded-xl border border-cream-200 dark:border-dark-warm-50 p-5">
+      <h4 className="font-bold text-burgundy-800 dark:text-cream-50 mb-4 flex items-center gap-2">
         <Award className="w-4 h-4" />
         Quick Check
       </h4>
       <div className="space-y-4">
         {quiz.map((q, qi) => (
           <div key={qi}>
-            <p className="text-sm font-medium text-gray-800 mb-2">{qi + 1}. {q.question}</p>
+            <p className="text-sm font-medium text-gray-800 dark:text-cream-100 mb-2">{qi + 1}. {q.question}</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {q.options.map((opt, ai) => {
                 const isSelected = answers[qi] === ai
@@ -45,12 +45,12 @@ const QuizSection = ({ quiz }) => {
                 let cls = 'text-left px-3 py-2 rounded-lg text-sm border transition-all '
                 if (!submitted) {
                   cls += isSelected
-                    ? 'bg-burgundy-100 border-burgundy-400 text-burgundy-800 font-medium'
-                    : 'bg-white border-cream-300 text-gray-700 hover:border-burgundy-300 hover:bg-burgundy-50'
+                    ? 'bg-burgundy-100 dark:bg-burgundy-900/40 border-burgundy-400 text-burgundy-800 dark:text-cream-50 font-medium'
+                    : 'bg-white dark:bg-dark-warm-100 border-cream-300 dark:border-dark-warm-50 text-gray-700 dark:text-gray-300 hover:border-burgundy-300 hover:bg-burgundy-50 dark:hover:bg-burgundy-900/20'
                 } else {
                   if (isCorrect) cls += 'bg-green-100 border-green-400 text-green-800 font-medium'
                   else if (isSelected && !isCorrect) cls += 'bg-red-100 border-red-400 text-red-700'
-                  else cls += 'bg-white border-cream-200 text-gray-400'
+                  else cls += 'bg-white dark:bg-dark-warm-100 border-cream-200 dark:border-dark-warm-50 text-gray-400 dark:text-gray-500'
                 }
                 return (
                   <button key={ai} onClick={() => handleAnswer(qi, ai)} className={cls}>

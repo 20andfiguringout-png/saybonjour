@@ -125,8 +125,7 @@ app.use(cors({
     /\.ngrok\.io$/, // Allow ngrok domains
     /\.tunnel\.me$/, // Allow tunnel.me domains
     /\.replit\.dev$/, // Allow Replit dev domains
-    /\.repl\.co$/, // Allow Replit domains
-    'https://bright-moles-train.loca.lt' // Specific tunnel domain
+    /\.repl\.co$/ // Allow Replit domains
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],

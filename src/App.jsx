@@ -33,6 +33,7 @@ import SentenceBuilder from './pages/SentenceBuilder'
 import BusinessFrench from './pages/BusinessFrench'
 import SlangFrench from './pages/SlangFrench'
 import InteractiveStory from './pages/InteractiveStory'
+import NotFound from './pages/NotFound'
 import { claimDailyLoginReward } from './utils/progress'
 
 const DailyLoginReward = () => {
@@ -89,6 +90,7 @@ function App() {
                     <Route path="/business-french" element={<BusinessFrench />} />
                     <Route path="/slang-french" element={<SlangFrench />} />
                     <Route path="/stories" element={<InteractiveStory />} />
+                    <Route path="*" element={<NotFound />} />
                   </Routes>
                 </main>
               </div>

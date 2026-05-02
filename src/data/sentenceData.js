@@ -66,8 +66,6 @@ export const sentenceExercises = [
     id: 's8',
     level: 'B1',
     hint: 'Give a condition.',
-    words: ['aurais', 'temps', 'Si', 'du', 'j\'', 'je', 'visiterais', 'Paris'],
-    correct: ['Si', 'j\'', 'avais', 'du', 'temps', ',', 'je', 'visiterais', 'Paris'],
     words: ['Si', 'j\'', 'avais', 'du', 'temps', ',', 'je', 'visiterais', 'Paris'],
     correct: ['Si', 'j\'', 'avais', 'du', 'temps', ',', 'je', 'visiterais', 'Paris'],
     translation: 'If I had time, I would visit Paris.',

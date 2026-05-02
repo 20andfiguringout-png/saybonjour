@@ -1,0 +1,301 @@
+Good call — turning SayBonjour into an APK is **not just “export app”**, it’s a shift in architecture, UX, and performance.
+
+Right now your platform is **React + Vite + Express + SQLite**  — that’s web-first.
+To make it a proper **Android APK**, here’s the **complete requirement document**.
+
+---
+
+# 📄 SAYBONJOUR – MOBILE APP (APK) REQUIREMENTS
+
+---
+
+# 🧱 1. Decide Your Mobile Strategy (Critical First Step)
+
+You have **3 realistic paths**:
+
+### ✅ Option A: PWA (Fastest, limited)
+
+* Convert site into installable app
+* No Play Store APK (unless wrapped)
+* Limited device features
+
+### ✅ Option B: Hybrid App (BEST for you)
+
+* Use **Capacitor (recommended)** or Cordova
+* Wrap your React app → APK
+* Reuse 90% of your code
+
+👉 Use:
+
+* Capacitor
+* Android Studio
+
+### ✅ Option C: Full Native (Expensive)
+
+* React Native / Kotlin
+* Rewrite everything
+
+👉 For YOU → **Go with Capacitor**
+
+---
+
+# ⚙️ 2. Core Technical Requirements
+
+### 🔧 Frontend Changes
+
+1. Convert app to **mobile-responsive fully**
+2. Replace hover interactions → tap interactions
+3. Optimize navigation for bottom tabs
+4. Add safe-area support (notches)
+5. Reduce heavy animations (Framer Motion tuning)
+6. Touch gestures (swipe flashcards)
+7. Keyboard handling (inputs + chat)
+8. Screen-based routing optimization
+9. Lazy load heavy pages
+10. Reduce bundle size (< 2MB initial load target)
+
+---
+
+### 🔧 Backend Requirements
+
+11. Move from SQLite → cloud DB (IMPORTANT)
+
+Options:
+
+* Firebase Firestore
+* Supabase
+* PostgreSQL
+
+12. Add authentication API (JWT refresh tokens)
+13. Rate limiting for mobile traffic
+14. Optimize APIs for low bandwidth
+15. Add pagination everywhere
+16. Compress responses (gzip)
+17. Add offline sync endpoints
+
+---
+
+# 📱 3. Capacitor Integration Requirements
+
+### Setup
+
+17. Install Capacitor
+18. Build React app
+19. Add Android platform
+20. Sync project
+
+### Required Plugins
+
+21. App plugin (lifecycle)
+22. Storage (local persistence)
+23. Network status
+24. Keyboard handling
+25. Splash screen
+26. Status bar styling
+27. Haptics (for UX feedback)
+28. Push notifications
+29. Filesystem (downloads)
+30. Device info
+
+---
+
+# 📦 4. APK Build Requirements
+
+31. Install Android Studio
+32. Install Android SDK (API 33+)
+33. Configure Gradle
+34. Set app ID (com.saybonjour.app)
+35. Configure signing key (keystore)
+36. Enable ProGuard (minify)
+37. Set versioning (v1, v2, etc.)
+38. Build debug APK
+39. Build release APK / AAB
+40. Test on real device
+
+---
+
+# 🎨 5. Mobile UI/UX Requirements
+
+41. Bottom navigation bar (Home, Learn, Practice, Progress, Profile)
+42. One-hand usability design
+43. Large tap targets (48dp minimum)
+44. Smooth transitions
+45. Skeleton loaders
+46. Offline indicators
+47. Loading states for API calls
+48. Pull-to-refresh
+49. Swipe gestures (flashcards)
+50. Dark mode optimized UI
+
+---
+
+# 🔊 6. Audio + Speech Requirements
+
+51. Integrate device microphone
+52. Use Web Speech API or native plugin
+53. Audio playback caching
+54. Offline audio support
+55. Background playback
+56. Volume normalization
+57. Speech recognition fallback handling
+
+---
+
+# 🔔 7. Push Notifications (VERY IMPORTANT)
+
+58. Daily learning reminders
+59. Streak alerts
+60. XP milestone alerts
+61. New content notifications
+62. Re-engagement notifications
+
+Tools:
+
+* Firebase Cloud Messaging (FCM)
+
+---
+
+# 🌐 8. Offline Mode Requirements
+
+63. Cache lessons locally
+64. Cache flashcards
+65. Store progress offline
+66. Sync when online
+67. Conflict resolution strategy
+68. IndexedDB / local storage fallback
+69. Background sync
+
+---
+
+# 🔐 9. Security Requirements
+
+70. Secure API calls (HTTPS only)
+71. Token storage (secure storage, NOT localStorage)
+72. Certificate pinning (optional advanced)
+73. Prevent APK reverse engineering (obfuscation)
+74. Input validation everywhere
+75. Secure authentication flow
+
+---
+
+# 🚀 10. Performance Optimization
+
+76. App launch < 2 seconds
+77. Lazy load routes
+78. Image optimization (WebP)
+79. Reduce JS bundle size
+80. API response caching
+81. Use CDN for assets
+82. Avoid re-renders (React optimization)
+83. Background data prefetch
+
+---
+
+# 📊 11. Analytics & Tracking
+
+84. Integrate Firebase Analytics
+85. Track:
+
+* Daily active users
+* Session time
+* Drop-offs
+* Feature usage
+
+---
+
+# 💰 12. Monetization Mobile Setup
+
+86. In-app purchases (Google Play Billing)
+87. Subscription system
+88. Free vs premium gating
+89. Restore purchases
+90. Trial system
+
+---
+
+# 🧪 13. Testing Requirements
+
+91. Test on low-end Android devices
+92. Test offline scenarios
+93. Test slow network
+94. Test crash scenarios
+95. UI testing across screen sizes
+96. Memory usage testing
+
+---
+
+# 📤 14. Play Store Deployment
+
+97. Create Google Play Developer account
+98. App listing (title, description, screenshots)
+99. App icon (512x512)
+100. Feature graphic
+101. Privacy policy page
+102. Content rating questionnaire
+103. Upload AAB file
+104. Internal testing → production rollout
+
+---
+
+# 🧠 IMPORTANT ARCHITECTURE SHIFT
+
+### ❌ What will break if unchanged:
+
+* localStorage (not reliable for scale)
+* SQLite backend (not scalable)
+* No auth system (critical issue)
+* No offline sync logic
+
+---
+
+# 🧭 Recommended Stack (FOR YOU)
+
+Based on your current system:
+
+### Frontend
+
+* React + Vite ✅ (keep)
+* Capacitor ✅ (add)
+
+### Backend
+
+* Node.js + Express ✅ (keep)
+* Move DB → Firebase / PostgreSQL ⚠️
+
+### Mobile Infra
+
+* Firebase (Auth + FCM + Analytics)
+
+---
+
+# 🧩 FINAL SIMPLIFIED FLOW
+
+1. Optimize web app for mobile
+2. Add Capacitor
+3. Connect Firebase
+4. Build APK
+5. Test
+6. Publish
+
+---
+
+# ⚠️ Honest Reality
+
+Turning your app into APK is **not the hard part**
+👉 Making it **smooth, offline-ready, and scalable is the real challenge**
+
+---
+
+If you want next step, I can give you:
+
+### 🔥 Step-by-step exact commands:
+
+* “Convert your current project → APK in 1 hour”
+
+### OR
+
+### 🧠 Architecture upgrade plan:
+
+* How to **migrate your backend + auth + DB properly**
+
+Just tell me 👍

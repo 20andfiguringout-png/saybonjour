@@ -6,9 +6,9 @@ import { addXP } from '../utils/progress'
 import SEO from '../components/SEO'
 
 const LEVEL_COLORS = {
-  A1: 'bg-emerald-100 text-emerald-700',
-  A2: 'bg-blue-100 text-blue-700',
-  B1: 'bg-yellow-100 text-yellow-700',
+  A1: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300',
+  A2: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
+  B1: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300',
 }
 
 const StoryPlayer = ({ story, onBack }) => {

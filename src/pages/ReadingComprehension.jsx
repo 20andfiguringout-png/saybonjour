@@ -23,8 +23,9 @@ const PassageQuiz = ({ passage, onBack }) => {
 
   const handleSubmit = () => {
     if (Object.keys(answers).length < passage.questions.length) return
+    const computedScore = passage.questions.filter((q, i) => answers[i] === q.answer).length
     setSubmitted(true)
-    addXP(score * 10, 'reading_comprehension')
+    addXP(computedScore * 10, 'reading_comprehension')
   }
 
   return (
