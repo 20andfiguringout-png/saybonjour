@@ -194,14 +194,19 @@ const Navbar = () => {
         <div className={`flex justify-between items-center transition-all duration-500 ${isScrolled ? 'h-14 px-8' : 'h-16 px-6 sm:px-8 lg:px-12 xl:px-16'}`}>
           {/* Logo */}
           <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-1 group">
+            <Link to="/" className="flex items-center gap-2 group">
               <motion.div
-                className={`rounded-lg flex items-center justify-center transition-all duration-500 ${isScrolled ? 'w-16 h-16' : 'w-20 h-20'}`}
-                whileHover={{ scale: 1.1, rotate: 5 }} transition={{ duration: 0.2 }}
+                className={`flex-shrink-0 rounded-xl flex items-center justify-center transition-all duration-300 ${isScrolled ? 'w-8 h-8' : 'w-9 h-9'}`}
+                whileHover={{ scale: 1.08, rotate: 4 }} transition={{ duration: 0.2 }}
               >
-                <img src="/logo.png" alt="SayBonjour Logo" className="w-full h-full object-contain" />
+                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                  <rect width="40" height="40" rx="10" fill="#800020"/>
+                  <path d="M13 10h8.5c2.2 0 3.9.5 5 1.5 1.1 1 1.6 2.3 1.6 3.9 0 1.1-.3 2-.8 2.7-.5.7-1.2 1.2-2.1 1.5 1.1.3 2 .9 2.6 1.7.7.8 1 1.9 1 3.1 0 1.8-.6 3.2-1.8 4.2-1.2 1-2.9 1.4-5.1 1.4H13V10zm4 8.6h4c.9 0 1.6-.2 2.1-.6.5-.4.7-1 .7-1.8 0-.8-.2-1.4-.7-1.8-.5-.4-1.2-.6-2.1-.6H17v4.8zm0 9.2h4.5c1 0 1.8-.2 2.3-.7.6-.5.8-1.1.8-2 0-.9-.3-1.6-.8-2-.5-.5-1.3-.7-2.3-.7H17v5.4z" fill="#fffcef"/>
+                  <path d="M20 33 L20 36" stroke="#fffcef" strokeWidth="1.5" strokeLinecap="round"/>
+                  <path d="M17 35.5 L23 35.5" stroke="#fffcef" strokeWidth="1" strokeLinecap="round" opacity="0.6"/>
+                </svg>
               </motion.div>
-              <span className={`brand-font transition-all duration-500 group-hover:scale-105 ${isScrolled ? 'text-lg text-burgundy-600 dark:text-burgundy-400' : 'text-xl text-burgundy-600 dark:text-burgundy-400 group-hover:text-burgundy-700'}`}>
+              <span className={`brand-font transition-all duration-300 group-hover:scale-105 leading-none ${isScrolled ? 'text-lg text-burgundy-600 dark:text-burgundy-400' : 'text-xl text-burgundy-600 dark:text-burgundy-400 group-hover:text-burgundy-700'}`}>
                 SayBonjour!
               </span>
             </Link>
