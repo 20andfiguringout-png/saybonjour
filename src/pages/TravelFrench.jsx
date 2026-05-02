@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Plane, Hotel, Utensils, MapPin, ShoppingBag, AlertTriangle, CheckCircle, XCircle, ChevronDown, ChevronUp, Star, BookOpen, MessageCircle } from 'lucide-react'
 import { addXP } from '../utils/progress'
 import { travelVocab, travelPhrases, travelScenarios, travelQuiz } from '../data/travelData'
+import SpeakButton from '../components/SpeakButton'
 
 const TABS = ['Vocabulary', 'Phrases', 'Scenarios', 'Quiz']
 
@@ -164,8 +165,11 @@ export default function TravelFrench() {
                     <div className="divide-y divide-gray-100 dark:divide-gray-700">
                       {section.phrases.map((ph, pi) => (
                         <div key={pi} className="px-6 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-                          <p className="font-medium text-gray-900 dark:text-white">{ph.fr}</p>
-                          <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-right">{ph.en}</p>
+                          <div className="flex items-center gap-2">
+                            <SpeakButton text={ph.fr} size="sm" variant="ghost" />
+                            <p className="font-medium text-gray-900 dark:text-white">{ph.fr}</p>
+                          </div>
+                          <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-right pl-10 sm:pl-0">{ph.en}</p>
                         </div>
                       ))}
                     </div>
@@ -214,11 +218,14 @@ export default function TravelFrench() {
                                   </div>
                                   <div className={`max-w-xs ${line.speaker === 'Vous' ? 'text-right' : ''}`}>
                                     <p className="text-xs text-gray-400 mb-0.5">{line.speaker}</p>
-                                    <div className={`inline-block px-3 py-2 rounded-xl text-sm ${
+                                    <div className={`inline-flex items-start gap-1.5 px-3 py-2 rounded-xl text-sm ${
                                       line.speaker === 'Vous'
                                         ? 'bg-burgundy-600 text-white'
                                         : 'bg-gray-100 dark:bg-dark-warm-200 text-gray-800 dark:text-gray-200'
                                     }`}>
+                                      <div className="shrink-0 mt-0.5">
+                                        <SpeakButton text={line.text} size="sm" variant="minimal" className={line.speaker === 'Vous' ? 'text-white/80 hover:text-white' : ''} />
+                                      </div>
                                       {line.text}
                                     </div>
                                   </div>

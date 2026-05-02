@@ -1,29 +1,44 @@
 export const slangExpressions = [
+  // Verlan
   { fr: 'C\'est ouf!', en: 'It\'s crazy! / It\'s insane!', register: 'Verlan', note: '"Ouf" is verlan (reverse) of "fou" (crazy)' },
   { fr: 'C\'est chelou', en: 'It\'s sketchy / weird', register: 'Verlan', note: 'Verlan of "louche" (suspicious)' },
+  { fr: 'C\'est relou.', en: 'It\'s annoying.', register: 'Verlan', note: 'Verlan of "lourd" (heavy/annoying)' },
+  { fr: 'Un truc de ouf', en: 'A crazy/amazing thing', register: 'Youth slang', note: 'Combines "truc" (thing) + verlan "ouf"' },
+  { fr: 'C\'est cheum.', en: 'It\'s ugly / bad.', register: 'Verlan', note: 'Verlan of "moche" (ugly/bad)' },
+  { fr: 'Il est céfran.', en: 'He\'s French.', register: 'Verlan', note: 'Verlan of "français" — used to describe a French person' },
+
+  // Youth slang
   { fr: 'C\'est trop stylé!', en: 'It\'s so cool / stylish!', register: 'Youth slang', note: '"Stylé" = stylish, trendy' },
+  { fr: 'Grave!', en: 'Seriously! / Totally!', register: 'Youth slang', note: 'Used for strong emphasis or agreement' },
+  { fr: 'Wesh', en: 'Hey! / Yo!', register: 'Youth slang', note: 'Greeting from banlieue (suburbs) culture' },
+  { fr: 'Un boloss', en: 'A loser / idiot', register: 'Youth slang', note: 'Mildly rude, common in youth speech' },
+  { fr: 'Kiffer', en: 'To love / to be into something', register: 'Youth slang', note: 'From Arabic "kif" — very common today' },
+  { fr: 'C\'est frais!', en: 'That\'s cool! / Fresh!', register: 'Youth slang', note: 'Borrowed from American slang — means something is good and new' },
+  { fr: 'Péter un câble', en: 'To flip out / lose it', register: 'Youth slang', note: 'Literally "to break a cable" — to lose your temper badly' },
+  { fr: 'Être à fond', en: 'To be totally into something', register: 'Youth slang', note: 'Can also mean "going full speed"' },
+  { fr: 'C\'est mort.', en: 'It\'s dead / no way / impossible.', register: 'Youth slang', note: 'Means something is completely done for or impossible' },
+  { fr: 'Avoir la dalle', en: 'To be starving', register: 'Youth slang', note: 'More intense than "avoir faim" — very common among youth' },
+  { fr: 'Frimer', en: 'To show off', register: 'Youth slang', note: '"Il aime frimer." = He likes to show off.' },
+
+  // Informal
   { fr: 'Laisse tomber.', en: 'Forget it / Drop it.', register: 'Informal', note: 'Literally "let it fall" — very common' },
   { fr: 'Carrément!', en: 'Absolutely! / Totally!', register: 'Informal', note: 'Strong agreement, very French' },
   { fr: 'T\'inquiète!', en: 'Don\'t worry!', register: 'Informal', note: 'Short for "ne t\'inquiète pas"' },
-  { fr: 'C\'est relou.', en: 'It\'s annoying.', register: 'Verlan', note: 'Verlan of "lourd" (heavy/annoying)' },
   { fr: 'Ça roule?', en: 'Everything going smoothly?', register: 'Informal', note: 'Casual greeting like "how\'s it going?"' },
   { fr: 'Nickel!', en: 'Perfect! / Spot on!', register: 'Informal', note: 'Means everything is clean/perfect' },
   { fr: 'Bouffer', en: 'To eat (casually)', register: 'Informal', note: 'More casual than "manger"' },
   { fr: 'La bouffe', en: 'Food (casual)', register: 'Informal', note: 'Casual/familiar term for food' },
-  { fr: 'Kiffer', en: 'To love / to be into something', register: 'Youth slang', note: 'From Arabic "kif" — very common today' },
-  { fr: 'Péter un câble', en: 'To flip out / lose it', register: 'Informal', note: 'Literally "to break a cable"' },
-  { fr: 'Être à fond', en: 'To be totally into something', register: 'Informal', note: 'Can also mean "going full speed"' },
   { fr: 'Ça me soûle.', en: 'It\'s getting on my nerves.', register: 'Informal', note: 'Literally "it\'s getting me drunk"' },
-  { fr: 'Un truc de ouf', en: 'A crazy/amazing thing', register: 'Youth slang', note: 'Combines "truc" (thing) + verlan "ouf"' },
   { fr: 'Flemme', en: 'Laziness / can\'t be bothered', register: 'Informal', note: '"J\'ai la flemme" = I can\'t be bothered' },
   { fr: 'Bosser', en: 'To work (hard)', register: 'Informal', note: 'More energetic/casual than "travailler"' },
-  { fr: 'Un boloss', en: 'A loser / idiot', register: 'Youth slang', note: 'Mildly rude, common in youth speech' },
-  { fr: 'Grave!', en: 'Seriously! / Totally!', register: 'Youth slang', note: 'Used for strong emphasis or agreement' },
-  { fr: 'Wesh', en: 'Hey! / Yo!', register: 'Youth slang', note: 'Greeting from banlieue (suburbs) culture' },
   { fr: 'Chouette!', en: 'Great! / Cool!', register: 'Informal', note: 'Slightly old-fashioned but still used' },
   { fr: 'C\'est galère.', en: 'It\'s a hassle / It\'s tough.', register: 'Informal', note: '"La galère" = a difficult/painful situation' },
   { fr: 'Filer', en: 'To give (quickly) / to shoot off', register: 'Informal', note: '"File-moi ça" = hand me that quickly' },
   { fr: 'Se planter', en: 'To mess up / to fail', register: 'Informal', note: '"Je me suis planté" = I messed up' },
+  { fr: 'Avoir le cafard', en: 'To feel down / depressed', register: 'Informal', note: 'Literally "to have the cockroach" — feeling blue' },
+  { fr: 'Poser un lapin à quelqu\'un', en: 'To stand someone up', register: 'Informal', note: 'Literally "to put a rabbit on someone" — leave them waiting' },
+  { fr: 'Ça ne casse pas trois pattes à un canard.', en: 'It\'s nothing special / mediocre.', register: 'Informal', note: 'Literally "it doesn\'t break three legs off a duck" — unremarkable' },
+  { fr: 'Avoir le coup de foudre', en: 'To fall in love at first sight', register: 'Informal', note: 'Literally "to get struck by lightning" — sudden love' },
 ]
 
 export const verlanExamples = [
@@ -31,16 +46,21 @@ export const verlanExamples = [
   { standard: 'louche', verlan: 'chelou', meaning: 'suspicious/weird' },
   { standard: 'lourd', verlan: 'relou', meaning: 'annoying/heavy' },
   { standard: 'l\'envers', verlan: 'verlan', meaning: 'the reverse/backwards' },
-  { standard: 'l\'femme', verlan: 'meuf', meaning: 'woman/girlfriend' },
-  { standard: 'l\'mec', verlan: 'keum', meaning: 'guy/dude' },
-  { standard: 'l\'école', verlan: 'lécole → laïc', meaning: 'school' },
-  { standard: 'tomber', verlan: 'béton', meaning: 'to fall' },
-  { standard: 'trop', verlan: 'trop (unchanged)', meaning: 'very/too much' },
+  { standard: 'la femme', verlan: 'la meuf', meaning: 'woman/girlfriend' },
+  { standard: 'le mec', verlan: 'le keum', meaning: 'guy/dude' },
+  { standard: 'l\'école', verlan: 'la zcol', meaning: 'school' },
   { standard: 'bizarre', verlan: 'zarbi', meaning: 'strange/weird' },
+  { standard: 'tomber', verlan: 'béton', meaning: 'to fall' },
+  { standard: 'cigarette', verlan: 'garetteci', meaning: 'cigarette (less common)' },
+  { standard: 'flic (policeman)', verlan: 'keuf', meaning: 'cop / police officer' },
+  { standard: 'choper (to catch)', verlan: 'pécho', meaning: 'to catch / to get with someone' },
+  { standard: 'l\'argent', verlan: 'le genta', meaning: 'money (rare verlan)' },
+  { standard: 'moche (ugly)', verlan: 'cheum', meaning: 'ugly / bad' },
+  { standard: 'café', verlan: 'féca', meaning: 'café (humorous)' },
 ]
 
 export const formalVsInformal = [
-  { formal: 'Comment allez-vous?', informal: 'Ça va? / T\'es comment?', meaning: 'How are you?' },
+  { formal: 'Comment allez-vous?', informal: 'Ça va? / T\'as la forme?', meaning: 'How are you?' },
   { formal: 'Pourriez-vous m\'aider?', informal: 'Tu peux m\'aider?', meaning: 'Could you help me?' },
   { formal: 'Je suis désolé(e).', informal: 'Désolé. / Oups.', meaning: 'I\'m sorry.' },
   { formal: 'Je ne comprends pas.', informal: 'Je comprends pas. / Je pige pas.', meaning: 'I don\'t understand.' },
@@ -50,6 +70,11 @@ export const formalVsInformal = [
   { formal: 'Il ne travaille pas.', informal: 'Il bosse pas.', meaning: 'He\'s not working.' },
   { formal: 'C\'est agréable.', informal: 'C\'est cool. / C\'est stylé.', meaning: 'It\'s pleasant / cool.' },
   { formal: 'Je ne sais pas.', informal: 'Je sais pas. / J\'sais pas.', meaning: 'I don\'t know.' },
+  { formal: 'Je suis très occupé(e).', informal: 'Je suis à fond / super speed.', meaning: 'I\'m very busy.' },
+  { formal: 'Cela ne m\'intéresse pas.', informal: 'Ça me prend la tête. / J\'en ai rien à faire.', meaning: 'I\'m not interested / I don\'t care.' },
+  { formal: 'Il est fatigué.', informal: 'Il est crevé. / Il est naze.', meaning: 'He is tired / exhausted.' },
+  { formal: 'Je pars immédiatement.', informal: 'Je me casse. / Je me barre.', meaning: 'I\'m leaving right now.' },
+  { formal: 'C\'est très beau.', informal: 'C\'est trop beau! / Ouah, c\'est stylé!', meaning: 'It\'s very beautiful.' },
 ]
 
 export const slangQuiz = [
@@ -61,4 +86,8 @@ export const slangQuiz = [
   { q: '"Bosser" is an informal word for:', options: ['To eat', 'To work', 'To run', 'To study'], answer: 1 },
   { q: '"C\'est galère" means:', options: ['It\'s beautiful', 'It\'s a hassle / tough', 'It\'s funny', 'It\'s fast'], answer: 1 },
   { q: 'Which is the MORE formal way to say "I don\'t understand"?', options: ['Je pige pas', 'Je comprends pas', 'Je ne comprends pas', 'J\'ai pas compris'], answer: 2 },
+  { q: '"La meuf" is verlan of:', options: ['la femme', 'la fille', 'la mère', 'la meuf'], answer: 0 },
+  { q: '"Avoir le cafard" means:', options: ['To be excited', 'To feel down/depressed', 'To be hungry', 'To be angry'], answer: 1 },
+  { q: '"Poser un lapin à quelqu\'un" means:', options: ['To give a gift', 'To stand someone up', 'To introduce someone', 'To help someone'], answer: 1 },
+  { q: '"Avoir la dalle" means:', options: ['To feel tired', 'To be bored', 'To be starving', 'To be scared'], answer: 2 },
 ]

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { grammarLevels } from '../data/grammarData'
 import SEO from '../components/SEO'
 import { addXP } from '../utils/progress'
+import SpeakButton from '../components/SpeakButton'
 
 const QuizSection = ({ quiz }) => {
   const [answers, setAnswers] = useState({})
@@ -157,11 +158,14 @@ const TopicCard = ({ topic, isOpen, onToggle }) => {
               {topic.examples?.length > 0 && (
                 <div className="mt-5 bg-burgundy-50 dark:bg-burgundy-900/20 rounded-lg p-4">
                   <h4 className="text-xs font-bold text-burgundy-600 dark:text-burgundy-400 uppercase tracking-wide mb-3">Examples</h4>
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     {topic.examples.map((ex, ei) => (
-                      <div key={ei} className="flex flex-col">
-                        <span className="font-medium text-burgundy-800 dark:text-cream-100 text-sm">{ex.french}</span>
-                        <span className="text-gray-600 dark:text-gray-400 text-xs">{ex.english}</span>
+                      <div key={ei} className="flex items-start gap-2">
+                        <SpeakButton text={ex.french} size="sm" variant="ghost" className="shrink-0 mt-0.5" />
+                        <div className="flex flex-col">
+                          <span className="font-medium text-burgundy-800 dark:text-cream-100 text-sm">{ex.french}</span>
+                          <span className="text-gray-600 dark:text-gray-400 text-xs">{ex.english}</span>
+                        </div>
                       </div>
                     ))}
                   </div>

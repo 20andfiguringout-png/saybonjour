@@ -4,20 +4,24 @@ import { Briefcase, BookOpen, MessageSquare, CheckCircle, XCircle, ChevronDown, 
 import { businessVocab, businessPhrases, businessDialogues, businessQuiz } from '../data/businessData'
 import { addXP } from '../utils/progress'
 import SEO from '../components/SEO'
+import SpeakButton from '../components/SpeakButton'
 
-const CATEGORIES = ['All', 'Roles', 'Meetings', 'Finance', 'Legal', 'Strategy']
+const CATEGORIES = ['All', 'Roles', 'Meetings', 'Finance', 'Legal', 'Strategy', 'HR']
 
 const VocabCard = ({ item }) => {
   const [flipped, setFlipped] = useState(false)
   return (
-    <motion.div className="cursor-pointer h-24" onClick={() => setFlipped(f => !f)} whileHover={{ y: -2 }}>
+    <motion.div className="cursor-pointer h-28" onClick={() => setFlipped(f => !f)} whileHover={{ y: -2 }}>
       <div className="relative w-full h-full">
         <AnimatePresence mode="wait">
           {!flipped ? (
             <motion.div key="front" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               className="absolute inset-0 bg-white dark:bg-dark-warm-100 rounded-xl border border-cream-200 dark:border-dark-warm-50 flex flex-col items-center justify-center p-3 shadow-sm">
               <div className="text-xs text-gray-400 mb-1">French</div>
-              <div className="text-sm font-bold text-center text-gray-800 dark:text-cream-50">{item.fr}</div>
+              <div className="text-sm font-bold text-center text-gray-800 dark:text-cream-50 mb-2">{item.fr}</div>
+              <div onClick={e => e.stopPropagation()}>
+                <SpeakButton text={item.fr} size="sm" variant="ghost" />
+              </div>
             </motion.div>
           ) : (
             <motion.div key="back" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -46,7 +50,8 @@ const PhraseSection = ({ section }) => {
           <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }} className="overflow-hidden">
             <div className="px-5 pb-4 space-y-3">
               {section.phrases.map((p, i) => (
-                <div key={i} className="flex gap-4 items-start py-2 border-b border-cream-100 dark:border-dark-warm-200 last:border-0">
+                <div key={i} className="flex gap-3 items-start py-2 border-b border-cream-100 dark:border-dark-warm-200 last:border-0">
+                  <SpeakButton text={p.fr} size="sm" variant="ghost" className="shrink-0 mt-0.5" />
                   <div className="flex-1">
                     <div className="text-sm font-medium text-burgundy-800 dark:text-cream-100 italic">"{p.fr}"</div>
                     <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{p.en}</div>
@@ -82,8 +87,9 @@ const DialogueView = ({ dialogue }) => {
             <div className="px-5 pb-4">
               <div className="space-y-2 mb-4">
                 {dialogue.lines.map((line, i) => (
-                  <div key={i} className={`flex gap-3 ${i % 2 === 0 ? '' : 'flex-row-reverse'}`}>
-                    <div className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm ${i % 2 === 0 ? 'bg-burgundy-50 dark:bg-burgundy-900/30 text-gray-800 dark:text-cream-100 rounded-tl-sm' : 'bg-gray-100 dark:bg-dark-warm-200 text-gray-700 dark:text-cream-200 rounded-tr-sm'}`}>
+                  <div key={i} className={`flex gap-2 items-end ${i % 2 === 0 ? '' : 'flex-row-reverse'}`}>
+                    <SpeakButton text={line.text} size="sm" variant="ghost" className="shrink-0 mb-1" />
+                    <div className={`max-w-[75%] px-4 py-2.5 rounded-2xl text-sm ${i % 2 === 0 ? 'bg-burgundy-50 dark:bg-burgundy-900/30 text-gray-800 dark:text-cream-100 rounded-tl-sm' : 'bg-gray-100 dark:bg-dark-warm-200 text-gray-700 dark:text-cream-200 rounded-tr-sm'}`}>
                       <div className="text-xs font-bold mb-0.5 text-gray-500 dark:text-gray-400">{line.speaker}</div>
                       {line.text}
                     </div>

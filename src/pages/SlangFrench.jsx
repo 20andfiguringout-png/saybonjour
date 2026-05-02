@@ -4,6 +4,7 @@ import { Zap, BookOpen, ArrowLeftRight, CheckCircle, XCircle } from 'lucide-reac
 import { slangExpressions, verlanExamples, formalVsInformal, slangQuiz } from '../data/slangData'
 import { addXP } from '../utils/progress'
 import SEO from '../components/SEO'
+import SpeakButton from '../components/SpeakButton'
 
 const REGISTER_COLORS = {
   'Verlan': 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300',
@@ -20,7 +21,12 @@ const SlangCard = ({ item }) => {
       onClick={() => setShowNote(s => !s)}
     >
       <div className="flex items-start justify-between gap-2 mb-2">
-        <div className="text-base font-bold text-burgundy-700 dark:text-cream-100 italic">"{item.fr}"</div>
+        <div className="flex items-center gap-1.5 flex-1 min-w-0">
+          <div onClick={e => e.stopPropagation()}>
+            <SpeakButton text={item.fr} size="sm" variant="ghost" />
+          </div>
+          <div className="text-base font-bold text-burgundy-700 dark:text-cream-100 italic truncate">"{item.fr}"</div>
+        </div>
         <span className={`shrink-0 text-xs font-bold px-2 py-0.5 rounded-full ${REGISTER_COLORS[item.register] || 'bg-gray-100 dark:bg-dark-warm-100 text-gray-600 dark:text-gray-300'}`}>
           {item.register}
         </span>
@@ -171,9 +177,12 @@ export default function SlangFrench() {
                   <div>Meaning</div>
                 </div>
                 {verlanExamples.map((v, i) => (
-                  <div key={i} className="grid grid-cols-3 px-5 py-3 border-t border-cream-100 dark:border-dark-warm-200 text-sm">
+                  <div key={i} className="grid grid-cols-3 px-5 py-3 border-t border-cream-100 dark:border-dark-warm-200 text-sm items-center">
                     <div className="text-gray-600 dark:text-gray-300 italic">{v.standard}</div>
-                    <div className="font-bold text-purple-700 dark:text-purple-400">{v.verlan}</div>
+                    <div className="flex items-center gap-1.5">
+                      <SpeakButton text={v.verlan} size="sm" variant="minimal" />
+                      <span className="font-bold text-purple-700 dark:text-purple-400">{v.verlan}</span>
+                    </div>
                     <div className="text-gray-500 dark:text-gray-400">{v.meaning}</div>
                   </div>
                 ))}
@@ -194,9 +203,15 @@ export default function SlangFrench() {
                   <div>Meaning</div>
                 </div>
                 {formalVsInformal.map((row, i) => (
-                  <div key={i} className="grid grid-cols-3 px-5 py-3 border-t border-cream-100 dark:border-dark-warm-200 text-sm">
-                    <div className="text-blue-700 dark:text-blue-300 italic text-xs sm:text-sm">{row.formal}</div>
-                    <div className="font-medium text-pink-700 dark:text-pink-400 italic text-xs sm:text-sm">{row.informal}</div>
+                  <div key={i} className="grid grid-cols-3 px-5 py-3 border-t border-cream-100 dark:border-dark-warm-200 text-sm items-center">
+                    <div className="flex items-center gap-1">
+                      <SpeakButton text={row.formal} size="sm" variant="minimal" />
+                      <span className="text-blue-700 dark:text-blue-300 italic text-xs sm:text-sm">{row.formal}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <SpeakButton text={row.informal.split(' / ')[0]} size="sm" variant="minimal" />
+                      <span className="font-medium text-pink-700 dark:text-pink-400 italic text-xs sm:text-sm">{row.informal}</span>
+                    </div>
                     <div className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">{row.meaning}</div>
                   </div>
                 ))}
