@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Zap, CheckCircle, Clock, Star, Lock, RotateCcw } from 'lucide-react'
+import { Zap, CheckCircle, Clock, Star, Lock, RotateCcw, Send } from 'lucide-react'
 import { addXP, getProgress } from '../utils/progress'
 import { addWordToSRS } from '../utils/srs'
 import SEO from '../components/SEO'
@@ -133,58 +133,156 @@ const getDayIndex = () => {
 }
 
 const VocabChallenge = ({ words, onComplete, completed }) => {
-  const [revealed, setRevealed] = useState([])
+  const [inputs, setInputs] = useState({})      // wordId -> typed string
+  const [results, setResults] = useState({})    // wordId -> { isCorrect, submitted }
   const [added, setAdded] = useState([])
+  const inputRefs = useRef({})
 
-  const handleReveal = (id) => setRevealed(r => [...r, id])
+  const normalize = (s) => s.toLowerCase().trim().replace(/[.,!?'"]/g, '').replace(/\s+/g, ' ')
+
+  const handleSubmit = (word) => {
+    const typed = (inputs[word.id] || '').trim()
+    if (!typed) return
+    const correct = normalize(typed) === normalize(word.english)
+    setResults(r => ({ ...r, [word.id]: { submitted: true, isCorrect: correct } }))
+  }
+
+  const handleKeyDown = (e, word) => {
+    if (e.key === 'Enter') handleSubmit(word)
+  }
+
   const handleAdd = (word) => {
     addWordToSRS(word)
     setAdded(a => [...a, word.id])
   }
 
-  const allRevealed = revealed.length === words.length
+  const allSubmitted = words.every(w => results[w.id]?.submitted)
+  const correctCount = words.filter(w => results[w.id]?.isCorrect).length
 
   return (
     <div>
-      <div className="grid grid-cols-1 gap-2 mb-4">
-        {words.map(word => (
-          <div key={word.id} className={`flex items-center justify-between p-3 rounded-xl border transition-all ${revealed.includes(word.id) ? 'bg-burgundy-50 dark:bg-burgundy-900/20 border-burgundy-200 dark:border-burgundy-700' : 'bg-white dark:bg-dark-warm-200 border-cream-200 dark:border-dark-warm-50'}`}>
-            <div>
-              <span className="font-bold text-burgundy-800 dark:text-cream-50 text-sm">{word.french}</span>
-              {revealed.includes(word.id) && (
-                <span className="text-gray-600 dark:text-gray-300 text-sm ml-2">— {word.english}</span>
-              )}
-            </div>
-            <div className="flex gap-2">
-              {!revealed.includes(word.id) && (
-                <button onClick={() => handleReveal(word.id)} className="text-xs px-2 py-1 bg-burgundy-100 dark:bg-burgundy-800 text-burgundy-700 dark:text-cream-50 rounded-lg hover:bg-burgundy-200 transition-colors">
-                  Reveal
-                </button>
-              )}
-              {revealed.includes(word.id) && !added.includes(word.id) && (
-                <button onClick={() => handleAdd(word)} className="text-xs px-2 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded-lg hover:bg-emerald-200 transition-colors">
-                  + Add to deck
-                </button>
-              )}
-              {added.includes(word.id) && (
-                <span className="text-xs text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                  <CheckCircle className="w-3 h-3" /> Added
+      <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+        Type the English meaning for each French word, then press Enter or hit Submit.
+      </p>
+      <div className="space-y-3 mb-4">
+        {words.map((word, i) => {
+          const res = results[word.id]
+          const isSubmitted = !!res?.submitted
+
+          return (
+            <motion.div
+              key={word.id}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.06 }}
+              className={`rounded-xl border p-3.5 transition-all ${
+                !isSubmitted
+                  ? 'bg-white dark:bg-dark-warm-200 border-gray-200 dark:border-dark-warm-50'
+                  : res.isCorrect
+                  ? 'bg-green-50 dark:bg-green-900/20 border-green-300 dark:border-green-700'
+                  : 'bg-amber-50 dark:bg-amber-900/20 border-amber-300 dark:border-amber-700'
+              }`}
+            >
+              {/* French word row */}
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-bold text-burgundy-800 dark:text-cream-50 text-sm">
+                  {word.french}
                 </span>
+                {isSubmitted && (
+                  <div className="flex items-center gap-1.5">
+                    {res.isCorrect ? (
+                      <span className="text-xs font-semibold text-green-700 dark:text-green-400 flex items-center gap-1">
+                        <CheckCircle className="w-3.5 h-3.5" /> Correct!
+                      </span>
+                    ) : (
+                      <span className="text-xs font-semibold text-amber-700 dark:text-amber-400">
+                        Close — <span className="text-gray-700 dark:text-gray-300">{word.english}</span>
+                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Input row */}
+              {!isSubmitted ? (
+                <div className="flex gap-2">
+                  <input
+                    ref={el => inputRefs.current[word.id] = el}
+                    type="text"
+                    value={inputs[word.id] || ''}
+                    onChange={e => setInputs(inp => ({ ...inp, [word.id]: e.target.value }))}
+                    onKeyDown={e => handleKeyDown(e, word)}
+                    disabled={completed}
+                    placeholder="Type English meaning…"
+                    className="flex-1 px-3 py-2 text-sm rounded-lg border border-gray-200 dark:border-dark-warm-50 bg-gray-50 dark:bg-dark-warm-100 text-gray-800 dark:text-cream-50 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-burgundy-400 transition-all"
+                  />
+                  <motion.button
+                    onClick={() => handleSubmit(word)}
+                    disabled={!(inputs[word.id] || '').trim() || completed}
+                    className="px-3 py-2 bg-burgundy-600 text-cream-50 rounded-lg text-xs font-semibold hover:bg-burgundy-700 disabled:opacity-40 transition-colors flex items-center gap-1.5"
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Send className="w-3 h-3" /> Submit
+                  </motion.button>
+                </div>
+              ) : (
+                /* Revealed answer row */
+                <div className="flex items-center justify-between">
+                  <div className="text-sm">
+                    <span className="text-gray-500 dark:text-gray-400">Your answer: </span>
+                    <span className={`font-medium ${res.isCorrect ? 'text-green-700 dark:text-green-400' : 'text-amber-700 dark:text-amber-400'}`}>
+                      {inputs[word.id] || '—'}
+                    </span>
+                    {!res.isCorrect && (
+                      <span className="text-gray-400 dark:text-gray-500 ml-2 text-xs">
+                        (correct: <span className="font-semibold text-gray-600 dark:text-gray-300">{word.english}</span>)
+                      </span>
+                    )}
+                  </div>
+                  {!added.includes(word.id) ? (
+                    <button
+                      onClick={() => handleAdd(word)}
+                      className="text-xs px-2.5 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded-lg hover:bg-emerald-200 dark:hover:bg-emerald-800/40 transition-colors whitespace-nowrap"
+                    >
+                      + Add to deck
+                    </button>
+                  ) : (
+                    <span className="text-xs text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                      <CheckCircle className="w-3 h-3" /> Added
+                    </span>
+                  )}
+                </div>
               )}
-            </div>
-          </div>
-        ))}
+            </motion.div>
+          )
+        })}
       </div>
-      {!completed && (
-        <button
-          onClick={onComplete}
-          disabled={!allRevealed}
-          className="w-full py-2.5 bg-burgundy-600 text-cream-50 rounded-xl text-sm font-medium hover:bg-burgundy-700 disabled:opacity-50 transition-colors"
-        >
-          {allRevealed ? 'Complete Challenge (+30 XP)' : `Reveal all ${words.length} words first`}
-        </button>
+
+      {/* Score summary + complete button */}
+      <AnimatePresence>
+        {allSubmitted && !completed && (
+          <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
+            <div className="flex items-center justify-between mb-3 text-sm">
+              <span className="text-gray-600 dark:text-gray-300">
+                Score: <span className="font-bold text-gray-800 dark:text-cream-50">{correctCount}/{words.length}</span> correct
+              </span>
+              <span className="text-amber-600 dark:text-amber-400 font-bold">+30 XP</span>
+            </div>
+            <button
+              onClick={onComplete}
+              className="w-full py-2.5 bg-burgundy-600 text-cream-50 rounded-xl text-sm font-semibold hover:bg-burgundy-700 transition-colors"
+            >
+              Complete Challenge (+30 XP)
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {completed && (
+        <div className="text-center text-emerald-600 dark:text-emerald-400 font-semibold text-sm flex items-center justify-center gap-2">
+          <CheckCircle className="w-4 h-4" /> Completed! +30 XP earned
+        </div>
       )}
-      {completed && <div className="text-center text-emerald-600 dark:text-emerald-400 font-semibold text-sm flex items-center justify-center gap-2"><CheckCircle className="w-4 h-4" /> Completed! +30 XP earned</div>}
     </div>
   )
 }
