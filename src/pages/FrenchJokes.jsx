@@ -36,19 +36,26 @@ export default function FrenchJokes() {
   }
 
   return (
-    <div className="min-h-screen bg-cream-50 dark:bg-dark-warm-300 py-12 px-4">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-warm-300">
+      {/* Hero */}
+      <div className="bg-gradient-to-r from-burgundy-800 to-burgundy-600 text-cream-50 py-10 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
+            <div className="inline-flex items-center bg-cream-50/20 px-4 py-1.5 rounded-full text-sm font-medium mb-4">
+              <Laugh className="w-4 h-4 mr-2" />
+              Humour & jeux de mots
+            </div>
+            <h1 className="text-3xl md:text-4xl font-bold mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
+              French Jokes
+            </h1>
+            <p className="text-cream-100 text-lg max-w-xl mx-auto">
+              French humour is famous for its wit and wordplay. Each joke comes with the punchline in French and English, plus vocabulary notes.
+            </p>
+          </motion.div>
+        </div>
+      </div>
 
-        {/* Header */}
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10">
-          <div className="text-6xl mb-4">😄</div>
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">French Jokes</h1>
-          <p className="text-burgundy-600 font-medium mb-3">Humour & jeux de mots</p>
-          <p className="text-gray-600 dark:text-gray-300 max-w-xl mx-auto">
-            French humour is famous for its wit and wordplay. Each joke comes with the punchline in French and English, plus vocabulary notes.
-          </p>
-        </motion.div>
-
+      <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Cultural Facts */}
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
           className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-8">

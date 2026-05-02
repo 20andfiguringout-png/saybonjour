@@ -301,31 +301,26 @@ startxref
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white dark:from-dark-warm-300 dark:to-dark-warm-300 pt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Header */}
-        <motion.div
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <motion.div
-            className="inline-flex items-center bg-burgundy-50 text-burgundy-700 px-6 py-3 rounded-full text-sm font-medium mb-6 border border-burgundy-100"
-            whileHover={{ scale: 1.05 }}
-          >
-            <FileText className="w-4 h-4 mr-2" />
-            Ressources Imprimables • Printable Resources
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-warm-300">
+      {/* Hero */}
+      <div className="bg-gradient-to-r from-burgundy-800 to-burgundy-600 text-cream-50 py-10 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
+            <div className="inline-flex items-center bg-cream-50/20 px-4 py-1.5 rounded-full text-sm font-medium mb-4">
+              <FileText className="w-4 h-4 mr-2" />
+              Ressources Imprimables • Printable Resources
+            </div>
+            <h1 className="text-3xl md:text-4xl font-bold mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
+              Printable Worksheets
+            </h1>
+            <p className="text-cream-100 text-lg max-w-xl mx-auto">
+              Download high-quality PDF worksheets for offline practice. Perfect for students, teachers, and self-learners who prefer traditional study methods.
+            </p>
           </motion.div>
-          <h1 className="text-4xl md:text-5xl font-bold text-burgundy-900 dark:text-cream-50 mb-6">
-            📝 Printable Worksheets
-          </h1>
-          <p className="text-xl text-burgundy-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
-            Download high-quality PDF worksheets for offline practice. Perfect for students, 
-            teachers, and self-learners who prefer traditional study methods.
-          </p>
-        </motion.div>
+        </div>
+      </div>
 
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Improved Filters */}
         <motion.div
           className="bg-cream-50 dark:bg-dark-warm-100 rounded-2xl shadow-lg p-6 mb-8 border border-burgundy-100 dark:border-dark-warm-50"

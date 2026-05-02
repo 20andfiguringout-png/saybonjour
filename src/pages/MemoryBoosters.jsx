@@ -195,32 +195,26 @@ const MemoryBoosters = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cream-50 to-cream-100 dark:from-dark-warm-300 dark:to-dark-warm-300 pt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 md:py-12">
-        {/* Header */}
-        <motion.div
-          className="text-center mb-8 sm:mb-10 md:mb-12"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <motion.div
-            className="inline-flex items-center bg-burgundy-50 text-burgundy-700 px-3 sm:px-4 md:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-medium mb-4 sm:mb-6 border border-burgundy-100"
-            whileHover={{ scale: 1.05 }}
-          >
-            <Brain className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
-            <span className="hidden sm:inline">Curiosités Linguistiques • Linguistic Curiosities</span>
-            <span className="sm:hidden">Linguistic Curiosities</span>
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-warm-300">
+      {/* Hero */}
+      <div className="bg-gradient-to-r from-burgundy-800 to-burgundy-600 text-cream-50 py-10 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
+            <div className="inline-flex items-center bg-cream-50/20 px-4 py-1.5 rounded-full text-sm font-medium mb-4">
+              <Brain className="w-4 h-4 mr-2" />
+              Curiosités Linguistiques • Linguistic Curiosities
+            </div>
+            <h1 className="text-3xl md:text-4xl font-bold mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
+              Memory Boosters
+            </h1>
+            <p className="text-cream-100 text-lg max-w-xl mx-auto">
+              Discover fascinating linguistic patterns, surprising word origins, and regional variations that will help you remember French more effectively.
+            </p>
           </motion.div>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-cream-50 mb-4 sm:mb-6 px-2">
-            🧠 Memory Boosters
-          </h1>
-          <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed px-2">
-            Discover fascinating linguistic patterns, surprising word origins, and regional variations
-            that will help you remember French more effectively.
-          </p>
-        </motion.div>
+        </div>
+      </div>
 
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 md:py-12">
         {/* Category Tabs */}
         <motion.div
           className="flex justify-center mb-8 sm:mb-10 md:mb-12 px-2"
