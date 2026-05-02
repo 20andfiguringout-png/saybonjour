@@ -1,8 +1,9 @@
-import React, { useState, useMemo } from 'react'
-import { Search, BookOpen, ChevronDown, ChevronUp, Star, Info } from 'lucide-react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
+import { Search, BookOpen, ChevronDown, ChevronUp, Info, Loader2, AlertCircle } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { verbData, verbList } from '../data/conjugations'
 import SEO from '../components/SEO'
+
+const API = '/api'
 
 const TENSES = [
   'présent', 'passé composé', 'imparfait', 'futur simple',
@@ -12,26 +13,37 @@ const PRONOUNS = ['je', 'tu', 'il', 'nous', 'vous', 'ils']
 const IMPERATIVE_PRONOUNS = ['tu', 'nous', 'vous']
 
 const tenseLabels = {
-  'présent': 'Présent', 'passé composé': 'Passé Composé', 'imparfait': 'Imparfait',
-  'futur simple': 'Futur Simple', 'conditionnel présent': 'Conditionnel',
-  'subjonctif présent': 'Subjonctif', 'impératif': 'Impératif', 'passé simple': 'Passé Simple (Literary)',
+  'présent': 'Présent',
+  'passé composé': 'Passé Composé',
+  'imparfait': 'Imparfait',
+  'futur simple': 'Futur Simple',
+  'conditionnel présent': 'Conditionnel',
+  'subjonctif présent': 'Subjonctif',
+  'impératif': 'Impératif',
+  'passé simple': 'Passé Simple (Literary)',
 }
 const tenseDescriptions = {
-  'présent': 'Ongoing or habitual actions, states', 'passé composé': 'Completed past actions',
-  'imparfait': 'Past habits, background, ongoing past', 'futur simple': 'Future actions and predictions',
-  'conditionnel présent': 'Hypothetical, polite requests', 'subjonctif présent': 'Doubt, emotion, obligation',
-  'impératif': 'Commands and instructions', 'passé simple': 'Narrative past (formal/literary)',
+  'présent': 'Ongoing or habitual actions, states',
+  'passé composé': 'Completed past actions',
+  'imparfait': 'Past habits, background, ongoing past',
+  'futur simple': 'Future actions and predictions',
+  'conditionnel présent': 'Hypothetical, polite requests',
+  'subjonctif présent': 'Doubt, emotion, obligation',
+  'impératif': 'Commands and instructions',
+  'passé simple': 'Narrative past (formal/literary)',
 }
 const groupColors = {
   '-er': 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300',
   '-ir': 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
   '-re': 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300',
   'irregular': 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300',
-  'irregular -ir': 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300',
-  '-er (spelling)': 'bg-teal-100 text-teal-800 dark:bg-teal-900/30 dark:text-teal-300',
 }
 
-const TenseTable = ({ tense, conjugations, irregular }) => {
+const POPULAR = ['avoir', 'être', 'aller', 'faire', 'pouvoir', 'vouloir', 'savoir', 'venir', 'parler', 'finir']
+
+const GROUP_FILTERS = ['all', '-er', '-ir', '-re', 'irregular']
+
+const TenseTable = ({ tense, conjugations }) => {
   const pronounList = tense === 'impératif' ? IMPERATIVE_PRONOUNS : PRONOUNS
   return (
     <div className="overflow-hidden rounded-lg border border-cream-200 dark:border-dark-warm-50">
@@ -39,15 +51,13 @@ const TenseTable = ({ tense, conjugations, irregular }) => {
         <tbody>
           {pronounList.map((pronoun, i) => {
             const form = conjugations[pronoun] || '—'
-            const isIrregular = irregular?.some(f => form.includes(f))
             return (
               <tr key={pronoun} className={i % 2 === 0 ? 'bg-cream-50 dark:bg-dark-warm-200' : 'bg-white dark:bg-dark-warm-100'}>
                 <td className="px-3 py-2 text-burgundy-600 dark:text-burgundy-400 font-medium w-24 border-r border-cream-200 dark:border-dark-warm-50">
                   {tense === 'impératif' ? pronoun : (pronoun === 'il' ? 'il/elle/on' : pronoun === 'ils' ? 'ils/elles' : pronoun)}
                 </td>
-                <td className={`px-3 py-2 font-medium ${isIrregular ? 'text-burgundy-700 dark:text-burgundy-400' : 'text-gray-800 dark:text-gray-200'}`}>
+                <td className="px-3 py-2 font-medium text-gray-800 dark:text-gray-200">
                   {form}
-                  {isIrregular && <span className="ml-2 text-xs text-burgundy-500 font-normal">★</span>}
                 </td>
               </tr>
             )
@@ -59,59 +69,155 @@ const TenseTable = ({ tense, conjugations, irregular }) => {
 }
 
 const Conjugate = () => {
-  const [search, setSearch] = useState('')
-  const [selectedVerb, setSelectedVerb] = useState('avoir')
-  const [expandedTenses, setExpandedTenses] = useState(['présent', 'passé composé', 'imparfait', 'futur simple'])
+  const [search, setSearch]               = useState('')
+  const [selectedVerb, setSelectedVerb]   = useState('avoir')
+  const [verbData, setVerbData]           = useState(null)
+  const [verbLoading, setVerbLoading]     = useState(false)
+  const [verbError, setVerbError]         = useState(null)
+  const [suggestions, setSuggestions]     = useState([])
+  const [sugLoading, setSugLoading]       = useState(false)
   const [showSuggestions, setShowSuggestions] = useState(false)
+  const [expandedTenses, setExpandedTenses] = useState(['présent', 'passé composé', 'imparfait', 'futur simple'])
 
-  const verb = verbData[selectedVerb]
+  // Browse panel state
+  const [browseList, setBrowseList]       = useState([])
+  const [browseTotal, setBrowseTotal]     = useState(0)
+  const [browsePage, setBrowsePage]       = useState(1)
+  const [browseGroup, setBrowseGroup]     = useState('all')
+  const [browseLoading, setBrowseLoading] = useState(false)
+  const BROWSE_LIMIT = 150
 
-  const suggestions = useMemo(() => {
-    if (!search || search.length < 1) return []
-    return verbList.filter(v => v.startsWith(search.toLowerCase())).slice(0, 8)
-  }, [search])
+  const suggestTimer = useRef(null)
+
+  // Fetch autocomplete suggestions
+  const fetchSuggestions = useCallback((q) => {
+    clearTimeout(suggestTimer.current)
+    if (!q) { setSuggestions([]); return }
+    suggestTimer.current = setTimeout(async () => {
+      setSugLoading(true)
+      try {
+        const res = await fetch(`${API}/verbs/search?q=${encodeURIComponent(q)}`)
+        const data = await res.json()
+        setSuggestions(Array.isArray(data) ? data : [])
+      } catch { setSuggestions([]) }
+      setSugLoading(false)
+    }, 150)
+  }, [])
+
+  // Fetch full verb data
+  const fetchVerb = useCallback(async (v) => {
+    setVerbLoading(true)
+    setVerbError(null)
+    try {
+      const res = await fetch(`${API}/verbs/${encodeURIComponent(v)}`)
+      if (!res.ok) throw new Error('Verb not found')
+      const data = await res.json()
+      setVerbData(data)
+    } catch (e) {
+      setVerbError(e.message)
+      setVerbData(null)
+    }
+    setVerbLoading(false)
+  }, [])
+
+  // Fetch browse list
+  const fetchBrowse = useCallback(async (page, group) => {
+    setBrowseLoading(true)
+    try {
+      const g = group === 'all' ? '' : group
+      const res = await fetch(`${API}/verbs/list?page=${page}&limit=${BROWSE_LIMIT}${g ? `&group=${encodeURIComponent(g)}` : ''}`)
+      const data = await res.json()
+      setBrowseList(data.verbs || [])
+      setBrowseTotal(data.total || 0)
+    } catch { setBrowseList([]) }
+    setBrowseLoading(false)
+  }, [])
+
+  useEffect(() => { fetchVerb('avoir') }, [])
+  useEffect(() => { fetchBrowse(browsePage, browseGroup) }, [browsePage, browseGroup])
 
   const handleSelectVerb = (v) => {
-    setSelectedVerb(v); setSearch(v); setShowSuggestions(false)
+    setSelectedVerb(v)
+    setSearch(v)
+    setShowSuggestions(false)
     setExpandedTenses(['présent', 'passé composé', 'imparfait', 'futur simple'])
+    fetchVerb(v)
   }
-  const handleSearch = (e) => {
-    const val = e.target.value.toLowerCase()
-    setSearch(val); setShowSuggestions(true)
-    if (verbData[val]) setSelectedVerb(val)
+
+  const handleSearchChange = (e) => {
+    const val = e.target.value
+    setSearch(val)
+    setShowSuggestions(true)
+    fetchSuggestions(val.toLowerCase().trim())
   }
-  const toggleTense = (tense) => setExpandedTenses(prev => prev.includes(tense) ? prev.filter(t => t !== tense) : [...prev, tense])
-  const expandAll = () => setExpandedTenses([...TENSES])
+
+  const handleSearchKeyDown = (e) => {
+    if (e.key === 'Enter' && search.trim()) {
+      handleSelectVerb(search.trim().toLowerCase())
+    }
+  }
+
+  const toggleTense = (tense) => setExpandedTenses(prev =>
+    prev.includes(tense) ? prev.filter(t => t !== tense) : [...prev, tense])
+  const expandAll  = () => setExpandedTenses([...TENSES])
   const collapseAll = () => setExpandedTenses([])
+
+  const totalPages = Math.ceil(browseTotal / BROWSE_LIMIT)
 
   return (
     <>
-      <SEO title="French Verb Conjugation Tool | SayBonjour" description="Look up conjugations for any French verb across all tenses." keywords="french verb conjugation, conjugate french verbs" url="/conjugate" />
+      <SEO
+        title="French Verb Conjugation Tool | SayBonjour"
+        description="Look up conjugations for any of 7,000+ French verbs across all tenses."
+        keywords="french verb conjugation, conjugate french verbs"
+        url="/conjugate"
+      />
       <div className="min-h-screen bg-gray-50 dark:bg-dark-warm-300">
+
+        {/* Hero / Search */}
         <div className="bg-gradient-to-r from-burgundy-800 to-burgundy-600 text-cream-50 py-10 px-4">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
               <div className="inline-flex items-center bg-cream-50/20 text-cream-50 px-4 py-1.5 rounded-full text-sm font-medium mb-4">
                 <BookOpen className="w-4 h-4 mr-2" /> Conjugation Tool
               </div>
-              <h1 className="text-3xl md:text-4xl font-bold mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>French Verb Conjugator</h1>
-              <p className="text-cream-100 text-lg max-w-xl mx-auto mb-8">Look up any French verb — all tenses, all pronouns, irregular forms highlighted.</p>
+              <h1 className="text-3xl md:text-4xl font-bold mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
+                French Verb Conjugator
+              </h1>
+              <p className="text-cream-100 text-lg max-w-xl mx-auto mb-2">
+                Look up any French verb — all tenses, all pronouns, irregular forms highlighted.
+              </p>
+              <p className="text-cream-200 text-sm mb-8 opacity-80">7,000+ verbs available</p>
+
+              {/* Search box */}
               <div className="relative max-w-md mx-auto">
                 <div className="relative">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-burgundy-400" />
-                  <input type="text" value={search} onChange={handleSearch} onFocus={() => setShowSuggestions(true)} onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
-                    placeholder="Type a verb (e.g. avoir, parler, aller...)"
-                    className="w-full pl-12 pr-4 py-3.5 rounded-xl text-gray-800 bg-white shadow-lg text-base focus:outline-none focus:ring-2 focus:ring-burgundy-400" />
+                  <input
+                    type="text"
+                    value={search}
+                    onChange={handleSearchChange}
+                    onKeyDown={handleSearchKeyDown}
+                    onFocus={() => { setShowSuggestions(true); if (search) fetchSuggestions(search) }}
+                    onBlur={() => setTimeout(() => setShowSuggestions(false), 180)}
+                    placeholder="Type a verb (e.g. parler, vouloir, écrire...)"
+                    className="w-full pl-12 pr-4 py-3.5 rounded-xl text-gray-800 bg-white shadow-lg text-base focus:outline-none focus:ring-2 focus:ring-burgundy-400"
+                  />
+                  {sugLoading && (
+                    <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-burgundy-400 animate-spin" />
+                  )}
                 </div>
                 <AnimatePresence>
                   {showSuggestions && suggestions.length > 0 && (
-                    <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
-                      className="absolute top-full mt-2 w-full bg-white rounded-xl shadow-xl border border-cream-200 z-50 overflow-hidden">
+                    <motion.div
+                      initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
+                      className="absolute top-full mt-2 w-full bg-white rounded-xl shadow-xl border border-cream-200 z-50 overflow-hidden"
+                    >
                       {suggestions.map(v => (
-                        <button key={v} onMouseDown={() => handleSelectVerb(v)}
+                        <button key={v.infinitive} onMouseDown={() => handleSelectVerb(v.infinitive)}
                           className="w-full text-left px-4 py-2.5 hover:bg-burgundy-50 text-gray-800 flex justify-between items-center text-sm">
-                          <span className="font-medium">{v}</span>
-                          <span className="text-gray-500 text-xs">{verbData[v]?.english}</span>
+                          <span className="font-medium">{v.infinitive}</span>
+                          <span className="text-gray-500 text-xs">{v.english || v.verb_group}</span>
                         </button>
                       ))}
                     </motion.div>
@@ -122,53 +228,97 @@ const Conjugate = () => {
           </div>
         </div>
 
+        {/* Popular verbs bar */}
         <div className="bg-white dark:bg-dark-warm-100 border-b border-cream-200 dark:border-dark-warm-50 py-3 px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="flex flex-wrap gap-2 items-center">
-              <span className="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide mr-1">Popular:</span>
-              {['avoir', 'être', 'aller', 'faire', 'pouvoir', 'vouloir', 'savoir', 'venir', 'parler', 'finir'].map(v => (
-                <button key={v} onClick={() => handleSelectVerb(v)}
-                  className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${selectedVerb === v ? 'bg-burgundy-600 text-cream-50' : 'bg-cream-100 dark:bg-dark-warm-200 text-burgundy-700 dark:text-burgundy-400 hover:bg-burgundy-100 dark:hover:bg-burgundy-900/30'}`}>
-                  {v}
-                </button>
-              ))}
-            </div>
+          <div className="max-w-4xl mx-auto flex flex-wrap gap-2 items-center">
+            <span className="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide mr-1">Popular:</span>
+            {POPULAR.map(v => (
+              <button key={v} onClick={() => handleSelectVerb(v)}
+                className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+                  selectedVerb === v
+                    ? 'bg-burgundy-600 text-cream-50'
+                    : 'bg-cream-100 dark:bg-dark-warm-200 text-burgundy-700 dark:text-burgundy-400 hover:bg-burgundy-100 dark:hover:bg-burgundy-900/30'
+                }`}>
+                {v}
+              </button>
+            ))}
           </div>
         </div>
 
-        {verb && (
-          <div className="max-w-4xl mx-auto px-4 py-8">
+        {/* Conjugation result */}
+        <div className="max-w-4xl mx-auto px-4 py-8">
+          {verbLoading && (
+            <div className="flex items-center justify-center py-20">
+              <Loader2 className="w-8 h-8 text-burgundy-600 animate-spin" />
+              <span className="ml-3 text-gray-500 dark:text-gray-400">Loading conjugations...</span>
+            </div>
+          )}
+
+          {verbError && (
+            <div className="flex items-center gap-3 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700/50 rounded-xl text-red-700 dark:text-red-300 mb-6">
+              <AlertCircle className="w-5 h-5 flex-shrink-0" />
+              <p>Verb not found. Try searching for a different verb.</p>
+            </div>
+          )}
+
+          {!verbLoading && verbData && (
             <motion.div key={selectedVerb} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+              {/* Verb info card */}
               <div className="bg-white dark:bg-dark-warm-100 rounded-2xl shadow-sm border border-cream-200 dark:border-dark-warm-50 p-6 mb-6">
                 <div className="flex flex-wrap items-start justify-between gap-4">
                   <div>
-                    <div className="flex items-center gap-3 mb-2">
-                      <h2 className="text-3xl font-bold text-burgundy-800 dark:text-cream-50" style={{ fontFamily: 'Playfair Display, serif' }}>{verb.infinitive}</h2>
-                      <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${groupColors[verb.group] || 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300'}`}>{verb.group}</span>
-                      <span className="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-dark-warm-200 px-2 py-0.5 rounded-full">#{verb.frequency} most common</span>
+                    <div className="flex flex-wrap items-center gap-3 mb-2">
+                      <h2 className="text-3xl font-bold text-burgundy-800 dark:text-cream-50" style={{ fontFamily: 'Playfair Display, serif' }}>
+                        {verbData.infinitive}
+                      </h2>
+                      <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${groupColors[verbData.group] || 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300'}`}>
+                        {verbData.group}
+                      </span>
+                      {verbData.irregular && (
+                        <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300">
+                          irregular
+                        </span>
+                      )}
+                      {verbData.frequency < 9999 && (
+                        <span className="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-dark-warm-200 px-2 py-0.5 rounded-full">
+                          #{verbData.frequency} most common
+                        </span>
+                      )}
                     </div>
-                    <p className="text-lg text-gray-600 dark:text-gray-300 font-medium">{verb.english}</p>
+                    {verbData.english && (
+                      <p className="text-lg text-gray-600 dark:text-gray-300 font-medium">{verbData.english}</p>
+                    )}
+                    {(verbData.participe_passe || verbData.participe_present) && (
+                      <div className="flex gap-4 mt-2 text-sm text-gray-500 dark:text-gray-400">
+                        {verbData.participe_passe && (
+                          <span><span className="font-medium text-gray-600 dark:text-gray-300">pp:</span> {verbData.participe_passe}</span>
+                        )}
+                        {verbData.participe_present && (
+                          <span><span className="font-medium text-gray-600 dark:text-gray-300">prés.:</span> {verbData.participe_present}</span>
+                        )}
+                      </div>
+                    )}
                   </div>
                   <div className="flex gap-2">
-                    <button onClick={expandAll} className="text-xs px-3 py-1.5 bg-burgundy-50 dark:bg-burgundy-900/30 text-burgundy-700 dark:text-burgundy-400 rounded-lg hover:bg-burgundy-100 dark:hover:bg-burgundy-900/50 transition-colors">Expand all</button>
-                    <button onClick={collapseAll} className="text-xs px-3 py-1.5 bg-gray-100 dark:bg-dark-warm-200 text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-dark-warm-50 transition-colors">Collapse all</button>
+                    <button onClick={expandAll} className="text-xs px-3 py-1.5 bg-burgundy-50 dark:bg-burgundy-900/30 text-burgundy-700 dark:text-burgundy-400 rounded-lg hover:bg-burgundy-100 dark:hover:bg-burgundy-900/50 transition-colors">
+                      Expand all
+                    </button>
+                    <button onClick={collapseAll} className="text-xs px-3 py-1.5 bg-gray-100 dark:bg-dark-warm-200 text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-dark-warm-50 transition-colors">
+                      Collapse all
+                    </button>
                   </div>
                 </div>
-                {verb.notes && (
+                {verbData.notes && (
                   <div className="mt-4 flex gap-2 p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/50 rounded-lg text-sm text-amber-800 dark:text-amber-300">
-                    <Info className="w-4 h-4 mt-0.5 flex-shrink-0" /><p>{verb.notes}</p>
-                  </div>
-                )}
-                {verb.irregular?.length > 0 && (
-                  <div className="mt-3 flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-                    <span className="text-burgundy-500 font-bold">★</span><span>Marks an irregular form</span>
+                    <Info className="w-4 h-4 mt-0.5 flex-shrink-0" /><p>{verbData.notes}</p>
                   </div>
                 )}
               </div>
 
+              {/* Tense grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {TENSES.map(tense => {
-                  const conjugations = verb.tenses[tense] || {}
+                  const conjugations = verbData.tenses[tense] || {}
                   const isExpanded = expandedTenses.includes(tense)
                   const hasData = Object.keys(conjugations).length > 0
                   return (
@@ -178,14 +328,18 @@ const Conjugate = () => {
                           <div className="font-semibold text-burgundy-800 dark:text-cream-50 text-sm">{tenseLabels[tense]}</div>
                           <div className="text-xs text-gray-500 dark:text-gray-400">{tenseDescriptions[tense]}</div>
                         </div>
-                        <div className="text-burgundy-500 ml-2">{isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}</div>
+                        <div className="text-burgundy-500 ml-2">
+                          {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                        </div>
                       </button>
                       <AnimatePresence>
                         {isExpanded && (
                           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }}>
                             <div className="px-4 pb-4">
-                              {hasData ? <TenseTable tense={tense} conjugations={conjugations} irregular={verb.irregular} />
-                                : <p className="text-sm text-gray-400 dark:text-gray-500 italic py-2">This verb has no {tense} form.</p>}
+                              {hasData
+                                ? <TenseTable tense={tense} conjugations={conjugations} />
+                                : <p className="text-sm text-gray-400 dark:text-gray-500 italic py-2">No {tense} form available.</p>
+                              }
                             </div>
                           </motion.div>
                         )}
@@ -195,21 +349,70 @@ const Conjugate = () => {
                 })}
               </div>
             </motion.div>
-          </div>
-        )}
+          )}
+        </div>
 
-        <div className="max-w-4xl mx-auto px-4 pb-12">
-          <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">All Available Verbs</h3>
-          <div className="flex flex-wrap gap-2">
-            {verbList.map(v => (
-              <button key={v} onClick={() => handleSelectVerb(v)}
-                className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${selectedVerb === v
-                  ? 'bg-burgundy-600 text-cream-50 font-medium'
-                  : 'bg-white dark:bg-dark-warm-100 text-gray-700 dark:text-gray-300 border border-cream-200 dark:border-dark-warm-50 hover:border-burgundy-300 dark:hover:border-burgundy-600 hover:text-burgundy-700 dark:hover:text-burgundy-400'}`}>
-                {v}
-              </button>
-            ))}
+        {/* Browse all verbs */}
+        <div className="max-w-4xl mx-auto px-4 pb-16">
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <div>
+              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
+                Browse All Verbs
+              </h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{browseTotal.toLocaleString()} verbs in the database</p>
+            </div>
+            {/* Group filter */}
+            <div className="flex gap-1.5 flex-wrap">
+              {GROUP_FILTERS.map(g => (
+                <button key={g} onClick={() => { setBrowseGroup(g); setBrowsePage(1) }}
+                  className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+                    browseGroup === g
+                      ? 'bg-burgundy-600 text-cream-50'
+                      : 'bg-white dark:bg-dark-warm-100 border border-cream-200 dark:border-dark-warm-50 text-gray-600 dark:text-gray-300 hover:border-burgundy-300'
+                  }`}>
+                  {g === 'all' ? 'All' : g}
+                </button>
+              ))}
+            </div>
           </div>
+
+          {browseLoading ? (
+            <div className="flex justify-center py-10">
+              <Loader2 className="w-6 h-6 text-burgundy-600 animate-spin" />
+            </div>
+          ) : (
+            <>
+              <div className="flex flex-wrap gap-2">
+                {browseList.map(v => (
+                  <button key={v.infinitive} onClick={() => handleSelectVerb(v.infinitive)}
+                    className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
+                      selectedVerb === v.infinitive
+                        ? 'bg-burgundy-600 text-cream-50 font-medium'
+                        : 'bg-white dark:bg-dark-warm-100 text-gray-700 dark:text-gray-300 border border-cream-200 dark:border-dark-warm-50 hover:border-burgundy-300 dark:hover:border-burgundy-600 hover:text-burgundy-700 dark:hover:text-burgundy-400'
+                    }`}>
+                    {v.infinitive}
+                  </button>
+                ))}
+              </div>
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="flex items-center justify-center gap-2 mt-6">
+                  <button onClick={() => setBrowsePage(p => Math.max(1, p - 1))} disabled={browsePage === 1}
+                    className="px-3 py-1.5 rounded-lg text-sm bg-white dark:bg-dark-warm-100 border border-cream-200 dark:border-dark-warm-50 text-gray-600 dark:text-gray-300 disabled:opacity-40 hover:border-burgundy-300 transition-colors">
+                    ← Prev
+                  </button>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                    Page {browsePage} of {totalPages}
+                  </span>
+                  <button onClick={() => setBrowsePage(p => Math.min(totalPages, p + 1))} disabled={browsePage === totalPages}
+                    className="px-3 py-1.5 rounded-lg text-sm bg-white dark:bg-dark-warm-100 border border-cream-200 dark:border-dark-warm-50 text-gray-600 dark:text-gray-300 disabled:opacity-40 hover:border-burgundy-300 transition-colors">
+                    Next →
+                  </button>
+                </div>
+              )}
+            </>
+          )}
         </div>
       </div>
     </>

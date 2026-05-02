@@ -24,7 +24,8 @@ An interactive French learning platform called "SayBonjour!" with a React/Vite f
 
 ### Data Storage
 - JSON files for articles, quizzes, sections: `backend/data/`
-- SQLite DB: `phrases`, `phrase_sections`, `users` tables
+- SQLite DB tables: `phrases`, `phrase_sections`, `users`, `verbs`
+- `verbs` table: 7,003 French verbs populated via `mlconjug3` Python library (`backend/populate_verbs.py`)
 - See `backend/DATABASE.md` for full database documentation
 
 ## Key Files

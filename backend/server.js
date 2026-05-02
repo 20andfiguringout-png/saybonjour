@@ -1050,6 +1050,92 @@ app.put('/api/users/profile', authenticateUser, (req, res) => {
 
 // ─── End User Account Routes ─────────────────────────────────────────────────
 
+// ─── Verb Conjugation Routes ──────────────────────────────────────────────────
+
+// GET /api/verbs/search?q=parl  — autocomplete suggestions (up to 12)
+app.get('/api/verbs/search', (req, res) => {
+  try {
+    const q = (req.query.q || '').toLowerCase().trim()
+    if (!q || q.length < 1) return res.json([])
+    const db = new Database(path.join(__dirname, 'french_learning.db'))
+    const rows = db.prepare(
+      `SELECT infinitive, english, verb_group, is_irregular, frequency
+       FROM verbs
+       WHERE infinitive LIKE ?
+       ORDER BY frequency ASC, infinitive ASC
+       LIMIT 12`
+    ).all(`${q}%`)
+    db.close()
+    res.json(rows)
+  } catch (e) {
+    console.error('Verb search error:', e)
+    res.status(500).json({ error: 'Search failed' })
+  }
+})
+
+// GET /api/verbs/list  — paginated list of all verbs (for the browse grid)
+app.get('/api/verbs/list', (req, res) => {
+  try {
+    const page  = Math.max(1, parseInt(req.query.page  || '1'))
+    const limit = Math.min(200, parseInt(req.query.limit || '100'))
+    const group = req.query.group || ''
+    const offset = (page - 1) * limit
+    const db = new Database(path.join(__dirname, 'french_learning.db'))
+    const where = group ? 'WHERE verb_group = ?' : ''
+    const params = group ? [group, limit, offset] : [limit, offset]
+    const rows  = db.prepare(
+      `SELECT infinitive, english, verb_group, is_irregular, frequency
+       FROM verbs ${where}
+       ORDER BY frequency ASC, infinitive ASC
+       LIMIT ? OFFSET ?`
+    ).all(...params)
+    const total = db.prepare(`SELECT COUNT(*) as cnt FROM verbs ${where}`)
+      .get(...(group ? [group] : [])).cnt
+    db.close()
+    res.json({ verbs: rows, total, page, limit })
+  } catch (e) {
+    console.error('Verb list error:', e)
+    res.status(500).json({ error: 'List failed' })
+  }
+})
+
+// GET /api/verbs/:infinitive  — full conjugation data for one verb
+app.get('/api/verbs/:infinitive', (req, res) => {
+  try {
+    const infinitive = req.params.infinitive.toLowerCase().trim()
+    const db = new Database(path.join(__dirname, 'french_learning.db'))
+    const row = db.prepare('SELECT * FROM verbs WHERE infinitive = ?').get(infinitive)
+    db.close()
+    if (!row) return res.status(404).json({ error: 'Verb not found' })
+    const parse = (s) => { try { return JSON.parse(s) } catch { return {} } }
+    res.json({
+      infinitive: row.infinitive,
+      english:    row.english,
+      group:      row.verb_group,
+      frequency:  row.frequency,
+      irregular:  row.is_irregular === 1,
+      participe_passe:   row.participe_passe,
+      participe_present: row.participe_present,
+      notes: row.notes,
+      tenses: {
+        'présent':             parse(row.tense_present),
+        'passé composé':       parse(row.tense_passe_compose),
+        'imparfait':           parse(row.tense_imparfait),
+        'futur simple':        parse(row.tense_futur),
+        'conditionnel présent':parse(row.tense_conditionnel),
+        'subjonctif présent':  parse(row.tense_subjonctif),
+        'impératif':           parse(row.tense_imperatif),
+        'passé simple':        parse(row.tense_passe_simple),
+      }
+    })
+  } catch (e) {
+    console.error('Verb lookup error:', e)
+    res.status(500).json({ error: 'Lookup failed' })
+  }
+})
+
+// ─── End Verb Conjugation Routes ──────────────────────────────────────────────
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack)
