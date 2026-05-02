@@ -1,12 +1,19 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Briefcase, BookOpen, MessageSquare, CheckCircle, XCircle, ChevronDown, ChevronUp } from 'lucide-react'
+import { Briefcase, BookOpen, MessageSquare, CheckCircle, XCircle, ChevronDown, ChevronUp, Trophy } from 'lucide-react'
 import { businessVocab, businessPhrases, businessDialogues, businessQuiz } from '../data/businessData'
 import { addXP } from '../utils/progress'
 import SEO from '../components/SEO'
 import SpeakButton from '../components/SpeakButton'
 
 const CATEGORIES = ['All', 'Roles', 'Meetings', 'Finance', 'Legal', 'Strategy', 'HR']
+
+const TABS = [
+  { id: 'vocabulary', label: 'Vocabulary', icon: BookOpen },
+  { id: 'phrases',    label: 'Phrases',    icon: MessageSquare },
+  { id: 'dialogues',  label: 'Dialogues',  icon: Briefcase },
+  { id: 'quiz',       label: 'Quiz',       icon: Trophy },
+]
 
 const VocabCard = ({ item }) => {
   const [flipped, setFlipped] = useState(false)
@@ -174,64 +181,52 @@ export default function BusinessFrench() {
 
   const filteredVocab = catFilter === 'All' ? businessVocab : businessVocab.filter(v => v.category === catFilter)
 
-  const tabs = [
-    { id: 'vocabulary', label: 'Vocabulary', icon: BookOpen },
-    { id: 'phrases', label: 'Phrases', icon: MessageSquare },
-    { id: 'dialogues', label: 'Dialogues', icon: MessageSquare },
-    { id: 'quiz', label: 'Quiz', icon: CheckCircle },
-  ]
-
   return (
     <>
       <SEO title="Business French | SayBonjour" url="/business-french" />
       <div className="min-h-screen bg-gray-50 dark:bg-dark-warm-300">
-        <div className="bg-gradient-to-r from-burgundy-800 to-burgundy-600 text-cream-50 py-10 px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
-              <div className="inline-flex items-center bg-cream-50/20 px-4 py-1.5 rounded-full text-sm font-medium mb-4">
-                <Briefcase className="w-4 h-4 mr-2" /> Professional French
-              </div>
-              <h1 className="text-3xl md:text-4xl font-bold mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
-                Business French
-              </h1>
-              <p className="text-cream-100 max-w-lg mx-auto">
-                Master professional French for the workplace — vocabulary, formal phrases, business dialogues and a quiz.
-              </p>
-            </motion.div>
-          </div>
-        </div>
 
-        <div className="max-w-3xl mx-auto px-4 py-8">
-          <div className="flex gap-1 bg-white dark:bg-dark-warm-100 border border-cream-200 dark:border-dark-warm-50 rounded-2xl p-1 mb-6 flex-wrap">
-            {tabs.map(t => (
-              <button key={t.id} onClick={() => setTab(t.id)}
-                className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium transition-all ${tab === t.id ? 'bg-burgundy-600 text-cream-50 shadow-sm' : 'text-gray-600 dark:text-gray-300 hover:bg-cream-50 dark:hover:bg-dark-warm-200'}`}>
-                <t.icon className="w-4 h-4" />
-                <span className="hidden sm:inline">{t.label}</span>
-              </button>
-            ))}
-          </div>
+        {/* Sticky toolbar */}
+        <div className="sticky top-[60px] z-20 bg-white/90 dark:bg-dark-warm-100/90 backdrop-blur border-b border-cream-200 dark:border-dark-warm-50">
+          <div className="max-w-3xl mx-auto px-4">
+            {/* Tab row */}
+            <div className="flex items-center gap-1 py-2">
+              {TABS.map(t => (
+                <button key={t.id} onClick={() => setTab(t.id)}
+                  className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium transition-all ${tab === t.id ? 'bg-burgundy-600 text-cream-50 shadow-sm' : 'text-gray-500 dark:text-gray-300 hover:bg-cream-100 dark:hover:bg-dark-warm-200'}`}>
+                  <t.icon className="w-4 h-4" />
+                  <span>{t.label}</span>
+                </button>
+              ))}
+            </div>
 
-          {tab === 'vocabulary' && (
-            <>
-              <div className="flex gap-2 flex-wrap mb-4">
+            {/* Category filter — only in vocabulary tab */}
+            {tab === 'vocabulary' && (
+              <div className="flex gap-2 flex-wrap pb-2">
                 {CATEGORIES.map(c => (
                   <button key={c} onClick={() => setCatFilter(c)}
-                    className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${catFilter === c ? 'bg-burgundy-600 text-cream-50' : 'bg-white dark:bg-dark-warm-100 text-gray-600 dark:text-gray-300 border border-cream-200 dark:border-dark-warm-50 hover:border-burgundy-300'}`}>
+                    className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${catFilter === c ? 'bg-burgundy-600 text-cream-50' : 'bg-gray-100 dark:bg-dark-warm-200 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-warm-50'}`}>
                     {c}
                   </button>
                 ))}
               </div>
+            )}
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="max-w-3xl mx-auto px-4 py-6">
+          {tab === 'vocabulary' && (
+            <>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {filteredVocab.map((item, i) => <VocabCard key={i} item={item} />)}
               </div>
-              <p className="text-xs text-gray-400 text-center mt-4">Click a card to flip it</p>
+              <p className="text-xs text-gray-400 text-center mt-4">Click a card to flip it and reveal the English</p>
             </>
           )}
-
-          {tab === 'phrases' && businessPhrases.map((section, i) => <PhraseSection key={i} section={section} />)}
-          {tab === 'dialogues' && businessDialogues.map(d => <DialogueView key={d.id} dialogue={d} />)}
-          {tab === 'quiz' && <QuizSection />}
+          {tab === 'phrases'   && businessPhrases.map((section, i)  => <PhraseSection  key={i}      section={section} />)}
+          {tab === 'dialogues' && businessDialogues.map(d             => <DialogueView  key={d.id}   dialogue={d} />)}
+          {tab === 'quiz'      && <QuizSection />}
         </div>
       </div>
     </>
