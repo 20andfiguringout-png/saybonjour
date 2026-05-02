@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <!-- Favicons and Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Viewport and Mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="SayBonjour!" />
+
+    <!-- Default Meta (will be overridden by React Helmet) -->
+    <title>SayBonjour! - Learn French Online | Interactive French Learning Platform</title>
+    <meta name="description" content="Master French with SayBonjour! - the comprehensive online French learning platform. Interactive lessons, quizzes, cultural insights, and more. Start your French journey today!" />
+    <meta name="keywords" content="learn french, french lessons, french language, online french course, french grammar, french vocabulary, french culture" />
+    <meta name="author" content="SayBonjour! Team" />
+
+    <!-- Theme and Branding -->
+    <meta name="theme-color" content="#800020" />
+    <meta name="msapplication-TileColor" content="#800020" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
+
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Preload Critical Resources -->
+    <!-- Removed main.jsx preload to fix console warnings -->
+
+    <!-- Security -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <!-- Open Graph Default -->
+    <meta property="og:site_name" content="SayBonjour!" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card Default -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@saybonjour" />
+
+    <!-- Structured Data for Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "SayBonjour!",
+      "description": "Interactive French Learning Platform",
+      "url": "https://saybonjour.com",
+      "logo": "https://saybonjour.com/logo.png",
+      "sameAs": [
+        "https://facebook.com/saybonjour",
+        "https://twitter.com/saybonjour",
+        "https://instagram.com/saybonjour"
+      ]
+    }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+
+    <!-- No-JS Fallback -->
+    <noscript>
+      <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+        <h1>SayBonjour! - French Learning Platform</h1>
+        <p>JavaScript is required to use this application. Please enable JavaScript in your browser.</p>
+      </div>
+    </noscript>
+  </body>
+</html>

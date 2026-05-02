@@ -1,0 +1,952 @@
+import express from 'express'
+import cors from 'cors'
+import jwt from 'jsonwebtoken'
+import crypto from 'crypto'
+import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import { config } from 'dotenv'
+import Database from 'better-sqlite3'
+import rateLimit from 'express-rate-limit'
+import helmet from 'helmet'
+import { body, validationResult } from 'express-validator'
+import morgan from 'morgan'
+import {
+  generateSitemap,
+  generateRobotsTxt,
+  saveSitemap,
+  saveRobotsTxt,
+  seoConfig
+} from './seo-utils.js'
+
+// Load environment variables
+config()
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+const app = express()
+const PORT = process.env.PORT || 3001
+const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(64).toString('hex')
+
+// Secure admin credentials - MUST be set via environment variables
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME
+const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH
+
+// Helper function to hash passwords
+const hashPassword = (password) => {
+  return crypto.pbkdf2Sync(password, 'salt', 1000, 64, 'sha512').toString('hex')
+}
+
+// Helper function to verify passwords
+const verifyPassword = (password, hash) => {
+  const hashedPassword = crypto.pbkdf2Sync(password, 'salt', 1000, 64, 'sha512').toString('hex')
+  return hashedPassword === hash
+}
+
+// CSRF token storage (in production, use Redis or database)
+const csrfTokens = new Set()
+
+// Security tracking
+const failedLoginAttempts = new Map() // IP -> { count, lastAttempt }
+const adminActions = [] // Store admin actions for auditing
+
+// Security Middleware
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      imgSrc: ["'self'", "data:", "https:", "blob:"],
+      scriptSrc: ["'self'"],
+      connectSrc: ["'self'"]
+    }
+  },
+  crossOriginEmbedderPolicy: false
+}))
+
+// Request logging
+app.use(morgan('combined', {
+  stream: {
+    write: (message) => {
+      // Log to console and could be extended to log to file
+      console.log(`[${new Date().toISOString()}] ${message.trim()}`)
+    }
+  }
+}))
+
+// Rate limiting for authentication endpoints
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // Limit each IP to 5 requests per windowMs
+  message: {
+    error: 'Too many login attempts, please try again later.',
+    retryAfter: '15 minutes'
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => {
+    const ip = req.ip || req.connection.remoteAddress
+    console.log(`[SECURITY] Rate limit exceeded for IP: ${ip}`)
+    res.status(429).json({
+      error: 'Too many login attempts, please try again later.',
+      retryAfter: '15 minutes'
+    })
+  }
+})
+
+// General rate limiting
+const generalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: {
+    error: 'Too many requests, please try again later.'
+  }
+})
+
+// Apply rate limiting
+app.use('/api/auth', authLimiter)
+app.use('/api', generalLimiter)
+
+// Request size limits and body parsing
+app.use(express.json({ limit: '10mb' }))
+app.use(express.urlencoded({ extended: true, limit: '10mb' }))
+
+// CORS configuration
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:5174',
+    'http://127.0.0.1:5173',
+    'http://127.0.0.1:5174',
+    /\.loca\.lt$/, // Allow all localtunnel domains
+    /\.ngrok\.io$/, // Allow ngrok domains
+    /\.tunnel\.me$/, // Allow tunnel.me domains
+    'https://bright-moles-train.loca.lt' // Specific tunnel domain
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+}))
+
+// Helper function to read JSON files
+const readJsonFile = (filename) => {
+  try {
+    const filePath = path.join(__dirname, 'data', filename)
+    if (fs.existsSync(filePath)) {
+      return JSON.parse(fs.readFileSync(filePath, 'utf8'))
+    }
+    return []
+  } catch (error) {
+    console.error(`Error reading ${filename}:`, error)
+    return []
+  }
+}
+
+// Helper function to write JSON files
+const writeJsonFile = (filename, data) => {
+  try {
+    const dataDir = path.join(__dirname, 'data')
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true })
+    }
+    const filePath = path.join(dataDir, filename)
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2))
+    return true
+  } catch (error) {
+    console.error(`Error writing ${filename}:`, error)
+    return false
+  }
+}
+
+// Initialize demo data if files don't exist
+const initializeDemoData = () => {
+  const articlesData = [
+    {
+      id: 1,
+      title: 'French Basics',
+      items: [
+        {
+          id: 1,
+          title: 'French Alphabet and Pronunciation',
+          description: 'Learn the French alphabet and basic pronunciation rules',
+          difficulty: 'Beginner',
+          content: `# French Alphabet and Pronunciation
+
+The French alphabet consists of 26 letters, the same as English, but the pronunciation is quite different.
+
+## The French Alphabet
+
+**A** - /a/ (ah)  
+**B** - /be/ (bay)  
+**C** - /se/ (say)  
+**D** - /de/ (day)  
+**E** - /ə/ (uh)  
+
+## Key Pronunciation Rules
+
+1. **Silent Letters**: Many letters at the end of French words are silent
+2. **Nasal Sounds**: French has several nasal vowel sounds
+3. **The R Sound**: The French 'R' is rolled in the back of the throat
+
+## Practice Words
+
+- **Bonjour** /bon-ZHOOR/ - Hello
+- **Merci** /mer-SEE/ - Thank you
+- **Au revoir** /oh ruh-VWAHR/ - Goodbye
+
+Remember: Practice makes perfect! Try to listen to native French speakers and repeat after them.`,
+          author: 'Marie Dubois',
+          lastUpdated: '2024-01-15'
+        },
+        {
+          id: 2,
+          title: 'Basic Greetings and Politeness',
+          description: 'Essential phrases for everyday interactions',
+          difficulty: 'Beginner',
+          content: `# Basic Greetings and Politeness
+
+Politeness is very important in French culture. Here are essential phrases you need to know.
+
+## Greetings
+
+- **Bonjour** - Hello (formal, used until evening)
+- **Bonsoir** - Good evening
+- **Salut** - Hi/Bye (informal)
+- **Comment allez-vous?** - How are you? (formal)
+- **Comment ça va?** - How are you? (informal)
+
+## Politeness Expressions
+
+- **S'il vous plaît** - Please (formal)
+- **S'il te plaît** - Please (informal)
+- **Merci** - Thank you
+- **De rien** - You're welcome
+- **Excusez-moi** - Excuse me (formal)
+- **Pardon** - Sorry/Excuse me
+
+## Cultural Tips
+
+French people typically shake hands when meeting for the first time and kiss on both cheeks (la bise) with friends and family.`,
+          author: 'Pierre Martin',
+          lastUpdated: '2024-01-10'
+        }
+      ]
+    },
+    {
+      id: 2,
+      title: 'Grammar Fundamentals',
+      items: [
+        {
+          id: 3,
+          title: 'French Articles (Le, La, Les)',
+          description: 'Understanding definite and indefinite articles',
+          difficulty: 'Beginner',
+          content: `# French Articles
+
+Articles in French agree with the gender and number of the noun they modify.
+
+## Definite Articles
+
+- **Le** - masculine singular (le chat - the cat)
+- **La** - feminine singular (la maison - the house)
+- **Les** - plural for both genders (les chats - the cats)
+- **L'** - before vowels (l'ami - the friend)
+
+## Indefinite Articles
+
+- **Un** - masculine singular (un chat - a cat)
+- **Une** - feminine singular (une maison - a house)
+- **Des** - plural for both genders (des chats - some cats)
+
+## Examples
+
+- Le livre (the book) - masculine
+- La table (the table) - feminine
+- Les enfants (the children) - plural
+- Un homme (a man) - masculine
+- Une femme (a woman) - feminine`,
+          author: 'Sophie Laurent',
+          lastUpdated: '2024-01-12'
+        }
+      ]
+    }
+  ]
+
+  const quizzesData = [
+    {
+      id: 1,
+      title: 'Basic French',
+      items: [
+        {
+          id: 1,
+          title: 'French Greetings Quiz',
+          description: 'Test your knowledge of basic French greetings',
+          difficulty: 'Beginner',
+          questions: [
+            {
+              id: 1,
+              question: 'How do you say "Hello" in French?',
+              options: ['Bonjour', 'Bonsoir', 'Salut', 'Au revoir'],
+              correct: 0
+            },
+            {
+              id: 2,
+              question: 'What does "Merci" mean?',
+              options: ['Please', 'Thank you', 'Excuse me', 'Sorry'],
+              correct: 1
+            },
+            {
+              id: 3,
+              question: 'How do you say "Good evening" in French?',
+              options: ['Bonjour', 'Bonsoir', 'Bonne nuit', 'Salut'],
+              correct: 1
+            }
+          ]
+        },
+        {
+          id: 2,
+          title: 'French Numbers 1-10',
+          description: 'Quiz on basic French numbers',
+          difficulty: 'Beginner',
+          questions: [
+            {
+              id: 1,
+              question: 'How do you say "five" in French?',
+              options: ['quatre', 'cinq', 'six', 'sept'],
+              correct: 1
+            },
+            {
+              id: 2,
+              question: 'What number is "huit"?',
+              options: ['6', '7', '8', '9'],
+              correct: 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: 2,
+      title: 'Grammar',
+      items: [
+        {
+          id: 3,
+          title: 'French Articles Quiz',
+          description: 'Test your understanding of le, la, les',
+          difficulty: 'Intermediate',
+          questions: [
+            {
+              id: 1,
+              question: 'Which article goes with "maison" (house)?',
+              options: ['le', 'la', 'les', 'un'],
+              correct: 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+
+  const sectionsData = [
+    { id: 1, title: 'French Basics' },
+    { id: 2, title: 'Grammar Fundamentals' },
+    { id: 3, title: 'Vocabulary' },
+    { id: 4, title: 'Conversation' }
+  ]
+
+  if (!fs.existsSync(path.join(__dirname, 'data', 'articles.json'))) {
+    writeJsonFile('articles.json', articlesData)
+  }
+  if (!fs.existsSync(path.join(__dirname, 'data', 'quizzes.json'))) {
+    writeJsonFile('quizzes.json', quizzesData)
+  }
+  if (!fs.existsSync(path.join(__dirname, 'data', 'sections.json'))) {
+    writeJsonFile('sections.json', sectionsData)
+  }
+}
+
+// Initialize demo data
+initializeDemoData()
+
+// Enhanced middleware to verify JWT token with security logging
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+  const ip = req.ip || req.connection.remoteAddress
+
+  if (!token) {
+    logSecurityEvent('TOKEN_MISSING', ip, {
+      endpoint: req.path,
+      method: req.method
+    })
+    return res.status(401).json({ message: 'Access token required' })
+  }
+
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (err) {
+      logSecurityEvent('TOKEN_INVALID', ip, {
+        endpoint: req.path,
+        method: req.method,
+        error: err.name
+      })
+      return res.status(403).json({ message: 'Invalid or expired token' })
+    }
+
+    // Log successful admin access
+    logSecurityEvent('ADMIN_ACCESS', ip, {
+      user: user.username,
+      endpoint: req.path,
+      method: req.method
+    })
+
+    req.user = user
+    next()
+  })
+}
+
+// Helper function to log admin actions
+const logAdminAction = (action, user, ip, details = {}) => {
+  const actionLog = {
+    timestamp: new Date().toISOString(),
+    action,
+    user,
+    ip,
+    ...details
+  }
+  adminActions.push(actionLog)
+
+  // Keep only last 1000 actions to prevent memory issues
+  if (adminActions.length > 1000) {
+    adminActions.splice(0, adminActions.length - 1000)
+  }
+
+  logSecurityEvent('ADMIN_ACTION', ip, actionLog)
+}
+
+// CSRF token endpoint
+app.get('/api/csrf-token', (req, res) => {
+  const token = crypto.randomBytes(32).toString('hex')
+  csrfTokens.add(token)
+  
+  // Clean up old tokens (keep only last 100)
+  if (csrfTokens.size > 100) {
+    const tokensArray = Array.from(csrfTokens)
+    csrfTokens.clear()
+    tokensArray.slice(-50).forEach(t => csrfTokens.add(t))
+  }
+  
+  res.json({ csrfToken: token })
+})
+
+// Input validation middleware
+const validateLogin = [
+  body('username').trim().isLength({ min: 1 }).withMessage('Username is required'),
+  body('password').isLength({ min: 1 }).withMessage('Password is required'),
+  body('csrfToken').isLength({ min: 1 }).withMessage('CSRF token is required')
+]
+
+// Helper function to log security events
+const logSecurityEvent = (event, ip, details = {}) => {
+  const logEntry = {
+    timestamp: new Date().toISOString(),
+    event,
+    ip,
+    ...details
+  }
+  console.log(`[SECURITY] ${JSON.stringify(logEntry)}`)
+  // In production, you would also write this to a secure log file
+}
+
+// Helper function to track failed login attempts
+const trackFailedLogin = (ip) => {
+  const now = Date.now()
+  const attempts = failedLoginAttempts.get(ip) || { count: 0, lastAttempt: 0 }
+
+  // Reset count if last attempt was more than 15 minutes ago
+  if (now - attempts.lastAttempt > 15 * 60 * 1000) {
+    attempts.count = 0
+  }
+
+  attempts.count++
+  attempts.lastAttempt = now
+  failedLoginAttempts.set(ip, attempts)
+
+  return attempts.count
+}
+
+// Auth routes
+app.post('/api/auth/login', validateLogin, (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const ip = req.ip || req.connection.remoteAddress
+    logSecurityEvent('LOGIN_VALIDATION_FAILED', ip, { errors: errors.array() })
+    return res.status(400).json({
+      message: 'Invalid input',
+      errors: errors.array()
+    })
+  }
+
+  const { username, password, csrfToken } = req.body
+  const ip = req.ip || req.connection.remoteAddress
+
+  // Verify CSRF token
+  if (!csrfToken || !csrfTokens.has(csrfToken)) {
+    logSecurityEvent('CSRF_TOKEN_INVALID', ip, { username })
+    return res.status(403).json({ message: 'Invalid CSRF token' })
+  }
+
+  // Remove used CSRF token
+  csrfTokens.delete(csrfToken)
+
+  // Check if admin credentials are configured
+  if (!ADMIN_USERNAME || !ADMIN_PASSWORD_HASH) {
+    logSecurityEvent('ADMIN_CREDENTIALS_NOT_CONFIGURED', ip)
+    return res.status(500).json({
+      message: 'Server configuration error: Admin credentials not set'
+    })
+  }
+
+  // Secure authentication with password hashing
+  if (username === ADMIN_USERNAME && verifyPassword(password, ADMIN_PASSWORD_HASH)) {
+    // Successful login
+    logSecurityEvent('LOGIN_SUCCESS', ip, { username })
+
+    // Clear failed attempts for this IP
+    failedLoginAttempts.delete(ip)
+
+    // Log admin action
+    adminActions.push({
+      timestamp: new Date().toISOString(),
+      action: 'LOGIN',
+      user: username,
+      ip
+    })
+
+    const token = jwt.sign({ username, role: 'admin' }, JWT_SECRET, { expiresIn: '24h' })
+    res.json({ token, message: 'Login successful' })
+  } else {
+    // Failed login
+    const failedCount = trackFailedLogin(ip)
+    logSecurityEvent('LOGIN_FAILED', ip, {
+      username,
+      failedAttempts: failedCount,
+      reason: 'Invalid credentials'
+    })
+
+    res.status(401).json({ message: 'Invalid credentials' })
+  }
+})
+
+app.get('/api/auth/verify', authenticateToken, (req, res) => {
+  res.json({ valid: true, user: req.user })
+})
+
+// Security status endpoint (admin only) - HIGHLY RESTRICTED
+app.get('/api/security/status', authenticateToken, (req, res) => {
+  const ip = req.ip || req.connection.remoteAddress
+
+  // Double-check admin role
+  if (!req.user || req.user.role !== 'admin') {
+    logSecurityEvent('UNAUTHORIZED_SECURITY_ACCESS', ip, {
+      user: req.user?.username || 'unknown',
+      endpoint: '/api/security/status'
+    })
+    return res.status(403).json({ message: 'Admin access required' })
+  }
+
+  logAdminAction('VIEW_SECURITY_STATUS', req.user.username, ip)
+
+  res.json({
+    failedLoginAttempts: Array.from(failedLoginAttempts.entries()).map(([ip, data]) => ({
+      ip,
+      attempts: data.count,
+      lastAttempt: new Date(data.lastAttempt).toISOString()
+    })),
+    recentAdminActions: adminActions.slice(-50), // Last 50 actions
+    csrfTokensActive: csrfTokens.size,
+    securityFeatures: {
+      rateLimiting: true,
+      helmet: true,
+      csrf: true,
+      logging: true,
+      inputValidation: true
+    }
+  })
+})
+
+// Public routes
+app.get('/api/articles', (req, res) => {
+  const articles = readJsonFile('articles.json')
+  res.json(articles)
+})
+
+app.get('/api/quizzes', (req, res) => {
+  const quizzes = readJsonFile('quizzes.json')
+  res.json(quizzes)
+})
+
+app.get('/api/sections', (req, res) => {
+  const sections = readJsonFile('sections.json')
+  res.json(sections)
+})
+
+// Phrase endpoints
+app.get('/api/phrases', (req, res) => {
+  try {
+    const db = new Database(path.join(__dirname, 'french_learning.db'))
+    const rows = db.prepare('SELECT * FROM phrases ORDER BY created_at DESC').all()
+    db.close()
+    res.json(rows)
+  } catch (error) {
+    console.error('Database error:', error)
+    res.status(500).json({ message: 'Database error' })
+  }
+})
+
+app.get('/api/phrase-sections', (req, res) => {
+  try {
+    const db = new Database(path.join(__dirname, 'french_learning.db'))
+    const rows = db.prepare('SELECT * FROM phrase_sections ORDER BY created_at ASC').all()
+    db.close()
+    res.json(rows)
+  } catch (error) {
+    console.error('Database error:', error)
+    res.status(500).json({ message: 'Database error' })
+  }
+})
+
+// SEO Routes
+app.get('/sitemap.xml', (req, res) => {
+  try {
+    const articles = readJsonFile('articles.json') || []
+    const quizzes = readJsonFile('quizzes.json') || []
+    const sitemap = generateSitemap(articles, quizzes)
+
+    res.set('Content-Type', 'application/xml')
+    res.send(sitemap)
+  } catch (error) {
+    console.error('Error generating sitemap:', error)
+    res.status(500).send('Error generating sitemap')
+  }
+})
+
+app.get('/robots.txt', (req, res) => {
+  try {
+    const robotsTxt = generateRobotsTxt()
+    res.set('Content-Type', 'text/plain')
+    res.send(robotsTxt)
+  } catch (error) {
+    console.error('Error generating robots.txt:', error)
+    res.status(500).send('Error generating robots.txt')
+  }
+})
+
+// Get SEO configuration
+app.get('/api/seo-config', (req, res) => {
+  res.json(seoConfig)
+})
+
+// Protected routes (admin only) - moved below with validation
+
+// Input validation for articles
+const validateArticle = [
+  body('title').trim().isLength({ min: 1, max: 200 }).withMessage('Title must be 1-200 characters'),
+  body('description').trim().isLength({ min: 1, max: 500 }).withMessage('Description must be 1-500 characters'),
+  body('difficulty').isIn(['Beginner', 'Intermediate', 'Advanced']).withMessage('Invalid difficulty level'),
+  body('sectionId').isNumeric().withMessage('Section ID must be numeric'),
+  body('content').trim().isLength({ min: 1 }).withMessage('Content is required')
+]
+
+// Input validation for quizzes
+const validateQuiz = [
+  body('title').trim().isLength({ min: 1, max: 200 }).withMessage('Title must be 1-200 characters'),
+  body('description').trim().isLength({ min: 1, max: 500 }).withMessage('Description must be 1-500 characters'),
+  body('difficulty').isIn(['Beginner', 'Intermediate', 'Advanced']).withMessage('Invalid difficulty level'),
+  body('sectionId').isNumeric().withMessage('Section ID must be numeric'),
+  body('questions').isArray({ min: 1 }).withMessage('At least one question is required')
+]
+
+app.post('/api/articles', authenticateToken, validateArticle, (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const ip = req.ip || req.connection.remoteAddress
+    logAdminAction('CREATE_ARTICLE_VALIDATION_FAILED', req.user.username, ip, { errors: errors.array() })
+    return res.status(400).json({
+      message: 'Invalid input',
+      errors: errors.array()
+    })
+  }
+
+  const ip = req.ip || req.connection.remoteAddress
+  const articles = readJsonFile('articles.json')
+  const { title, description, difficulty, sectionId, content } = req.body
+
+  const newArticle = {
+    id: Date.now(),
+    title,
+    description,
+    difficulty,
+    content,
+    author: req.user.username,
+    lastUpdated: new Date().toISOString().split('T')[0]
+  }
+
+  const sectionIndex = articles.findIndex(section => section.id == sectionId)
+  if (sectionIndex !== -1) {
+    articles[sectionIndex].items.push(newArticle)
+    writeJsonFile('articles.json', articles)
+
+    logAdminAction('CREATE_ARTICLE', req.user.username, ip, {
+      articleTitle: title,
+      sectionId,
+      articleId: newArticle.id
+    })
+
+    res.json({ message: 'Article created successfully', article: newArticle })
+  } else {
+    logAdminAction('CREATE_ARTICLE_FAILED', req.user.username, ip, {
+      reason: 'Invalid section ID',
+      sectionId
+    })
+    res.status(400).json({ message: 'Invalid section ID' })
+  }
+})
+
+app.post('/api/quizzes', authenticateToken, validateQuiz, (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const ip = req.ip || req.connection.remoteAddress
+    logAdminAction('CREATE_QUIZ_VALIDATION_FAILED', req.user.username, ip, { errors: errors.array() })
+    return res.status(400).json({
+      message: 'Invalid input',
+      errors: errors.array()
+    })
+  }
+
+  const ip = req.ip || req.connection.remoteAddress
+  const quizzes = readJsonFile('quizzes.json')
+  const { title, description, difficulty, sectionId, questions } = req.body
+
+  const newQuiz = {
+    id: Date.now(),
+    title,
+    description,
+    difficulty,
+    questions
+  }
+
+  const sectionIndex = quizzes.findIndex(section => section.id == sectionId)
+  if (sectionIndex !== -1) {
+    quizzes[sectionIndex].items.push(newQuiz)
+    writeJsonFile('quizzes.json', quizzes)
+
+    logAdminAction('CREATE_QUIZ', req.user.username, ip, {
+      quizTitle: title,
+      sectionId,
+      quizId: newQuiz.id,
+      questionCount: questions.length
+    })
+
+    res.json({ message: 'Quiz created successfully', quiz: newQuiz })
+  } else {
+    logAdminAction('CREATE_QUIZ_FAILED', req.user.username, ip, {
+      reason: 'Invalid section ID',
+      sectionId
+    })
+    res.status(400).json({ message: 'Invalid section ID' })
+  }
+})
+
+// Protected phrase endpoints
+app.post('/api/phrases', authenticateToken, (req, res) => {
+  try {
+    const {
+      title, description, french, english, literal, meaning, pronunciation,
+      difficulty, usage, example, exampleTranslation, culturalNote, type, sectionId
+    } = req.body
+
+    const db = new Database(path.join(__dirname, 'french_learning.db'))
+
+    // Get section title
+    const section = db.prepare('SELECT title FROM phrase_sections WHERE id = ?').get(sectionId)
+    const sectionTitle = section ? section.title : ''
+
+    const stmt = db.prepare(`
+      INSERT INTO phrases (
+        title, description, french, english, literal, meaning, pronunciation,
+        difficulty, usage, example, example_translation, cultural_note, type,
+        section_id, section_title
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `)
+
+    const result = stmt.run(
+      title, description, french, english, literal, meaning, pronunciation,
+      difficulty, usage, example, exampleTranslation, culturalNote, type,
+      sectionId, sectionTitle
+    )
+
+    db.close()
+
+    res.json({
+      message: 'Phrase created successfully',
+      phrase: { id: result.lastInsertRowid, title, french, english }
+    })
+  } catch (error) {
+    console.error('Database error:', error)
+    res.status(500).json({ message: 'Database error' })
+  }
+})
+
+app.put('/api/phrases/:id', authenticateToken, (req, res) => {
+  try {
+    const phraseId = req.params.id
+    const {
+      title, description, french, english, literal, meaning, pronunciation,
+      difficulty, usage, example, exampleTranslation, culturalNote, type, sectionId
+    } = req.body
+
+    const db = new Database(path.join(__dirname, 'french_learning.db'))
+
+    // Get section title
+    const section = db.prepare('SELECT title FROM phrase_sections WHERE id = ?').get(sectionId)
+    const sectionTitle = section ? section.title : ''
+
+    const stmt = db.prepare(`
+      UPDATE phrases SET
+        title = ?, description = ?, french = ?, english = ?, literal = ?,
+        meaning = ?, pronunciation = ?, difficulty = ?, usage = ?, example = ?,
+        example_translation = ?, cultural_note = ?, type = ?, section_id = ?,
+        section_title = ?, updated_at = CURRENT_TIMESTAMP
+      WHERE id = ?
+    `)
+
+    stmt.run(
+      title, description, french, english, literal, meaning, pronunciation,
+      difficulty, usage, example, exampleTranslation, culturalNote, type,
+      sectionId, sectionTitle, phraseId
+    )
+
+    db.close()
+
+    res.json({
+      message: 'Phrase updated successfully',
+      phrase: { id: phraseId, title, french, english }
+    })
+  } catch (error) {
+    console.error('Database error:', error)
+    res.status(500).json({ message: 'Database error' })
+  }
+})
+
+app.delete('/api/phrases/:id', authenticateToken, (req, res) => {
+  try {
+    const phraseId = req.params.id
+    const db = new Database(path.join(__dirname, 'french_learning.db'))
+
+    const stmt = db.prepare('DELETE FROM phrases WHERE id = ?')
+    stmt.run(phraseId)
+
+    db.close()
+
+    res.json({ message: 'Phrase deleted successfully' })
+  } catch (error) {
+    console.error('Database error:', error)
+    res.status(500).json({ message: 'Database error' })
+  }
+})
+
+// Protected phrase section endpoints
+app.post('/api/phrase-sections', authenticateToken, (req, res) => {
+  try {
+    const { title, description } = req.body
+
+    const db = new Database(path.join(__dirname, 'french_learning.db'))
+
+    const stmt = db.prepare(`
+      INSERT INTO phrase_sections (title, description)
+      VALUES (?, ?)
+    `)
+
+    const result = stmt.run(title, description)
+
+    db.close()
+
+    res.json({
+      message: 'Phrase section created successfully',
+      section: { id: result.lastInsertRowid, title, description }
+    })
+  } catch (error) {
+    console.error('Database error:', error)
+    res.status(500).json({ message: 'Database error' })
+  }
+})
+
+app.put('/api/phrase-sections/:id', authenticateToken, (req, res) => {
+  try {
+    const sectionId = req.params.id
+    const { title, description } = req.body
+
+    const db = new Database(path.join(__dirname, 'french_learning.db'))
+
+    const stmt = db.prepare(`
+      UPDATE phrase_sections SET
+        title = ?, description = ?, updated_at = CURRENT_TIMESTAMP
+      WHERE id = ?
+    `)
+
+    stmt.run(title, description, sectionId)
+
+    db.close()
+
+    res.json({
+      message: 'Phrase section updated successfully',
+      section: { id: sectionId, title, description }
+    })
+  } catch (error) {
+    console.error('Database error:', error)
+    res.status(500).json({ message: 'Database error' })
+  }
+})
+
+app.delete('/api/phrase-sections/:id', authenticateToken, (req, res) => {
+  try {
+    const sectionId = req.params.id
+    const db = new Database(path.join(__dirname, 'french_learning.db'))
+
+    // First delete all phrases in this section
+    const deletePhrases = db.prepare('DELETE FROM phrases WHERE section_id = ?')
+    deletePhrases.run(sectionId)
+
+    // Then delete the section
+    const deleteSection = db.prepare('DELETE FROM phrase_sections WHERE id = ?')
+    deleteSection.run(sectionId)
+
+    db.close()
+
+    res.json({ message: 'Phrase section and associated phrases deleted successfully' })
+  } catch (error) {
+    console.error('Database error:', error)
+    res.status(500).json({ message: 'Database error' })
+  }
+})
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack)
+  res.status(500).json({ message: 'Something went wrong!' })
+})
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+
+  // Security check
+  if (!ADMIN_USERNAME || !ADMIN_PASSWORD_HASH) {
+    console.warn('⚠️  WARNING: Admin credentials not configured!')
+    console.warn('⚠️  Set ADMIN_USERNAME and ADMIN_PASSWORD_HASH environment variables')
+    console.warn('⚠️  Admin login will not work until these are set')
+  } else {
+    console.log('✅ Admin credentials configured securely')
+  }
+})
