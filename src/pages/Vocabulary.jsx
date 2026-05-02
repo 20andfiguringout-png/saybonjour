@@ -225,7 +225,7 @@ const Vocabulary = () => {
         description="Master French vocabulary with spaced repetition. Add words to your personal deck and review them at the optimal time for maximum retention."
         url="/vocabulary"
       />
-      <div className="min-h-screen bg-gray-50 pt-20">
+      <div className="min-h-screen bg-gray-50 dark:bg-dark-warm-300 pt-20">
         {/* Header */}
         <div className="bg-gradient-to-r from-burgundy-800 to-burgundy-600 text-cream-50 py-10 px-4">
           <div className="max-w-4xl mx-auto text-center">

@@ -48,8 +48,8 @@ const QuizSection = ({ quiz }) => {
                     ? 'bg-burgundy-100 dark:bg-burgundy-900/40 border-burgundy-400 text-burgundy-800 dark:text-cream-50 font-medium'
                     : 'bg-white dark:bg-dark-warm-100 border-cream-300 dark:border-dark-warm-50 text-gray-700 dark:text-gray-300 hover:border-burgundy-300 hover:bg-burgundy-50 dark:hover:bg-burgundy-900/20'
                 } else {
-                  if (isCorrect) cls += 'bg-green-100 border-green-400 text-green-800 font-medium'
-                  else if (isSelected && !isCorrect) cls += 'bg-red-100 border-red-400 text-red-700'
+                  if (isCorrect) cls += 'bg-green-100 dark:bg-green-900/30 border-green-400 text-green-800 dark:text-green-300 font-medium'
+                  else if (isSelected && !isCorrect) cls += 'bg-red-100 dark:bg-red-900/30 border-red-400 text-red-700 dark:text-red-300'
                   else cls += 'bg-white dark:bg-dark-warm-100 border-cream-200 dark:border-dark-warm-50 text-gray-400 dark:text-gray-500'
                 }
                 return (
@@ -98,8 +98,8 @@ const TopicCard = ({ topic, isOpen, onToggle }) => {
         className="w-full flex items-start justify-between p-5 text-left hover:bg-cream-50 dark:hover:bg-dark-warm-200 transition-colors"
       >
         <div className="flex-1 pr-4">
-          <h3 className="font-bold text-burgundy-800 mb-1">{topic.title}</h3>
-          <p className="text-sm text-gray-600">{topic.summary}</p>
+          <h3 className="font-bold text-burgundy-800 dark:text-cream-50 mb-1">{topic.title}</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400">{topic.summary}</p>
         </div>
         <div className="text-burgundy-500 flex-shrink-0 mt-1">
           {isOpen ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
@@ -114,14 +114,13 @@ const TopicCard = ({ topic, isOpen, onToggle }) => {
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25 }}
           >
-            <div className="px-5 pb-5 border-t border-cream-100">
-              {/* Content sections */}
+            <div className="px-5 pb-5 border-t border-cream-100 dark:border-dark-warm-50">
               {topic.content?.map((section, si) => (
                 <div key={si} className="mt-4">
-                  <h4 className="font-semibold text-burgundy-700 text-sm mb-2">{section.heading}</h4>
-                  {section.text && <p className="text-sm text-gray-700 mb-2">{section.text}</p>}
+                  <h4 className="font-semibold text-burgundy-700 dark:text-burgundy-400 text-sm mb-2">{section.heading}</h4>
+                  {section.text && <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">{section.text}</p>}
                   {section.list && (
-                    <ul className="text-sm text-gray-700 space-y-1">
+                    <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1">
                       {section.list.map((item, li) => (
                         <li key={li} className="flex items-start gap-2">
                           <span className="text-burgundy-400 mt-0.5">•</span>
@@ -142,9 +141,9 @@ const TopicCard = ({ topic, isOpen, onToggle }) => {
                         </thead>
                         <tbody>
                           {section.table.rows.map((row, ri) => (
-                            <tr key={ri} className={ri % 2 === 0 ? 'bg-cream-50' : 'bg-white'}>
+                            <tr key={ri} className={ri % 2 === 0 ? 'bg-cream-50 dark:bg-dark-warm-200' : 'bg-white dark:bg-dark-warm-100'}>
                               {row.map((cell, ci) => (
-                                <td key={ci} className="px-3 py-2 text-gray-700 border-b border-cream-100">{cell}</td>
+                                <td key={ci} className="px-3 py-2 text-gray-700 dark:text-gray-300 border-b border-cream-100 dark:border-dark-warm-50">{cell}</td>
                               ))}
                             </tr>
                           ))}
@@ -155,22 +154,20 @@ const TopicCard = ({ topic, isOpen, onToggle }) => {
                 </div>
               ))}
 
-              {/* Examples */}
               {topic.examples?.length > 0 && (
-                <div className="mt-5 bg-burgundy-50 rounded-lg p-4">
-                  <h4 className="text-xs font-bold text-burgundy-600 uppercase tracking-wide mb-3">Examples</h4>
+                <div className="mt-5 bg-burgundy-50 dark:bg-burgundy-900/20 rounded-lg p-4">
+                  <h4 className="text-xs font-bold text-burgundy-600 dark:text-burgundy-400 uppercase tracking-wide mb-3">Examples</h4>
                   <div className="space-y-2">
                     {topic.examples.map((ex, ei) => (
                       <div key={ei} className="flex flex-col">
-                        <span className="font-medium text-burgundy-800 text-sm">{ex.french}</span>
-                        <span className="text-gray-600 text-xs">{ex.english}</span>
+                        <span className="font-medium text-burgundy-800 dark:text-cream-100 text-sm">{ex.french}</span>
+                        <span className="text-gray-600 dark:text-gray-400 text-xs">{ex.english}</span>
                       </div>
                     ))}
                   </div>
                 </div>
               )}
 
-              {/* Quiz */}
               {topic.quiz?.length > 0 && <QuizSection quiz={topic.quiz} />}
             </div>
           </motion.div>
@@ -198,7 +195,7 @@ const Grammar = () => {
         keywords="french grammar, french grammar exercises, CEFR french, subjunctive french, passé composé, french articles"
         url="/grammar"
       />
-      <div className="min-h-screen bg-gray-50 pt-20">
+      <div className="min-h-screen bg-gray-50 dark:bg-dark-warm-300">
         {/* Header */}
         <div className="bg-gradient-to-r from-burgundy-800 to-burgundy-600 text-cream-50 py-10 px-4">
           <div className="max-w-4xl mx-auto">
@@ -222,7 +219,7 @@ const Grammar = () => {
         </div>
 
         {/* CEFR Level Tabs */}
-        <div className="bg-white border-b border-cream-200 sticky top-16 z-30 shadow-sm">
+        <div className="bg-white dark:bg-dark-warm-100 border-b border-cream-200 dark:border-dark-warm-50 sticky top-16 z-30 shadow-sm">
           <div className="max-w-4xl mx-auto px-4">
             <div className="flex overflow-x-auto gap-1 py-2">
               {grammarLevels.map(lvl => (
@@ -235,7 +232,7 @@ const Grammar = () => {
                   className={`flex-shrink-0 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                     activeLevel === lvl.level
                       ? 'bg-burgundy-600 text-cream-50 shadow-sm'
-                      : 'text-gray-600 hover:bg-cream-100 hover:text-burgundy-700'
+                      : 'text-gray-600 dark:text-gray-400 hover:bg-cream-100 dark:hover:bg-dark-warm-200 hover:text-burgundy-700 dark:hover:text-burgundy-400'
                   }`}
                 >
                   {lvl.level}
@@ -259,20 +256,20 @@ const Grammar = () => {
             >
               {/* Level intro */}
               <div className="flex items-center gap-4 mb-6">
-                <div className="bg-white rounded-xl border border-cream-200 p-4 flex-1 shadow-sm">
+                <div className="bg-white dark:bg-dark-warm-100 rounded-xl border border-cream-200 dark:border-dark-warm-50 p-4 flex-1 shadow-sm">
                   <div className="flex items-center gap-3">
                     <span className={`px-3 py-1.5 rounded-lg text-lg font-black border ${currentLevel.color}`}>
                       {currentLevel.level}
                     </span>
                     <div>
-                      <div className="font-bold text-burgundy-800">{currentLevel.label}</div>
-                      <div className="text-sm text-gray-600">{currentLevel.description}</div>
+                      <div className="font-bold text-burgundy-800 dark:text-cream-50">{currentLevel.label}</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400">{currentLevel.description}</div>
                     </div>
                   </div>
                 </div>
-                <div className="bg-white rounded-xl border border-cream-200 p-4 text-center shadow-sm">
-                  <div className="text-2xl font-bold text-burgundy-700">{currentLevel.topics.length}</div>
-                  <div className="text-xs text-gray-500">Topics</div>
+                <div className="bg-white dark:bg-dark-warm-100 rounded-xl border border-cream-200 dark:border-dark-warm-50 p-4 text-center shadow-sm">
+                  <div className="text-2xl font-bold text-burgundy-700 dark:text-burgundy-400">{currentLevel.topics.length}</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">Topics</div>
                 </div>
               </div>
 
@@ -293,7 +290,7 @@ const Grammar = () => {
                 {grammarLevels.findIndex(l => l.level === activeLevel) > 0 && (
                   <button
                     onClick={() => setActiveLevel(grammarLevels[grammarLevels.findIndex(l => l.level === activeLevel) - 1].level)}
-                    className="flex items-center gap-2 text-sm text-burgundy-600 hover:text-burgundy-800 font-medium"
+                    className="flex items-center gap-2 text-sm text-burgundy-600 dark:text-burgundy-400 hover:text-burgundy-800 dark:hover:text-burgundy-300 font-medium"
                   >
                     ← Previous level
                   </button>
@@ -302,7 +299,7 @@ const Grammar = () => {
                 {grammarLevels.findIndex(l => l.level === activeLevel) < grammarLevels.length - 1 && (
                   <button
                     onClick={() => setActiveLevel(grammarLevels[grammarLevels.findIndex(l => l.level === activeLevel) + 1].level)}
-                    className="flex items-center gap-2 text-sm text-burgundy-600 hover:text-burgundy-800 font-medium"
+                    className="flex items-center gap-2 text-sm text-burgundy-600 dark:text-burgundy-400 hover:text-burgundy-800 dark:hover:text-burgundy-300 font-medium"
                   >
                     Next level →
                   </button>

@@ -148,7 +148,7 @@ const StudyTools = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-16">
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-warm-300 pt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 md:py-8">
         {/* Header */}
         <motion.div
@@ -157,8 +157,8 @@ const StudyTools = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 px-2">Study Tools</h1>
-          <p className="text-sm sm:text-base text-gray-600 px-2">Enhance your French learning with personalized study aids</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-cream-50 px-2">Study Tools</h1>
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 px-2">Enhance your French learning with personalized study aids</p>
         </motion.div>
 
         {/* Tabs */}
@@ -174,7 +174,7 @@ const StudyTools = () => {
               className={`py-2 px-1 border-b-2 font-medium text-xs sm:text-sm relative ${
                 activeTab === 'flashcards'
                   ? 'border-burgundy-500 text-burgundy-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:border-gray-300'
               }`}
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.95 }}
@@ -188,7 +188,7 @@ const StudyTools = () => {
               className={`py-2 px-1 border-b-2 font-medium text-xs sm:text-sm relative ${
                 activeTab === 'bookmarks'
                   ? 'border-burgundy-500 text-burgundy-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:border-gray-300'
               }`}
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.95 }}
@@ -213,7 +213,7 @@ const StudyTools = () => {
                 // Topic Selection View
                 <div>
                   <motion.h2
-                    className="text-lg sm:text-xl font-semibold text-gray-900 mb-4 sm:mb-6 px-2"
+                    className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-cream-50 mb-4 sm:mb-6 px-2"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
@@ -240,12 +240,12 @@ const StudyTools = () => {
                         >
                           <Brain className="w-5 h-5 sm:w-6 sm:h-6 text-amber-50" />
                         </motion.div>
-                        <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 group-hover:text-burgundy-700 transition-colors duration-300">
+                        <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-cream-50 mb-2 group-hover:text-burgundy-700 dark:group-hover:text-burgundy-400 transition-colors duration-300">
                           {topic.title}
                         </h3>
-                        <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">{topic.description}</p>
+                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-3 sm:mb-4">{topic.description}</p>
                         <div className="flex justify-between items-center">
-                          <span className="text-xs sm:text-sm text-gray-500">
+                          <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                             {topic.cardCount} cards
                           </span>
                           <motion.div
@@ -279,8 +279,8 @@ const StudyTools = () => {
                       Back to Topics
                     </motion.button>
                     <div className="min-w-0">
-                      <h2 className="text-lg sm:text-xl font-semibold text-gray-900 leading-tight">{selectedTopic.title}</h2>
-                      <p className="text-sm sm:text-base text-gray-600 leading-tight">{selectedTopic.description}</p>
+                      <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-cream-50 leading-tight">{selectedTopic.title}</h2>
+                      <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-tight">{selectedTopic.description}</p>
                     </div>
                   </div>
 
@@ -348,7 +348,7 @@ const StudyTools = () => {
                         >
                           <div className="text-center">
                             <motion.div
-                              className="text-base sm:text-lg font-semibold text-gray-900 mb-2"
+                              className="text-base sm:text-lg font-semibold text-gray-900 dark:text-cream-50 mb-2"
                               animate={{
                                 scale: flippedCards[card.id] ? [1, 1.05, 1] : 1
                               }}
@@ -356,7 +356,7 @@ const StudyTools = () => {
                             >
                               {flippedCards[card.id] ? card.english : card.french}
                             </motion.div>
-                            <div className="text-xs sm:text-sm text-gray-500">
+                            <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                               {flippedCards[card.id] ? 'English' : 'Français'}
                             </div>
                             {flippedCards[card.id] && card.pronunciation && (
@@ -383,7 +383,7 @@ const StudyTools = () => {
 
         {activeTab === 'bookmarks' && (
           <div className="px-2">
-            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Saved Content</h2>
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-cream-50 mb-3 sm:mb-4">Saved Content</h2>
             <div className="space-y-3 sm:space-y-4">
               {bookmarks.map((bookmark) => (
                 <div key={bookmark.id} className="card p-3 sm:p-4 flex items-center justify-between">
@@ -398,8 +398,8 @@ const StudyTools = () => {
                       )}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <h3 className="font-medium text-gray-900 text-sm sm:text-base truncate">{bookmark.title}</h3>
-                      <p className="text-xs sm:text-sm text-gray-500">{bookmark.section} • {bookmark.type}</p>
+                      <h3 className="font-medium text-gray-900 dark:text-cream-50 text-sm sm:text-base truncate">{bookmark.title}</h3>
+                      <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">{bookmark.section} • {bookmark.type}</p>
                     </div>
                   </div>
                   <button
