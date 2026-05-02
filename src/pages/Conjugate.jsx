@@ -41,8 +41,6 @@ const groupColors = {
 
 const POPULAR = ['avoir', 'être', 'aller', 'faire', 'pouvoir', 'vouloir', 'savoir', 'venir', 'parler', 'finir']
 
-const GROUP_FILTERS = ['all', '-er', '-ir', '-re', 'irregular']
-
 const TenseTable = ({ tense, conjugations }) => {
   const pronounList = tense === 'impératif' ? IMPERATIVE_PRONOUNS : PRONOUNS
   return (
@@ -80,14 +78,6 @@ const Conjugate = () => {
   const [activeIndex, setActiveIndex] = useState(-1)
   const [expandedTenses, setExpandedTenses] = useState(['présent', 'passé composé', 'imparfait', 'futur simple'])
 
-  // Browse panel state
-  const [browseList, setBrowseList]       = useState([])
-  const [browseTotal, setBrowseTotal]     = useState(0)
-  const [browsePage, setBrowsePage]       = useState(1)
-  const [browseGroup, setBrowseGroup]     = useState('all')
-  const [browseLoading, setBrowseLoading] = useState(false)
-  const BROWSE_LIMIT = 150
-
   const suggestTimer = useRef(null)
 
   // Fetch autocomplete suggestions
@@ -121,21 +111,7 @@ const Conjugate = () => {
     setVerbLoading(false)
   }, [])
 
-  // Fetch browse list
-  const fetchBrowse = useCallback(async (page, group) => {
-    setBrowseLoading(true)
-    try {
-      const g = group === 'all' ? '' : group
-      const res = await fetch(`${API}/verbs/list?page=${page}&limit=${BROWSE_LIMIT}${g ? `&group=${encodeURIComponent(g)}` : ''}`)
-      const data = await res.json()
-      setBrowseList(data.verbs || [])
-      setBrowseTotal(data.total || 0)
-    } catch { setBrowseList([]) }
-    setBrowseLoading(false)
-  }, [])
-
   useEffect(() => { fetchVerb('avoir') }, [])
-  useEffect(() => { fetchBrowse(browsePage, browseGroup) }, [browsePage, browseGroup])
 
   const handleSelectVerb = (v) => {
     setSelectedVerb(v)
@@ -194,8 +170,6 @@ const Conjugate = () => {
     prev.includes(tense) ? prev.filter(t => t !== tense) : [...prev, tense])
   const expandAll  = () => setExpandedTenses([...TENSES])
   const collapseAll = () => setExpandedTenses([])
-
-  const totalPages = Math.ceil(browseTotal / BROWSE_LIMIT)
 
   return (
     <>
@@ -406,68 +380,6 @@ const Conjugate = () => {
           )}
         </div>
 
-        {/* Browse all verbs */}
-        <div className="max-w-4xl mx-auto px-4 pb-16">
-          <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-            <div>
-              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
-                Browse All Verbs
-              </h3>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{browseTotal.toLocaleString()} verbs in the database</p>
-            </div>
-            {/* Group filter */}
-            <div className="flex gap-1.5 flex-wrap">
-              {GROUP_FILTERS.map(g => (
-                <button key={g} onClick={() => { setBrowseGroup(g); setBrowsePage(1) }}
-                  className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
-                    browseGroup === g
-                      ? 'bg-burgundy-600 text-cream-50'
-                      : 'bg-white dark:bg-dark-warm-100 border border-cream-200 dark:border-dark-warm-50 text-gray-600 dark:text-gray-300 hover:border-burgundy-300'
-                  }`}>
-                  {g === 'all' ? 'All' : g}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {browseLoading ? (
-            <div className="flex justify-center py-10">
-              <Loader2 className="w-6 h-6 text-burgundy-600 animate-spin" />
-            </div>
-          ) : (
-            <>
-              <div className="flex flex-wrap gap-2">
-                {browseList.map(v => (
-                  <button key={v.infinitive} onClick={() => handleSelectVerb(v.infinitive)}
-                    className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
-                      selectedVerb === v.infinitive
-                        ? 'bg-burgundy-600 text-cream-50 font-medium'
-                        : 'bg-white dark:bg-dark-warm-100 text-gray-700 dark:text-gray-300 border border-cream-200 dark:border-dark-warm-50 hover:border-burgundy-300 dark:hover:border-burgundy-600 hover:text-burgundy-700 dark:hover:text-burgundy-400'
-                    }`}>
-                    {v.infinitive}
-                  </button>
-                ))}
-              </div>
-
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <div className="flex items-center justify-center gap-2 mt-6">
-                  <button onClick={() => setBrowsePage(p => Math.max(1, p - 1))} disabled={browsePage === 1}
-                    className="px-3 py-1.5 rounded-lg text-sm bg-white dark:bg-dark-warm-100 border border-cream-200 dark:border-dark-warm-50 text-gray-600 dark:text-gray-300 disabled:opacity-40 hover:border-burgundy-300 transition-colors">
-                    ← Prev
-                  </button>
-                  <span className="text-sm text-gray-500 dark:text-gray-400">
-                    Page {browsePage} of {totalPages}
-                  </span>
-                  <button onClick={() => setBrowsePage(p => Math.min(totalPages, p + 1))} disabled={browsePage === totalPages}
-                    className="px-3 py-1.5 rounded-lg text-sm bg-white dark:bg-dark-warm-100 border border-cream-200 dark:border-dark-warm-50 text-gray-600 dark:text-gray-300 disabled:opacity-40 hover:border-burgundy-300 transition-colors">
-                    Next →
-                  </button>
-                </div>
-              )}
-            </>
-          )}
-        </div>
       </div>
     </>
   )
