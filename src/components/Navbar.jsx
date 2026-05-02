@@ -235,29 +235,29 @@ const Navbar = () => {
   const navItemCls = (active) =>
     `flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
       active
-        ? 'text-burgundy-600 dark:text-burgundy-400 bg-burgundy-100 dark:bg-burgundy-900/30'
-        : 'text-gray-700 dark:text-gray-200 hover:text-burgundy-600 dark:hover:text-cream-50 hover:bg-burgundy-50 dark:hover:bg-burgundy-900/20'
+        ? 'text-burgundy-400 bg-burgundy-900/30 border border-burgundy-700/60'
+        : 'text-gray-200 hover:text-cream-50 hover:bg-burgundy-900/20'
     }`
 
   const MegaMenuColumn = ({ col, isLast }) => {
     if (col.subSections) {
       return (
-        <div className={`${isLast ? '' : 'border-r border-gray-100 dark:border-gray-700 pr-6'}`}>
+        <div className={`${isLast ? '' : 'border-r border-gray-700 pr-6'}`}>
           {col.subSections.map((sub) => (
             <div key={sub.heading} className="mb-5 last:mb-0">
-              <p className="text-[11px] font-bold uppercase tracking-widest text-burgundy-500 dark:text-burgundy-400 mb-2 px-1">{sub.heading}</p>
+              <p className="text-[11px] font-bold uppercase tracking-widest text-burgundy-400 mb-2 px-1">{sub.heading}</p>
               <div className="space-y-0.5">
                 {sub.items.map((item) => {
                   const Icon = item.icon
                   return (
                     <Link key={item.href} to={item.href}
-                      className={`flex items-start gap-3 px-2 py-2 rounded-lg transition-all group ${isActive(item.href) ? 'bg-burgundy-50 dark:bg-burgundy-900/20' : 'hover:bg-gray-50 dark:hover:bg-gray-700/40'}`}>
-                      <div className="w-7 h-7 flex-shrink-0 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center group-hover:bg-burgundy-100 dark:group-hover:bg-burgundy-900/30 transition-colors">
-                        <Icon size={13} className="text-burgundy-600 dark:text-burgundy-400" />
+                      className={`flex items-start gap-3 px-2 py-2 rounded-lg transition-all group ${isActive(item.href) ? 'bg-burgundy-900/20' : 'hover:bg-gray-700/40'}`}>
+                      <div className="w-7 h-7 flex-shrink-0 rounded-lg bg-gray-700 flex items-center justify-center group-hover:bg-burgundy-900/30 transition-colors">
+                        <Icon size={13} className="text-burgundy-400" />
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-gray-800 dark:text-gray-100 leading-tight">{item.name}</p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 leading-tight mt-0.5">{item.desc}</p>
+                        <p className="text-sm font-medium text-gray-100 leading-tight">{item.name}</p>
+                        <p className="text-xs text-gray-400 leading-tight mt-0.5">{item.desc}</p>
                       </div>
                     </Link>
                   )
@@ -269,20 +269,20 @@ const Navbar = () => {
       )
     }
     return (
-      <div className={`${isLast ? '' : 'border-r border-gray-100 dark:border-gray-700 pr-6'}`}>
-        <p className="text-[11px] font-bold uppercase tracking-widest text-burgundy-500 dark:text-burgundy-400 mb-3 px-1">{col.heading}</p>
+      <div className={`${isLast ? '' : 'border-r border-gray-700 pr-6'}`}>
+        <p className="text-[11px] font-bold uppercase tracking-widest text-burgundy-400 mb-3 px-1">{col.heading}</p>
         <div className="space-y-0.5">
           {col.items.map((item) => {
             const Icon = item.icon
             return (
               <Link key={item.href} to={item.href}
-                className={`flex items-start gap-3 px-2 py-2 rounded-lg transition-all group ${isActive(item.href) ? 'bg-burgundy-50 dark:bg-burgundy-900/20' : 'hover:bg-gray-50 dark:hover:bg-gray-700/40'}`}>
-                <div className="w-7 h-7 flex-shrink-0 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center group-hover:bg-burgundy-100 dark:group-hover:bg-burgundy-900/30 transition-colors">
-                  <Icon size={13} className="text-burgundy-600 dark:text-burgundy-400" />
+                className={`flex items-start gap-3 px-2 py-2 rounded-lg transition-all group ${isActive(item.href) ? 'bg-burgundy-900/20' : 'hover:bg-gray-700/40'}`}>
+                <div className="w-7 h-7 flex-shrink-0 rounded-lg bg-gray-700 flex items-center justify-center group-hover:bg-burgundy-900/30 transition-colors">
+                  <Icon size={13} className="text-burgundy-400" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-800 dark:text-gray-100 leading-tight">{item.name}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 leading-tight mt-0.5">{item.desc}</p>
+                  <p className="text-sm font-medium text-gray-100 leading-tight">{item.name}</p>
+                  <p className="text-xs text-gray-400 leading-tight mt-0.5">{item.desc}</p>
                 </div>
               </Link>
             )
@@ -296,9 +296,9 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50">
       <div className={`transition-all duration-300 ${
         isScrolled
-          ? 'mx-4 mt-3 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700'
-          : 'shadow-sm border-b border-gray-200 dark:border-gray-700'
-      } bg-white dark:bg-gray-900`}>
+          ? 'mx-4 mt-3 rounded-2xl shadow-xl border border-gray-700'
+          : 'shadow-sm border-b border-gray-700'
+      } bg-gray-900`}>
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-15" style={{ height: '60px' }}>
 
@@ -313,7 +313,7 @@ const Navbar = () => {
                   <path d="M13 10h8.5c2.2 0 3.9.5 5 1.5 1.1 1 1.6 2.3 1.6 3.9 0 1.1-.3 2-.8 2.7-.5.7-1.2 1.2-2.1 1.5 1.1.3 2 .9 2.6 1.7.7.8 1 1.9 1 3.1 0 1.8-.6 3.2-1.8 4.2-1.2 1-2.9 1.4-5.1 1.4H13V10zm4 8.6h4c.9 0 1.6-.2 2.1-.6.5-.4.7-1 .7-1.8 0-.8-.2-1.4-.7-1.8-.5-.4-1.2-.6-2.1-.6H17v4.8zm0 9.2h4.5c1 0 1.8-.2 2.3-.7.6-.5.8-1.1.8-2 0-.9-.3-1.6-.8-2-.5-.5-1.3-.7-2.3-.7H17v5.4z" fill="#fffcef"/>
                 </svg>
               </motion.div>
-              <span className="brand-font text-xl text-burgundy-600 dark:text-burgundy-400 group-hover:text-burgundy-700 transition-colors leading-none">
+              <span className="brand-font text-xl text-burgundy-400 group-hover:text-burgundy-300 transition-colors leading-none">
                 SayBonjour!
               </span>
             </Link>
@@ -340,7 +340,7 @@ const Navbar = () => {
                       transition={{ duration: 0.15 }}
                       onMouseEnter={() => clearTimeout(learnTimer.current)}
                       onMouseLeave={closeLearn}
-                      className="absolute top-full left-0 mt-2 z-50 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 p-5"
+                      className="absolute top-full left-0 mt-2 z-50 bg-gray-900 rounded-2xl shadow-2xl border border-gray-700 p-5"
                       style={{ width: '680px' }}
                     >
                       <div className="grid grid-cols-3 gap-6">
@@ -370,7 +370,7 @@ const Navbar = () => {
                       transition={{ duration: 0.15 }}
                       onMouseEnter={() => clearTimeout(resourcesTimer.current)}
                       onMouseLeave={closeResources}
-                      className="absolute top-full left-0 mt-2 z-50 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 p-5"
+                      className="absolute top-full left-0 mt-2 z-50 bg-gray-900 rounded-2xl shadow-2xl border border-gray-700 p-5"
                       style={{ width: '600px' }}
                     >
                       <div className="grid grid-cols-3 gap-6">
@@ -410,12 +410,12 @@ const Navbar = () => {
               <div className="relative" ref={searchRef}>
                 <div className={`flex items-center transition-all duration-300 rounded-xl border ${
                   isSearchOpen
-                    ? 'w-56 border-burgundy-400 dark:border-burgundy-500 bg-white dark:bg-gray-800'
-                    : 'w-9 border-transparent bg-gray-100 dark:bg-gray-800 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700'
+                    ? 'w-56 border-burgundy-500 bg-gray-800'
+                    : 'w-9 border-transparent bg-gray-800 cursor-pointer hover:bg-gray-700'
                 }`}>
                   <button
                     onClick={() => { setIsSearchOpen(true); setTimeout(() => searchInputRef.current?.focus(), 50) }}
-                    className="flex-shrink-0 w-9 h-9 flex items-center justify-center text-gray-500 dark:text-gray-400"
+                    className="flex-shrink-0 w-9 h-9 flex items-center justify-center text-gray-400"
                   >
                     <Search size={15} />
                   </button>
@@ -426,7 +426,7 @@ const Navbar = () => {
                       onChange={e => setSearchQuery(e.target.value)}
                       onKeyDown={handleSearchKey}
                       placeholder="Search..."
-                      className="flex-1 bg-transparent text-sm text-gray-800 dark:text-gray-100 placeholder-gray-400 outline-none pr-2"
+                      className="flex-1 bg-transparent text-sm text-gray-100 placeholder-gray-400 outline-none pr-2"
                     />
                   )}
                   {isSearchOpen && searchQuery && (
@@ -443,7 +443,7 @@ const Navbar = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -6 }}
                       transition={{ duration: 0.12 }}
-                      className="absolute top-full right-0 mt-2 w-80 bg-white dark:bg-gray-900 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-50 overflow-hidden"
+                      className="absolute top-full right-0 mt-2 w-80 bg-gray-900 rounded-xl shadow-2xl border border-gray-700 z-50 overflow-hidden"
                     >
                       {searchResults.length === 0 ? (
                         <div className="px-4 py-6 text-center text-sm text-gray-400">No results found</div>
@@ -451,18 +451,18 @@ const Navbar = () => {
                         <div className="py-2 max-h-80 overflow-y-auto">
                           {Object.entries(groupedResults).map(([category, items]) => (
                             <div key={category}>
-                              <div className="px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest text-burgundy-500 dark:text-burgundy-400 bg-gray-50 dark:bg-gray-800">
+                              <div className="px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest text-burgundy-400 bg-gray-800">
                                 {category}
                               </div>
                               {items.map(item => (
                                 <button key={item.href} onClick={() => handleSearchSelect(item.href)}
-                                  className="w-full text-left px-4 py-2.5 hover:bg-burgundy-50 dark:hover:bg-burgundy-900/20 transition-colors flex items-center gap-3">
+                                  className="w-full text-left px-4 py-2.5 hover:bg-burgundy-900/20 transition-colors flex items-center gap-3">
                                   <Search size={13} className="text-gray-400 flex-shrink-0" />
                                   <div>
-                                    <p className="text-sm font-medium text-gray-800 dark:text-gray-100">
+                                    <p className="text-sm font-medium text-gray-100">
                                       {highlightMatch(item.label, searchQuery)}
                                     </p>
-                                    <p className="text-xs text-gray-400 dark:text-gray-500">{item.desc}</p>
+                                    <p className="text-xs text-gray-500">{item.desc}</p>
                                   </div>
                                 </button>
                               ))}
@@ -478,7 +478,7 @@ const Navbar = () => {
               {/* Dark mode toggle */}
               <button
                 onClick={toggleTheme}
-                className="w-9 h-9 flex items-center justify-center rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                className="w-9 h-9 flex items-center justify-center rounded-xl text-gray-400 hover:bg-gray-800 transition-colors"
                 title={isDark ? 'Light mode' : 'Dark mode'}
               >
                 {isDark ? <Sun size={16} /> : <Moon size={16} />}
@@ -489,12 +489,12 @@ const Navbar = () => {
                 <div className="relative" ref={userMenuRef}>
                   <button
                     onClick={() => setIsUserOpen(o => !o)}
-                    className="flex items-center gap-2 px-3 py-2 rounded-xl bg-burgundy-50 dark:bg-burgundy-900/30 border border-burgundy-200 dark:border-burgundy-700/50 hover:bg-burgundy-100 dark:hover:bg-burgundy-900/50 transition-colors"
+                    className="flex items-center gap-2 px-3 py-2 rounded-xl bg-burgundy-900/30 border border-burgundy-700/50 hover:bg-burgundy-900/50 transition-colors"
                   >
                     <div className="w-6 h-6 rounded-lg bg-burgundy-600 text-cream-50 flex items-center justify-center text-xs font-bold">
                       {initials}
                     </div>
-                    <span className="text-sm font-medium text-burgundy-700 dark:text-cream-50 max-w-[72px] truncate">
+                    <span className="text-sm font-medium text-cream-50 max-w-[72px] truncate">
                       {user.name.split(' ')[0]}
                     </span>
                     <ChevronDown size={12} className={`text-gray-400 transition-transform ${isUserOpen ? 'rotate-180' : ''}`} />
@@ -506,24 +506,24 @@ const Navbar = () => {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: -8, scale: 0.96 }}
                         transition={{ duration: 0.13 }}
-                        className="absolute right-0 top-full mt-2 w-52 bg-white dark:bg-gray-900 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 z-50 py-2"
+                        className="absolute right-0 top-full mt-2 w-52 bg-gray-900 rounded-xl shadow-xl border border-gray-700 z-50 py-2"
                       >
-                        <div className="px-4 py-2 border-b border-gray-100 dark:border-gray-700 mb-1">
-                          <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">{user.name}</p>
+                        <div className="px-4 py-2 border-b border-gray-700 mb-1">
+                          <p className="text-sm font-semibold text-white truncate">{user.name}</p>
                           <p className="text-xs text-gray-400 truncate">{user.email}</p>
                           <p className="text-xs text-amber-500 font-medium mt-0.5">{xp} XP total</p>
                         </div>
                         <Link to="/profile" onClick={() => setIsUserOpen(false)}
-                          className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                          className="flex items-center gap-3 px-4 py-2 text-sm text-gray-200 hover:bg-gray-800 transition-colors">
                           <User size={14} /> My Profile
                         </Link>
                         <Link to="/daily-challenges" onClick={() => setIsUserOpen(false)}
-                          className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                          className="flex items-center gap-3 px-4 py-2 text-sm text-gray-200 hover:bg-gray-800 transition-colors">
                           <Zap size={14} /> Daily Challenges
                         </Link>
-                        <div className="border-t border-gray-100 dark:border-gray-700 mt-1 pt-1">
+                        <div className="border-t border-gray-700 mt-1 pt-1">
                           <button onClick={() => { logout(); setIsUserOpen(false) }}
-                            className="flex items-center gap-3 px-4 py-2 text-sm text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 w-full text-left transition-colors">
+                            className="flex items-center gap-3 px-4 py-2 text-sm text-red-400 hover:bg-red-900/20 w-full text-left transition-colors">
                             <LogOut size={14} /> Sign Out
                           </button>
                         </div>
@@ -564,28 +564,28 @@ const Navbar = () => {
             <motion.div
               initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.25 }}
-              className="lg:hidden overflow-hidden border-t border-gray-100 dark:border-gray-700"
+              className="lg:hidden overflow-hidden border-t border-gray-700"
             >
               <div className="px-4 py-4 space-y-1 max-h-[80vh] overflow-y-auto">
                 {/* Search (mobile) */}
-                <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-800 rounded-xl px-3 py-2 mb-3">
+                <div className="flex items-center gap-2 bg-gray-800 rounded-xl px-3 py-2 mb-3">
                   <Search size={14} className="text-gray-400 flex-shrink-0" />
                   <input
                     value={searchQuery}
                     onChange={e => setSearchQuery(e.target.value)}
                     onKeyDown={handleSearchKey}
                     placeholder="Search pages..."
-                    className="flex-1 bg-transparent text-sm text-gray-800 dark:text-gray-100 placeholder-gray-400 outline-none"
+                    className="flex-1 bg-transparent text-sm text-gray-100 placeholder-gray-400 outline-none"
                   />
                 </div>
                 {searchQuery.trim().length > 1 && searchResults.length > 0 && (
-                  <div className="mb-2 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
+                  <div className="mb-2 rounded-xl border border-gray-700 overflow-hidden">
                     {searchResults.slice(0, 5).map(item => (
                       <button key={item.href} onClick={() => { handleSearchSelect(item.href); setIsOpen(false) }}
-                        className="w-full text-left px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-800 flex gap-2 items-center border-b border-gray-50 dark:border-gray-700 last:border-0">
+                        className="w-full text-left px-4 py-2.5 hover:bg-gray-800 flex gap-2 items-center border-b border-gray-700 last:border-0">
                         <Search size={12} className="text-gray-400 flex-shrink-0" />
                         <div>
-                          <p className="text-sm font-medium text-gray-800 dark:text-gray-100">{item.label}</p>
+                          <p className="text-sm font-medium text-gray-100">{item.label}</p>
                           <p className="text-xs text-gray-400">{item.category}</p>
                         </div>
                       </button>
@@ -595,10 +595,10 @@ const Navbar = () => {
 
                 {/* User info / auth */}
                 {user ? (
-                  <div className="flex items-center gap-3 bg-burgundy-50 dark:bg-burgundy-900/20 rounded-xl px-4 py-3 mb-2">
+                  <div className="flex items-center gap-3 bg-burgundy-900/20 rounded-xl px-4 py-3 mb-2">
                     <div className="w-9 h-9 rounded-xl bg-burgundy-600 text-cream-50 flex items-center justify-center text-sm font-bold">{initials}</div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">{user.name}</p>
+                      <p className="text-sm font-semibold text-white truncate">{user.name}</p>
                       <p className="text-xs text-amber-500">{xp} XP · 🔥 {streak} day streak</p>
                     </div>
                     <button onClick={() => { logout(); setIsOpen(false) }} className="text-xs text-red-500 font-medium">Sign out</button>
@@ -618,7 +618,7 @@ const Navbar = () => {
                   { name: 'Favorites', href: '/favorites' },
                 ].map(item => (
                   <Link key={item.href} to={item.href} onClick={() => setIsOpen(false)}
-                    className={`flex items-center px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${isActive(item.href) ? 'bg-burgundy-50 dark:bg-burgundy-900/20 text-burgundy-600 dark:text-burgundy-400' : 'text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
+                    className={`flex items-center px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${isActive(item.href) ? 'bg-burgundy-900/20 text-burgundy-400' : 'text-gray-200 hover:bg-gray-800'}`}>
                     {item.name}
                   </Link>
                 ))}
@@ -634,8 +634,8 @@ const Navbar = () => {
                     const Icon = item.icon
                     return (
                       <Link key={item.href} to={item.href} onClick={() => setIsOpen(false)}
-                        className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm transition-all ${isActive(item.href) ? 'bg-burgundy-50 dark:bg-burgundy-900/20 text-burgundy-600 dark:text-burgundy-400' : 'text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
-                        <Icon size={15} className="text-burgundy-500 flex-shrink-0" />
+                        className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm transition-all ${isActive(item.href) ? 'bg-burgundy-900/20 text-burgundy-400' : 'text-gray-200 hover:bg-gray-800'}`}>
+                        <Icon size={15} className="text-burgundy-400 flex-shrink-0" />
                         {item.name}
                       </Link>
                     )
@@ -649,7 +649,7 @@ const Navbar = () => {
                     const Icon = item.icon
                     return (
                       <Link key={item.href} to={item.href} onClick={() => setIsOpen(false)}
-                        className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm transition-all ${isActive(item.href) ? 'bg-burgundy-50 dark:bg-burgundy-900/20 text-burgundy-600 dark:text-burgundy-400' : 'text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
+                        className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm transition-all ${isActive(item.href) ? 'bg-burgundy-900/20 text-burgundy-400' : 'text-gray-200 hover:bg-gray-800'}`}>
                         <Icon size={15} className="text-burgundy-500 flex-shrink-0" />
                         {item.name}
                       </Link>
