@@ -11,13 +11,27 @@ const defaultProgress = {
   badges: [],
   cefrLevel: 'A1',
   weeklyXP: [],
+  dailyXP: [],
+  skillXP: {
+    reading: 0,
+    grammar: 0,
+    vocabulary: 0,
+    games: 0,
+    challenges: 0,
+    stories: 0,
+  },
 }
 
 export const getProgress = () => {
   try {
     const stored = localStorage.getItem(PROGRESS_KEY)
     if (!stored) return { ...defaultProgress }
-    return { ...defaultProgress, ...JSON.parse(stored) }
+    const parsed = JSON.parse(stored)
+    return {
+      ...defaultProgress,
+      ...parsed,
+      skillXP: { ...defaultProgress.skillXP, ...(parsed.skillXP || {}) },
+    }
   } catch {
     return { ...defaultProgress }
   }
@@ -30,28 +44,65 @@ export const saveProgress = (progress) => {
   } catch {}
 }
 
+const SKILL_MAP = {
+  lesson_read: 'reading',
+  reading_comprehension: 'reading',
+  quiz_completed: 'grammar',
+  grammar_quiz: 'grammar',
+  business_quiz: 'grammar',
+  slang_quiz: 'grammar',
+  word_learned: 'vocabulary',
+  vocabulary_review: 'vocabulary',
+  word_match: 'games',
+  typing_race: 'games',
+  sentence_builder: 'games',
+  daily_login: 'challenges',
+  daily_challenge: 'challenges',
+  interactive_story: 'stories',
+  story_complete: 'stories',
+}
+
+export const getXPMultiplier = (streak) => {
+  if (streak >= 7) return 3
+  if (streak >= 3) return 2
+  return 1
+}
+
 export const addXP = (amount, reason = '') => {
   const progress = getProgress()
-  progress.xp += amount
 
-  // Track weekly XP
+  const multiplier = getXPMultiplier(progress.streak)
+  const skipMultiplier = ['daily_login'].includes(reason)
+  const finalAmount = skipMultiplier ? amount : amount * multiplier
+
+  progress.xp += finalAmount
+
   const today = new Date().toISOString().split('T')[0]
   const weeklyEntry = progress.weeklyXP.find(e => e.date === today)
   if (weeklyEntry) {
-    weeklyEntry.xp += amount
+    weeklyEntry.xp += finalAmount
   } else {
-    progress.weeklyXP = [...(progress.weeklyXP || []).slice(-6), { date: today, xp: amount }]
+    progress.weeklyXP = [...(progress.weeklyXP || []).slice(-13), { date: today, xp: finalAmount }]
   }
 
-  // Level up every 500 XP
+  const dailyEntry = (progress.dailyXP || []).find(e => e.date === today)
+  if (dailyEntry) {
+    dailyEntry.xp += finalAmount
+  } else {
+    progress.dailyXP = [...(progress.dailyXP || []).slice(-27), { date: today, xp: finalAmount }]
+  }
+
+  const skill = SKILL_MAP[reason]
+  if (skill) {
+    if (!progress.skillXP) progress.skillXP = { ...defaultProgress.skillXP }
+    progress.skillXP[skill] = (progress.skillXP[skill] || 0) + finalAmount
+  }
+
   progress.level = Math.floor(progress.xp / 500) + 1
-
-  // Update streak
   updateStreak(progress)
-
   checkBadges(progress)
   saveProgress(progress)
-  return progress
+  return { progress, multiplier: skipMultiplier ? 1 : multiplier, earned: finalAmount }
 }
 
 const updateStreak = (progress) => {
@@ -79,6 +130,7 @@ const BADGES = [
   { id: 'quiz_10', name: 'Quiz Champion', description: 'Completed 10 quizzes', icon: '🏆', quizzesRequired: 10 },
   { id: 'xp_100', name: 'XP Earner', description: 'Earned 100 XP', icon: '⭐', xpRequired: 100 },
   { id: 'xp_1000', name: 'XP Master', description: 'Earned 1000 XP', icon: '🌟', xpRequired: 1000 },
+  { id: 'xp_5000', name: 'XP Legend', description: 'Earned 5000 XP', icon: '🚀', xpRequired: 5000 },
 ]
 
 const checkBadges = (progress) => {
@@ -88,7 +140,7 @@ const checkBadges = (progress) => {
     if (badge.wordsRequired && progress.totalWordsLearned >= badge.wordsRequired) earned = true
     if (badge.streakRequired && progress.streak >= badge.streakRequired) earned = true
     if (badge.quizzesRequired && progress.totalQuizzesTaken >= badge.quizzesRequired) earned = true
-    if (badge.xpRequired && progress.xp >= badge.xpRequired) earned = true
+    if (badge.xpRequired && badge.xpRequired > 0 && progress.xp >= badge.xpRequired) earned = true
     if (earned) progress.badges.push(badge.id)
   })
 }
@@ -96,6 +148,7 @@ const checkBadges = (progress) => {
 export const recordQuiz = () => {
   const progress = getProgress()
   progress.totalQuizzesTaken += 1
+  saveProgress(progress)
   addXP(25, 'quiz_completed')
 }
 

@@ -73,7 +73,22 @@ const Navbar = () => {
       items: [
         { name: 'Reading Comprehension', href: '/reading', icon: BookOpenCheck, description: 'A1–B2 graded passages' },
         { name: 'Daily Challenges', href: '/daily-challenges', icon: Zap, description: 'New challenges every day' },
+        { name: 'Interactive Stories', href: '/stories', icon: BookOpen, description: 'Choose-your-path French' },
+        { name: 'Sentence Builder', href: '/sentence-builder', icon: FileText, description: 'Arrange & fill-in-blank' },
+      ]
+    },
+    {
+      category: 'Mini Games',
+      items: [
         { name: 'Word Match Game', href: '/word-match', icon: Gamepad2, description: 'Match French & English words' },
+        { name: 'Typing Race', href: '/typing-race', icon: Zap, description: 'Type translations fast!' },
+      ]
+    },
+    {
+      category: 'Specialist French',
+      items: [
+        { name: 'Business French', href: '/business-french', icon: GraduationCap, description: 'Professional vocabulary & dialogues' },
+        { name: 'Slang & Informal', href: '/slang-french', icon: MessageCircle, description: 'Street French & verlan' },
       ]
     }
   ]

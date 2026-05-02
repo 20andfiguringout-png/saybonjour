@@ -28,6 +28,11 @@ import Onboarding from './pages/Onboarding'
 import DailyChallenges from './pages/DailyChallenges'
 import WordMatch from './pages/WordMatch'
 import ReadingComprehension from './pages/ReadingComprehension'
+import TypingRace from './pages/TypingRace'
+import SentenceBuilder from './pages/SentenceBuilder'
+import BusinessFrench from './pages/BusinessFrench'
+import SlangFrench from './pages/SlangFrench'
+import InteractiveStory from './pages/InteractiveStory'
 import { claimDailyLoginReward } from './utils/progress'
 
 const DailyLoginReward = () => {
@@ -79,6 +84,11 @@ function App() {
                     <Route path="/daily-challenges" element={<DailyChallenges />} />
                     <Route path="/word-match" element={<WordMatch />} />
                     <Route path="/reading" element={<ReadingComprehension />} />
+                    <Route path="/typing-race" element={<TypingRace />} />
+                    <Route path="/sentence-builder" element={<SentenceBuilder />} />
+                    <Route path="/business-french" element={<BusinessFrench />} />
+                    <Route path="/slang-french" element={<SlangFrench />} />
+                    <Route path="/stories" element={<InteractiveStory />} />
                   </Routes>
                 </main>
               </div>
