@@ -28,6 +28,8 @@ import Vocabulary from './pages/Vocabulary'
 import Progress from './pages/Progress'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
+import ForgotPassword from './pages/ForgotPassword'
+import ResetPassword from './pages/ResetPassword'
 import Profile from './pages/Profile'
 import Onboarding from './pages/Onboarding'
 import DailyChallenges from './pages/DailyChallenges'
@@ -90,6 +92,8 @@ function App() {
                     <Route path="/progress" element={<Progress />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
+                    <Route path="/forgot-password" element={<ForgotPassword />} />
+                    <Route path="/reset-password" element={<ResetPassword />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/onboarding" element={<Onboarding />} />
                     <Route path="/daily-challenges" element={<DailyChallenges />} />

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Mail, Lock, Eye, EyeOff, LogIn } from 'lucide-react'
 import { useUser } from '../context/UserContext'
@@ -52,7 +52,7 @@ export default function Login() {
   return (
     <>
       <SEO title="Log In | SayBonjour" url="/login" />
-      <div className="min-h-screen flex">
+      <div className="min-h-screen flex bg-white dark:bg-dark-warm-100">
 
         {/* ── Left panel: AI illustration ── */}
         <div className="hidden lg:block relative overflow-hidden" style={{ width: '58%' }}>
@@ -113,7 +113,7 @@ export default function Login() {
               <div>
                 <div className="flex items-center justify-between mb-1.5">
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
-                  <span className="text-xs text-burgundy-600 dark:text-burgundy-400 cursor-pointer hover:underline">Forgot password?</span>
+                  <Link to="/forgot-password" className="text-xs text-burgundy-600 dark:text-burgundy-400 hover:underline">Forgot password?</Link>
                 </div>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />

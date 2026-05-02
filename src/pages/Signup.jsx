@@ -54,7 +54,7 @@ export default function Signup() {
   return (
     <>
       <SEO title="Create Account | SayBonjour" url="/signup" />
-      <div className="min-h-screen flex">
+      <div className="min-h-screen flex bg-white dark:bg-dark-warm-100">
 
         {/* ── Left panel: AI illustration ── */}
         <div className="hidden lg:block relative overflow-hidden" style={{ width: '58%' }}>

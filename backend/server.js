@@ -988,6 +988,8 @@ const initUsersTable = () => {
   addCol('oauth_provider', 'TEXT DEFAULT NULL')
   addCol('oauth_id', 'TEXT DEFAULT NULL')
   addCol('progress_data', 'TEXT DEFAULT NULL')
+  addCol('reset_token', 'TEXT DEFAULT NULL')
+  addCol('reset_token_expiry', 'INTEGER DEFAULT NULL')
 
   db.prepare(`
     CREATE TABLE IF NOT EXISTS study_history (
@@ -1158,6 +1160,52 @@ app.put('/api/users/change-password', authenticateUser, (req, res) => {
     res.json({ message: 'Password changed successfully' })
   } catch (e) {
     res.status(500).json({ message: 'Failed to change password' })
+  }
+})
+
+app.post('/api/users/forgot-password', (req, res) => {
+  const { email } = req.body
+  if (!email) return res.status(400).json({ message: 'Email is required' })
+  try {
+    const db = new Database(path.join(__dirname, 'french_learning.db'))
+    const user = db.prepare('SELECT id FROM users WHERE email = ?').get(email.toLowerCase())
+    if (!user) {
+      db.close()
+      // Don't reveal whether email exists — but since no email service, give the link anyway to be usable
+      return res.status(404).json({ message: 'No account found with that email address.' })
+    }
+    const token = crypto.randomBytes(32).toString('hex')
+    const expiry = Date.now() + 60 * 60 * 1000 // 1 hour
+    db.prepare('UPDATE users SET reset_token = ?, reset_token_expiry = ? WHERE id = ?').run(token, expiry, user.id)
+    db.close()
+    const resetUrl = `/reset-password?token=${token}`
+    res.json({ message: 'Reset link generated', resetUrl })
+  } catch (e) {
+    console.error('Forgot password error:', e)
+    res.status(500).json({ message: 'Failed to generate reset link' })
+  }
+})
+
+app.post('/api/users/reset-password', (req, res) => {
+  const { token, password } = req.body
+  if (!token || !password) return res.status(400).json({ message: 'Token and password are required' })
+  if (password.length < 6) return res.status(400).json({ message: 'Password must be at least 6 characters' })
+  try {
+    const db = new Database(path.join(__dirname, 'french_learning.db'))
+    const user = db.prepare('SELECT id, reset_token_expiry FROM users WHERE reset_token = ?').get(token)
+    if (!user) { db.close(); return res.status(400).json({ message: 'Invalid reset link. Please request a new one.' }) }
+    if (!user.reset_token_expiry || Date.now() > user.reset_token_expiry) {
+      db.prepare('UPDATE users SET reset_token = NULL, reset_token_expiry = NULL WHERE id = ?').run(user.id)
+      db.close()
+      return res.status(400).json({ message: 'Reset link has expired. Please request a new one.' })
+    }
+    const newHash = hashUserPassword(password)
+    db.prepare('UPDATE users SET password_hash = ?, reset_token = NULL, reset_token_expiry = NULL, updated_at = CURRENT_TIMESTAMP WHERE id = ?').run(newHash, user.id)
+    db.close()
+    res.json({ message: 'Password updated successfully' })
+  } catch (e) {
+    console.error('Reset password error:', e)
+    res.status(500).json({ message: 'Failed to reset password' })
   }
 })
 
