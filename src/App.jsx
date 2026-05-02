@@ -70,7 +70,7 @@ function App() {
               <DailyLoginReward />
               <div className="min-h-screen bg-cream-50 dark:bg-dark-warm-300 transition-colors duration-300">
                 <Navbar />
-                <main className="pt-20">
+                <main className="pt-[60px]">
                   <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/resources" element={<Resources />} />

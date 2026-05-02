@@ -319,7 +319,7 @@ const Grammar = () => {
         url="/grammar"
       />
 
-      <div className="flex flex-col h-[calc(100vh-5rem)] bg-gray-50 dark:bg-dark-warm-300">
+      <div className="flex flex-col h-[calc(100vh-60px)] bg-gray-50 dark:bg-dark-warm-300">
 
         {/* ── Top bar ── */}
         <div className="bg-gradient-to-r from-burgundy-800 to-burgundy-600 text-cream-50 px-4 py-5 flex items-center gap-4 shrink-0">
