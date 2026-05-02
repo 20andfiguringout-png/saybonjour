@@ -52,7 +52,7 @@ export default function Login() {
   return (
     <>
       <SEO title="Log In | SayBonjour!" url="/login" noindex />
-      <div className="min-h-screen flex bg-white dark:bg-dark-warm-100">
+      <div className="min-h-[calc(100vh-60px)] flex bg-white dark:bg-dark-warm-100">
 
         {/* ── Left panel: AI illustration ── */}
         <div className="hidden lg:block relative overflow-hidden" style={{ width: '58%' }}>
