@@ -296,9 +296,9 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50">
       <div className={`transition-all duration-300 ${
         isScrolled
-          ? 'mx-4 mt-3 rounded-2xl shadow-xl border border-gray-700'
-          : 'shadow-sm border-b border-gray-700'
-      } bg-gray-900`}>
+          ? 'mx-4 mt-3 rounded-2xl shadow-xl border border-gray-700 bg-gray-900'
+          : 'border-b border-white/10 bg-transparent'
+      }`}>
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-15" style={{ height: '60px' }}>
 
