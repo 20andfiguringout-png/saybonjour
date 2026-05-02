@@ -77,6 +77,7 @@ const Conjugate = () => {
   const [suggestions, setSuggestions]     = useState([])
   const [sugLoading, setSugLoading]       = useState(false)
   const [showSuggestions, setShowSuggestions] = useState(false)
+  const [activeIndex, setActiveIndex] = useState(-1)
   const [expandedTenses, setExpandedTenses] = useState(['présent', 'passé composé', 'imparfait', 'futur simple'])
 
   // Browse panel state
@@ -147,14 +148,46 @@ const Conjugate = () => {
   const handleSearchChange = (e) => {
     const val = e.target.value
     setSearch(val)
+    setActiveIndex(-1)
     setShowSuggestions(true)
     fetchSuggestions(val.toLowerCase().trim())
   }
 
   const handleSearchKeyDown = (e) => {
-    if (e.key === 'Enter' && search.trim()) {
-      handleSelectVerb(search.trim().toLowerCase())
+    if (!showSuggestions || suggestions.length === 0) {
+      if (e.key === 'Enter' && search.trim()) handleSelectVerb(search.trim().toLowerCase())
+      return
     }
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      setActiveIndex(i => Math.min(i + 1, suggestions.length - 1))
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      setActiveIndex(i => Math.max(i - 1, -1))
+    } else if (e.key === 'Enter') {
+      e.preventDefault()
+      if (activeIndex >= 0 && suggestions[activeIndex]) {
+        handleSelectVerb(suggestions[activeIndex].infinitive)
+      } else if (search.trim()) {
+        handleSelectVerb(search.trim().toLowerCase())
+      }
+    } else if (e.key === 'Escape') {
+      setShowSuggestions(false)
+      setActiveIndex(-1)
+    }
+  }
+
+  const highlightMatch = (text, query) => {
+    if (!query) return <span>{text}</span>
+    const idx = text.toLowerCase().indexOf(query.toLowerCase())
+    if (idx === -1) return <span>{text}</span>
+    return (
+      <span>
+        {text.slice(0, idx)}
+        <span className="font-bold text-gray-900">{text.slice(idx, idx + query.length)}</span>
+        {text.slice(idx + query.length)}
+      </span>
+    )
   }
 
   const toggleTense = (tense) => setExpandedTenses(prev =>
@@ -208,18 +241,39 @@ const Conjugate = () => {
                   )}
                 </div>
                 <AnimatePresence>
-                  {showSuggestions && suggestions.length > 0 && (
+                  {showSuggestions && search.trim().length > 0 && (suggestions.length > 0 || sugLoading) && (
                     <motion.div
-                      initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
-                      className="absolute top-full mt-2 w-full bg-white rounded-xl shadow-xl border border-cream-200 z-50 overflow-hidden"
+                      initial={{ opacity: 0, y: -4, scale: 0.99 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -4, scale: 0.99 }}
+                      transition={{ duration: 0.1 }}
+                      className="absolute top-full mt-1 w-full bg-white rounded-2xl shadow-2xl border border-gray-200 z-50 overflow-hidden py-1"
                     >
-                      {suggestions.map(v => (
-                        <button key={v.infinitive} onMouseDown={() => handleSelectVerb(v.infinitive)}
-                          className="w-full text-left px-4 py-2.5 hover:bg-burgundy-50 text-gray-800 flex justify-between items-center text-sm">
-                          <span className="font-medium">{v.infinitive}</span>
-                          <span className="text-gray-500 text-xs">{v.english || v.verb_group}</span>
-                        </button>
-                      ))}
+                      {sugLoading && suggestions.length === 0 ? (
+                        <div className="px-4 py-3 flex items-center gap-3 text-sm text-gray-400">
+                          <Loader2 className="w-4 h-4 animate-spin flex-shrink-0" />
+                          Searching...
+                        </div>
+                      ) : (
+                        suggestions.map((v, i) => (
+                          <button
+                            key={v.infinitive}
+                            onMouseDown={() => handleSelectVerb(v.infinitive)}
+                            onMouseEnter={() => setActiveIndex(i)}
+                            className={`w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm transition-colors ${
+                              i === activeIndex ? 'bg-burgundy-50' : 'hover:bg-gray-50'
+                            }`}
+                          >
+                            <Search className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
+                            <span className="flex-1 text-gray-700">
+                              {highlightMatch(v.infinitive, search.trim())}
+                            </span>
+                            {v.english && (
+                              <span className="text-gray-400 text-xs italic flex-shrink-0">{v.english}</span>
+                            )}
+                          </button>
+                        ))
+                      )}
                     </motion.div>
                   )}
                 </AnimatePresence>
