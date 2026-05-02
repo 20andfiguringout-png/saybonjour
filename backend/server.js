@@ -1389,6 +1389,105 @@ app.get('/api/verbs/:infinitive', (req, res) => {
   }
 })
 
+// POST /api/verbs/request  — request a missing verb (strict rate limit: 3/15min per IP)
+const verbRequestLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 3,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many verb requests. Please wait 15 minutes before trying again.' },
+  keyGenerator: (req) => req.ip || 'unknown',
+})
+
+app.post('/api/verbs/request', verbRequestLimiter, async (req, res) => {
+  const { infinitive } = req.body || {}
+  if (!infinitive || typeof infinitive !== 'string') {
+    return res.status(400).json({ error: 'Please provide a verb infinitive.' })
+  }
+  const clean = infinitive.trim().toLowerCase()
+  if (!/^[a-zàâäéèêëîïôùûüçœæ''\- ]{2,50}$/i.test(clean)) {
+    return res.status(400).json({ error: 'Invalid verb format. Only French letters allowed (2–50 chars).' })
+  }
+
+  try {
+    const db = new Database(path.join(__dirname, 'french_learning.db'))
+
+    // Check if already exists
+    const existing = db.prepare('SELECT infinitive, english, verb_group, is_irregular, frequency FROM verbs WHERE infinitive = ?').get(clean)
+    if (existing) {
+      db.close()
+      return res.status(409).json({
+        status: 'already_exists',
+        message: `"${clean}" is already in the database.`,
+        verb: existing
+      })
+    }
+
+    // Spawn Python lookup using full path to python3
+    const PYTHON = process.env.PYTHON_PATH ||
+      '/home/runner/workspace/.pythonlibs/bin/python3'
+    const { spawn } = await import('child_process')
+    const py = spawn(PYTHON, [path.join(__dirname, 'lookup_verb.py'), clean])
+
+    let stdout = ''
+    let stderr = ''
+    let responded = false
+    py.stdout.on('data', (d) => { stdout += d.toString() })
+    py.stderr.on('data', (d) => { stderr += d.toString() })
+
+    py.on('error', (e) => {
+      if (responded) return
+      responded = true
+      try { db.close() } catch {}
+      console.error('[verb-request] spawn error:', e.message)
+      res.status(500).json({ error: 'Conjugation engine unavailable.' })
+    })
+
+    py.on('close', (code) => {
+      if (responded) return
+      responded = true
+      try {
+        const raw = stdout.trim()
+        if (!raw) throw new Error('empty output')
+        const data = JSON.parse(raw)
+        if (data.error) {
+          try { db.close() } catch {}
+          return res.status(404).json({ error: `"${clean}" was not found in the conjugation engine. It may be misspelled or extremely rare.` })
+        }
+
+        // Insert into DB
+        db.prepare(`INSERT OR REPLACE INTO verbs
+          (infinitive, english, verb_group, frequency, is_irregular,
+           tense_present, tense_imparfait, tense_futur, tense_passe_simple,
+           tense_conditionnel, tense_subjonctif, tense_imperatif, tense_passe_compose,
+           participe_passe, participe_present, notes)
+          VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`)
+          .run(
+            data.infinitive, data.english || '', data.verb_group, data.frequency, data.is_irregular,
+            data.tense_present, data.tense_imparfait, data.tense_futur, data.tense_passe_simple,
+            data.tense_conditionnel, data.tense_subjonctif, data.tense_imperatif, data.tense_passe_compose,
+            data.participe_passe || '', data.participe_present || '', 'community-requested'
+          )
+        try { db.close() } catch {}
+
+        console.log(`[verb-request] Added "${clean}" to database`)
+        res.json({
+          status: 'added',
+          message: `"${clean}" has been added to the database! You can now search for it.`,
+          verb: { infinitive: clean, verb_group: data.verb_group, is_irregular: data.is_irregular }
+        })
+      } catch (e) {
+        try { db.close() } catch {}
+        console.error('[verb-request] parse error:', e.message, '| stdout:', stdout.slice(0, 200))
+        res.status(500).json({ error: 'Failed to process conjugation data.' })
+      }
+    })
+  } catch (e) {
+    console.error('[verb-request] error:', e)
+    res.status(500).json({ error: 'Internal server error.' })
+  }
+})
+
 // ─── End Verb Conjugation Routes ──────────────────────────────────────────────
 
 // Error handling middleware

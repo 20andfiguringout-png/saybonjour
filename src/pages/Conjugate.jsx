@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { Search, BookOpen, ChevronDown, ChevronUp, Info, Loader2, AlertCircle } from 'lucide-react'
+import { Search, BookOpen, ChevronDown, ChevronUp, Info, Loader2, AlertCircle, PlusCircle, CheckCircle2, XCircle } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import SEO from '../components/SEO'
 
@@ -77,6 +77,43 @@ const Conjugate = () => {
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [activeIndex, setActiveIndex] = useState(-1)
   const [expandedTenses, setExpandedTenses] = useState(['présent', 'passé composé', 'imparfait', 'futur simple'])
+
+  const [reqVerb, setReqVerb]       = useState('')
+  const [reqStatus, setReqStatus]   = useState('idle')
+  const [reqMsg, setReqMsg]         = useState('')
+
+  const handleVerbRequest = async (e) => {
+    e.preventDefault()
+    const v = reqVerb.trim().toLowerCase()
+    if (!v) return
+    setReqStatus('loading')
+    setReqMsg('')
+    try {
+      const res = await fetch(`${API}/verbs/request`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ infinitive: v })
+      })
+      const data = await res.json()
+      if (res.status === 409) {
+        setReqStatus('exists')
+        setReqMsg(data.message || `"${v}" is already in the database — try searching for it!`)
+      } else if (res.status === 429) {
+        setReqStatus('error')
+        setReqMsg(data.error || 'Too many requests. Please wait 15 minutes.')
+      } else if (!res.ok) {
+        setReqStatus('error')
+        setReqMsg(data.error || 'Something went wrong. Please try again.')
+      } else {
+        setReqStatus('success')
+        setReqMsg(data.message || `"${v}" has been added! You can now search for it.`)
+        setReqVerb('')
+      }
+    } catch {
+      setReqStatus('error')
+      setReqMsg('Network error. Please check your connection.')
+    }
+  }
 
   const suggestTimer = useRef(null)
 
@@ -385,6 +422,95 @@ const Conjugate = () => {
               </div>
             </motion.div>
           )}
+        </div>
+
+        {/* Can't find a verb? Request panel */}
+        <div className="max-w-4xl mx-auto px-4 pb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="bg-white dark:bg-dark-warm-100 rounded-2xl border border-dashed border-burgundy-200 dark:border-burgundy-800/50 p-6"
+          >
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-burgundy-50 dark:bg-burgundy-900/30 flex items-center justify-center">
+                <PlusCircle className="w-5 h-5 text-burgundy-600 dark:text-burgundy-400" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-semibold text-gray-800 dark:text-cream-50 text-sm mb-0.5">
+                  Can't find the verb you need?
+                </h3>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">
+                  Submit any French infinitive and we'll look it up and add it to the database for you.
+                  <span className="ml-1 text-gray-400 dark:text-gray-500">(Limit: 3 requests per 15 min)</span>
+                </p>
+
+                <form onSubmit={handleVerbRequest} className="flex gap-2.5">
+                  <input
+                    type="text"
+                    value={reqVerb}
+                    onChange={(e) => { setReqVerb(e.target.value); setReqStatus('idle'); setReqMsg('') }}
+                    placeholder="e.g. aboutir, se méfier, réjouir..."
+                    disabled={reqStatus === 'loading'}
+                    className="flex-1 pl-4 pr-4 py-2.5 rounded-xl border border-gray-200 dark:border-dark-warm-50 bg-gray-50 dark:bg-dark-warm-200 text-sm text-gray-800 dark:text-cream-50 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-burgundy-400 disabled:opacity-50"
+                  />
+                  <button
+                    type="submit"
+                    disabled={reqStatus === 'loading' || !reqVerb.trim()}
+                    className="px-5 py-2.5 rounded-xl bg-burgundy-600 hover:bg-burgundy-700 text-white text-sm font-medium disabled:opacity-50 transition-colors flex items-center gap-2 whitespace-nowrap"
+                  >
+                    {reqStatus === 'loading'
+                      ? <><Loader2 className="w-4 h-4 animate-spin" /> Checking...</>
+                      : <><PlusCircle className="w-4 h-4" /> Submit</>
+                    }
+                  </button>
+                </form>
+
+                <AnimatePresence>
+                  {reqMsg && (
+                    <motion.div
+                      key={reqMsg}
+                      initial={{ opacity: 0, y: -6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className={`mt-3 flex items-center gap-2 text-sm rounded-xl px-3.5 py-2.5 ${
+                        reqStatus === 'success'
+                          ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'
+                          : reqStatus === 'exists'
+                          ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300'
+                          : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300'
+                      }`}
+                    >
+                      {reqStatus === 'success' || reqStatus === 'exists'
+                        ? <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
+                        : <XCircle className="w-4 h-4 flex-shrink-0" />
+                      }
+                      <span className="flex-1">{reqMsg}</span>
+                      {reqStatus === 'success' && (
+                        <button
+                          type="button"
+                          onClick={() => handleSelectVerb(reqVerb || '')}
+                          className="text-xs underline whitespace-nowrap font-medium"
+                        >
+                          Search it now →
+                        </button>
+                      )}
+                      {reqStatus === 'exists' && (
+                        <button
+                          type="button"
+                          onClick={() => { const v = reqVerb.trim().toLowerCase(); setReqVerb(''); setReqStatus('idle'); setReqMsg(''); handleSelectVerb(v) }}
+                          className="text-xs underline whitespace-nowrap font-medium"
+                        >
+                          View it →
+                        </button>
+                      )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </div>
+          </motion.div>
         </div>
 
       </div>
