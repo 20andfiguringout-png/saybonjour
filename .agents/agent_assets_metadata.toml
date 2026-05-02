@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "NG5acVRL0RMhtyV6miKYY"
+uri = "file://summary.md"
+type = "text"
+title = "SayBonjour! Feature Summary"
