@@ -27,6 +27,10 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const app = express()
+
+// Trust Replit's proxy (required for rate limiting and IP detection)
+app.set('trust proxy', 1)
+
 const PORT = process.env.PORT || 3001
 const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(64).toString('hex')
 
