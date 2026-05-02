@@ -113,3 +113,23 @@ export const recordLessonRead = () => {
 export const getAllBadges = () => BADGES
 
 export const getXPForNextLevel = (level) => level * 500
+
+export const RANKS = [
+  { name: 'Bronze', min: 0, max: 499, color: 'text-amber-700', bg: 'bg-amber-100', icon: '🥉' },
+  { name: 'Silver', min: 500, max: 1499, color: 'text-gray-600', bg: 'bg-gray-100', icon: '🥈' },
+  { name: 'Gold', min: 1500, max: 2999, color: 'text-yellow-600', bg: 'bg-yellow-100', icon: '🥇' },
+  { name: 'Platinum', min: 3000, max: 5999, color: 'text-cyan-700', bg: 'bg-cyan-100', icon: '💎' },
+  { name: 'Diamond', min: 6000, max: Infinity, color: 'text-blue-700', bg: 'bg-blue-100', icon: '💠' },
+]
+
+export const getRank = (xp) => RANKS.find(r => xp >= r.min && xp <= r.max) || RANKS[0]
+
+export const claimDailyLoginReward = () => {
+  const today = new Date().toISOString().split('T')[0]
+  const key = 'saybonjour_daily_login'
+  const last = localStorage.getItem(key)
+  if (last === today) return null
+  localStorage.setItem(key, today)
+  addXP(10, 'daily_login')
+  return 10
+}

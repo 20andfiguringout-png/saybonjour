@@ -118,16 +118,19 @@ app.use(cors({
   origin: [
     'http://localhost:5173',
     'http://localhost:5174',
+    'http://localhost:5000',
     'http://127.0.0.1:5173',
     'http://127.0.0.1:5174',
     /\.loca\.lt$/, // Allow all localtunnel domains
     /\.ngrok\.io$/, // Allow ngrok domains
     /\.tunnel\.me$/, // Allow tunnel.me domains
+    /\.replit\.dev$/, // Allow Replit dev domains
+    /\.repl\.co$/, // Allow Replit domains
     'https://bright-moles-train.loca.lt' // Specific tunnel domain
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'X-User-Token']
 }))
 
 // Helper function to read JSON files
@@ -931,6 +934,122 @@ app.delete('/api/phrase-sections/:id', authenticateToken, (req, res) => {
     res.status(500).json({ message: 'Database error' })
   }
 })
+
+// ─── User Account Routes ──────────────────────────────────────────────────────
+
+const USER_JWT_SECRET = process.env.USER_JWT_SECRET || crypto.randomBytes(32).toString('hex')
+
+const initUsersTable = () => {
+  const db = new Database(path.join(__dirname, 'french_learning.db'))
+  db.prepare(`
+    CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      email TEXT UNIQUE NOT NULL,
+      password_hash TEXT NOT NULL,
+      cefr_level TEXT DEFAULT 'A1',
+      goal TEXT DEFAULT '',
+      daily_goal_mins INTEGER DEFAULT 10,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `).run()
+  db.close()
+}
+
+try { initUsersTable() } catch (e) { console.error('Users table init error:', e.message) }
+
+const hashUserPassword = (password) =>
+  crypto.pbkdf2Sync(password, 'user_salt_v1', 10000, 64, 'sha512').toString('hex')
+
+const verifyUserPassword = (password, hash) =>
+  crypto.timingSafeEqual(
+    Buffer.from(hashUserPassword(password), 'hex'),
+    Buffer.from(hash, 'hex')
+  )
+
+const authenticateUser = (req, res, next) => {
+  const token = req.headers['x-user-token']
+  if (!token) return res.status(401).json({ message: 'Authentication required' })
+  try {
+    const decoded = jwt.verify(token, USER_JWT_SECRET)
+    req.userId = decoded.userId
+    next()
+  } catch {
+    return res.status(401).json({ message: 'Invalid or expired token' })
+  }
+}
+
+const userRegisterLimiter = rateLimit({ windowMs: 60 * 60 * 1000, max: 10 })
+
+app.post('/api/users/register', userRegisterLimiter, (req, res) => {
+  const { name, email, password } = req.body
+  if (!name || !email || !password) return res.status(400).json({ message: 'Name, email and password required' })
+  if (password.length < 6) return res.status(400).json({ message: 'Password must be at least 6 characters' })
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ message: 'Invalid email address' })
+  try {
+    const db = new Database(path.join(__dirname, 'french_learning.db'))
+    const existing = db.prepare('SELECT id FROM users WHERE email = ?').get(email.toLowerCase())
+    if (existing) { db.close(); return res.status(409).json({ message: 'An account with this email already exists' }) }
+    const hash = hashUserPassword(password)
+    const result = db.prepare('INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)').run(name.trim(), email.toLowerCase(), hash)
+    const user = db.prepare('SELECT id, name, email, cefr_level, goal, daily_goal_mins, created_at FROM users WHERE id = ?').get(result.lastInsertRowid)
+    db.close()
+    const token = jwt.sign({ userId: user.id }, USER_JWT_SECRET, { expiresIn: '30d' })
+    res.status(201).json({ token, user })
+  } catch (e) {
+    console.error('Register error:', e)
+    res.status(500).json({ message: 'Registration failed' })
+  }
+})
+
+app.post('/api/users/login', (req, res) => {
+  const { email, password } = req.body
+  if (!email || !password) return res.status(400).json({ message: 'Email and password required' })
+  try {
+    const db = new Database(path.join(__dirname, 'french_learning.db'))
+    const user = db.prepare('SELECT * FROM users WHERE email = ?').get(email.toLowerCase())
+    db.close()
+    if (!user) return res.status(401).json({ message: 'Invalid email or password' })
+    let valid = false
+    try { valid = verifyUserPassword(password, user.password_hash) } catch { valid = false }
+    if (!valid) return res.status(401).json({ message: 'Invalid email or password' })
+    const token = jwt.sign({ userId: user.id }, USER_JWT_SECRET, { expiresIn: '30d' })
+    const { password_hash, ...safeUser } = user
+    res.json({ token, user: safeUser })
+  } catch (e) {
+    console.error('Login error:', e)
+    res.status(500).json({ message: 'Login failed' })
+  }
+})
+
+app.get('/api/users/profile', authenticateUser, (req, res) => {
+  try {
+    const db = new Database(path.join(__dirname, 'french_learning.db'))
+    const user = db.prepare('SELECT id, name, email, cefr_level, goal, daily_goal_mins, created_at FROM users WHERE id = ?').get(req.userId)
+    db.close()
+    if (!user) return res.status(404).json({ message: 'User not found' })
+    res.json({ user })
+  } catch (e) {
+    res.status(500).json({ message: 'Failed to fetch profile' })
+  }
+})
+
+app.put('/api/users/profile', authenticateUser, (req, res) => {
+  const { name, goal, cefr_level, daily_goal_mins } = req.body
+  try {
+    const db = new Database(path.join(__dirname, 'french_learning.db'))
+    db.prepare(`UPDATE users SET name = COALESCE(?, name), goal = COALESCE(?, goal), cefr_level = COALESCE(?, cefr_level), daily_goal_mins = COALESCE(?, daily_goal_mins), updated_at = CURRENT_TIMESTAMP WHERE id = ?`)
+      .run(name || null, goal || null, cefr_level || null, daily_goal_mins || null, req.userId)
+    const user = db.prepare('SELECT id, name, email, cefr_level, goal, daily_goal_mins, created_at FROM users WHERE id = ?').get(req.userId)
+    db.close()
+    res.json({ user })
+  } catch (e) {
+    res.status(500).json({ message: 'Failed to update profile' })
+  }
+})
+
+// ─── End User Account Routes ─────────────────────────────────────────────────
 
 // Error handling middleware
 app.use((err, req, res, next) => {
