@@ -37,7 +37,7 @@ An interactive French learning platform called "SayBonjour!" with a React/Vite f
 - `/` - Home
 - `/resources` - Articles/learning resources
 - `/quizzes` - Interactive quizzes
-- `/study-tools` - Study tools
+- `/study-tools` - Study tools (flashcards, bookmarks)
 - `/culture` - French culture content
 - `/media` - Media content
 - `/memory-boosters` - Memory exercises
@@ -46,6 +46,20 @@ An interactive French learning platform called "SayBonjour!" with a React/Vite f
 - `/phrase-of-the-day` - Daily French phrase
 - `/favorites` - Saved favorites
 - `/admin` - Admin panel (requires login)
+- `/conjugate` - Verb conjugation tool (25 verbs, 8 tenses, irregular highlighting)
+- `/grammar` - Grammar Hub A1–C2 (CEFR structured, quizzes, tables, examples)
+- `/vocabulary` - SRS Vocabulary Builder (SM-2 spaced repetition, 4 word lists)
+- `/progress` - Learning Dashboard (XP, streaks, badges, CEFR level map)
+
+## New Feature Files
+- `src/data/conjugations.js` - Conjugation data for 25 common French verbs
+- `src/data/grammarData.js` - Grammar curriculum for A1–C2 with topics and quizzes
+- `src/utils/progress.js` - XP system, streaks, levels, badges (localStorage)
+- `src/utils/srs.js` - SM-2 spaced repetition algorithm (localStorage)
+
+## Navigation
+- Navbar has: Home, Quizzes, Learn (dropdown: Conjugator, Grammar, Vocabulary, Study Tools), Resources (dropdown), Progress, Favorites
+- Progress link shows live streak badge when streak > 0
 
 ## Environment Variables (all in "shared" environment)
 - `PORT` - Backend port (3001)
