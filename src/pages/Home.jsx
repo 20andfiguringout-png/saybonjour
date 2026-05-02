@@ -567,19 +567,19 @@ const Home = () => {
                         <div className="w-10 h-10 sm:w-12 sm:h-12 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-2 sm:mb-3">
                           <span className="text-base sm:text-lg">📖</span>
                         </div>
-                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium">200+ Articles</p>
+                        <p className="bento-label sm:text-sm font-medium">200+ Articles</p>
                       </div>
                       <div className="text-center">
                         <div className="w-10 h-10 sm:w-12 sm:h-12 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-2 sm:mb-3">
                           <span className="text-base sm:text-lg">🎓</span>
                         </div>
-                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium">All Levels</p>
+                        <p className="bento-label sm:text-sm font-medium">All Levels</p>
                       </div>
                       <div className="text-center">
                         <div className="w-10 h-10 sm:w-12 sm:h-12 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-2 sm:mb-3">
                           <span className="text-base sm:text-lg">📋</span>
                         </div>
-                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium">Study Guides</p>
+                        <p className="bento-label sm:text-sm font-medium">Study Guides</p>
                       </div>
                     </div>
                     <div className="bento-cta">
@@ -612,19 +612,19 @@ const Home = () => {
                         <div className="w-8 h-8 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-1">
                           <PenTool className="w-4 h-4 text-burgundy-700 dark:text-cream-50" />
                         </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Grammar</p>
+                        <p className="bento-label">Grammar</p>
                       </div>
                       <div className="text-center">
                         <div className="w-8 h-8 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-1">
                           <MessageCircle className="w-4 h-4 text-burgundy-700 dark:text-cream-50" />
                         </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Speaking</p>
+                        <p className="bento-label">Speaking</p>
                       </div>
                       <div className="text-center">
                         <div className="w-8 h-8 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-1">
                           <Ear className="w-4 h-4 text-burgundy-700 dark:text-cream-50" />
                         </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Listening</p>
+                        <p className="bento-label">Listening</p>
                       </div>
                     </div>
                     <div className="bento-cta">
@@ -658,14 +658,14 @@ const Home = () => {
                     <h3 className="bento-title">Phrase of the Day</h3>
                     <div className="mb-4">
                       <div className="flex items-center justify-between mb-2">
-                        <p className="text-sm font-semibold text-gray-900 dark:text-cream-50">"Petit à petit, l'oiseau fait son nid"</p>
+                        <p className="bento-quote">"Petit à petit, l'oiseau fait son nid"</p>
                         <SpeakButton
                           text="Petit à petit, l'oiseau fait son nid"
                           size="sm"
                           variant="ghost"
                         />
                       </div>
-                      <p className="text-xs text-gray-600 dark:text-gray-400 italic">Little by little, the bird builds its nest</p>
+                      <p className="bento-label italic">Little by little, the bird builds its nest</p>
                     </div>
                     <div className="bento-cta">
                       <span>Daily Wisdom</span>
@@ -718,7 +718,7 @@ const Home = () => {
                       Download PDFs for offline practice and structured learning exercises.
                     </p>
                     <div className="flex items-center justify-between mb-4">
-                      <span className="text-xs bg-burgundy-100 dark:bg-burgundy-vibrant-600 text-burgundy-900 dark:text-cream-50 px-3 py-1 rounded-full font-medium">50+ PDFs</span>
+                      <span className="bento-badge">50+ PDFs</span>
                     </div>
                     <div className="bento-cta">
                       <span>Get Worksheets</span>
@@ -757,19 +757,19 @@ const Home = () => {
                         <div className="w-8 h-8 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-1">
                           <Building className="w-4 h-4 text-burgundy-700 dark:text-cream-50" />
                         </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Traditions</p>
+                        <p className="bento-label">Traditions</p>
                       </div>
                       <div className="text-center">
                         <div className="w-8 h-8 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-1">
                           <MessageCircle className="w-4 h-4 text-burgundy-700 dark:text-cream-50" />
                         </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Dialects</p>
+                        <p className="bento-label">Dialects</p>
                       </div>
                       <div className="text-center">
                         <div className="w-8 h-8 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-1">
                           <Theater className="w-4 h-4 text-burgundy-700 dark:text-cream-50" />
                         </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Etiquette</p>
+                        <p className="bento-label">Etiquette</p>
                       </div>
                     </div>
                     <div className="bento-cta">
@@ -802,19 +802,19 @@ const Home = () => {
                         <div className="w-8 h-8 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-1">
                           <MapPin className="w-4 h-4 text-burgundy-700 dark:text-cream-50" />
                         </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Regions</p>
+                        <p className="bento-label">Regions</p>
                       </div>
                       <div className="text-center">
                         <div className="w-8 h-8 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-1">
                           <Wine className="w-4 h-4 text-burgundy-700 dark:text-cream-50" />
                         </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Specialties</p>
+                        <p className="bento-label">Specialties</p>
                       </div>
                       <div className="text-center">
                         <div className="w-8 h-8 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-1">
                           <MessageCircle className="w-4 h-4 text-burgundy-700 dark:text-cream-50" />
                         </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Dialects</p>
+                        <p className="bento-label">Dialects</p>
                       </div>
                     </div>
                     <div className="bento-cta">
@@ -847,19 +847,19 @@ const Home = () => {
                         <div className="w-8 h-8 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-1">
                           <Film className="w-4 h-4 text-burgundy-700 dark:text-cream-50" />
                         </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Movies</p>
+                        <p className="bento-label">Movies</p>
                       </div>
                       <div className="text-center">
                         <div className="w-8 h-8 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-1">
                           <Music className="w-4 h-4 text-burgundy-700 dark:text-cream-50" />
                         </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Music</p>
+                        <p className="bento-label">Music</p>
                       </div>
                       <div className="text-center">
                         <div className="w-8 h-8 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-1">
                           <Tv className="w-4 h-4 text-burgundy-700 dark:text-cream-50" />
                         </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">TV Shows</p>
+                        <p className="bento-label">TV Shows</p>
                       </div>
                     </div>
                     <div className="bento-cta">

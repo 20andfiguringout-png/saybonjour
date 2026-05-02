@@ -431,6 +431,35 @@
     color: #e5e0d8;
   }
 
+  .bento-quote {
+    @apply text-sm font-semibold mb-2 leading-snug;
+    color: #111827;
+  }
+
+  .dark .bento-quote {
+    color: #fffcef;
+  }
+
+  .bento-label {
+    @apply text-xs font-medium;
+    color: #4b5563;
+  }
+
+  .dark .bento-label {
+    color: #9ca3af;
+  }
+
+  .bento-badge {
+    @apply text-xs px-3 py-1 rounded-full font-medium;
+    background-color: #fee2e2;
+    color: #330009;
+  }
+
+  .dark .bento-badge {
+    background-color: #A52A2A;
+    color: #fffcef;
+  }
+
   .bento-cta {
     @apply inline-flex items-center text-sm font-medium transition-colors duration-200;
     color: #660019;
