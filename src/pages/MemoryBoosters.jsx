@@ -282,9 +282,9 @@ const MemoryBoosters = () => {
                     className="p-1.5 sm:p-2 rounded-full hover:bg-white/50 transition-colors duration-200 flex-shrink-0"
                   >
                     {expandedItems[item.id] ? (
-                      <ChevronUp className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600" />
+                      <ChevronUp className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600 dark:text-gray-400" />
                     ) : (
-                      <ChevronDown className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600" />
+                      <ChevronDown className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600 dark:text-gray-400" />
                     )}
                   </button>
                 </div>

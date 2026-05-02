@@ -244,7 +244,7 @@ const PhraseOfTheDay = () => {
       case 'Beginner': return 'bg-green-100 text-green-800'
       case 'Intermediate': return 'bg-yellow-100 text-yellow-800'
       case 'Advanced': return 'bg-red-100 text-red-800'
-      default: return 'bg-gray-100 text-gray-800'
+      default: return 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200'
     }
   }
 
@@ -253,7 +253,7 @@ const PhraseOfTheDay = () => {
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-burgundy-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading phrases...</p>
+          <p className="text-gray-600 dark:text-gray-400">Loading phrases...</p>
         </div>
       </div>
     )
@@ -290,10 +290,10 @@ const PhraseOfTheDay = () => {
                 </div>
                 <span className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium ${
                   selectedPhrase.difficulty === 'Beginner'
-                    ? 'bg-green-100 text-green-800'
+                    ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300'
                     : selectedPhrase.difficulty === 'Intermediate'
-                    ? 'bg-yellow-100 text-yellow-800'
-                    : 'bg-red-100 text-red-800'
+                    ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300'
+                    : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300'
                 }`}>
                   {selectedPhrase.difficulty}
                 </span>

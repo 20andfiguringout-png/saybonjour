@@ -274,10 +274,10 @@ startxref
 
   const getLevelColor = (level) => {
     switch (level) {
-      case 'beginner': return 'bg-burgundy-100 text-burgundy-800'
-      case 'intermediate': return 'bg-burgundy-200 text-burgundy-800'
-      case 'advanced': return 'bg-burgundy-300 text-burgundy-900'
-      default: return 'bg-cream-200 text-burgundy-800'
+      case 'beginner': return 'bg-burgundy-100 dark:bg-burgundy-900/40 text-burgundy-800 dark:text-burgundy-300'
+      case 'intermediate': return 'bg-burgundy-200 dark:bg-burgundy-900/50 text-burgundy-800 dark:text-burgundy-300'
+      case 'advanced': return 'bg-burgundy-300 dark:bg-burgundy-900/60 text-burgundy-900 dark:text-burgundy-200'
+      default: return 'bg-cream-200 dark:bg-dark-warm-200 text-burgundy-800 dark:text-gray-300'
     }
   }
 
@@ -361,7 +361,7 @@ startxref
                       className={`flex items-center space-x-2 px-4 py-2 rounded-full font-medium transition-all duration-300 border ${
                         selectedCategory === category.id
                           ? 'bg-burgundy-600 text-white border-burgundy-600 shadow-md'
-                          : 'bg-cream-50 text-burgundy-600 border-burgundy-200 hover:border-burgundy-300 hover:bg-burgundy-50 hover:text-burgundy-700'
+                          : 'bg-cream-50 dark:bg-dark-warm-200 text-burgundy-600 dark:text-gray-300 border-burgundy-200 dark:border-dark-warm-50 hover:border-burgundy-300 dark:hover:border-burgundy-500 hover:bg-burgundy-50 dark:hover:bg-burgundy-900/20 hover:text-burgundy-700 dark:hover:text-burgundy-400'
                       }`}
                     >
                       <Icon size={16} />
@@ -393,7 +393,7 @@ startxref
                       className={`flex items-center space-x-2 px-4 py-2 rounded-full font-medium transition-all duration-300 border ${
                         selectedLevel === level.id
                           ? 'bg-burgundy-500 text-white border-burgundy-500 shadow-md'
-                          : 'bg-cream-50 text-burgundy-600 border-burgundy-200 hover:border-burgundy-300 hover:bg-burgundy-50 hover:text-burgundy-700'
+                          : 'bg-cream-50 dark:bg-dark-warm-200 text-burgundy-600 dark:text-gray-300 border-burgundy-200 dark:border-dark-warm-50 hover:border-burgundy-300 dark:hover:border-burgundy-500 hover:bg-burgundy-50 dark:hover:bg-burgundy-900/20 hover:text-burgundy-700 dark:hover:text-burgundy-400'
                       }`}
                     >
                       <span className="text-sm">{getLevelIcon(level.id)}</span>
@@ -406,36 +406,36 @@ startxref
 
             {/* Active Filters Summary */}
             {(selectedCategory !== 'all' || selectedLevel !== 'all' || searchTerm) && (
-              <div className="flex items-center space-x-2 pt-2 border-t border-cream-200">
-                <span className="text-sm text-burgundy-600">Active filters:</span>
+              <div className="flex items-center space-x-2 pt-2 border-t border-cream-200 dark:border-dark-warm-50">
+                <span className="text-sm text-burgundy-600 dark:text-gray-400">Active filters:</span>
                 {selectedCategory !== 'all' && (
-                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-burgundy-100 text-burgundy-800">
+                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-burgundy-100 dark:bg-burgundy-900/40 text-burgundy-800 dark:text-burgundy-300">
                     {categories.find(c => c.id === selectedCategory)?.name}
                     <button
                       onClick={() => setSelectedCategory('all')}
-                      className="ml-1 text-burgundy-600 hover:text-burgundy-800"
+                      className="ml-1 text-burgundy-600 dark:text-burgundy-400 hover:text-burgundy-800 dark:hover:text-burgundy-200"
                     >
                       ×
                     </button>
                   </span>
                 )}
                 {selectedLevel !== 'all' && (
-                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-burgundy-100 text-burgundy-800">
+                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-burgundy-100 dark:bg-burgundy-900/40 text-burgundy-800 dark:text-burgundy-300">
                     {levels.find(l => l.id === selectedLevel)?.name}
                     <button
                       onClick={() => setSelectedLevel('all')}
-                      className="ml-1 text-burgundy-600 hover:text-burgundy-800"
+                      className="ml-1 text-burgundy-600 dark:text-burgundy-400 hover:text-burgundy-800 dark:hover:text-burgundy-200"
                     >
                       ×
                     </button>
                   </span>
                 )}
                 {searchTerm && (
-                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-cream-200 text-burgundy-800">
+                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-cream-200 dark:bg-dark-warm-200 text-burgundy-800 dark:text-gray-300">
                     "{searchTerm}"
                     <button
                       onClick={() => setSearchTerm('')}
-                      className="ml-1 text-burgundy-600 hover:text-burgundy-800"
+                      className="ml-1 text-burgundy-600 dark:text-gray-400 hover:text-burgundy-800 dark:hover:text-gray-200"
                     >
                       ×
                     </button>
@@ -447,7 +447,7 @@ startxref
                     setSelectedLevel('all')
                     setSearchTerm('')
                   }}
-                  className="text-xs text-burgundy-600 hover:text-burgundy-800 underline"
+                  className="text-xs text-burgundy-600 dark:text-gray-400 hover:text-burgundy-800 dark:hover:text-gray-200 underline"
                 >
                   Clear all
                 </button>
@@ -463,7 +463,7 @@ startxref
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.4 }}
         >
-          <p className="text-burgundy-600">
+          <p className="text-burgundy-600 dark:text-gray-400">
             Showing {filteredWorksheets.length} worksheet{filteredWorksheets.length !== 1 ? 's' : ''}
             {selectedCategory !== 'all' && ` in ${categories.find(c => c.id === selectedCategory)?.name}`}
             {selectedLevel !== 'all' && ` for ${levels.find(l => l.id === selectedLevel)?.name} level`}
@@ -482,7 +482,7 @@ startxref
             return (
               <motion.div
                 key={worksheet.id}
-                className="bg-cream-50 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group border border-burgundy-100"
+                className="bg-cream-50 dark:bg-dark-warm-100 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group border border-burgundy-100 dark:border-dark-warm-50"
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -566,12 +566,12 @@ startxref
                     <h4 className="text-xs font-semibold text-burgundy-700 dark:text-gray-400 mb-2">Includes:</h4>
                     <div className="flex flex-wrap gap-1">
                       {worksheet.features.slice(0, 3).map((feature, idx) => (
-                        <span key={idx} className="text-xs bg-burgundy-100 text-burgundy-800 px-2 py-1 rounded-full">
+                        <span key={idx} className="text-xs bg-burgundy-100 dark:bg-burgundy-900/40 text-burgundy-800 dark:text-burgundy-300 px-2 py-1 rounded-full">
                           {feature}
                         </span>
                       ))}
                       {worksheet.features.length > 3 && (
-                        <span className="text-xs bg-cream-200 text-burgundy-600 px-2 py-1 rounded-full">
+                        <span className="text-xs bg-cream-200 dark:bg-dark-warm-200 text-burgundy-600 dark:text-gray-400 px-2 py-1 rounded-full">
                           +{worksheet.features.length - 3} more
                         </span>
                       )}
@@ -584,7 +584,7 @@ startxref
                       <Users size={12} className="mr-1" />
                       {worksheet.downloads.toLocaleString()} downloads
                     </div>
-                    <span className="text-xs bg-burgundy-100 text-burgundy-800 px-2 py-1 rounded-full font-medium">
+                    <span className="text-xs bg-burgundy-100 dark:bg-burgundy-900/40 text-burgundy-800 dark:text-burgundy-300 px-2 py-1 rounded-full font-medium">
                       {worksheet.type}
                     </span>
                   </div>
@@ -603,8 +603,8 @@ startxref
             transition={{ duration: 0.6 }}
           >
             <FileText className="w-16 h-16 text-cream-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-burgundy-900 mb-2">No worksheets found</h3>
-            <p className="text-burgundy-600">
+            <h3 className="text-lg font-medium text-burgundy-900 dark:text-cream-50 mb-2">No worksheets found</h3>
+            <p className="text-burgundy-600 dark:text-gray-400">
               Try adjusting your filters or search terms to find what you're looking for.
             </p>
           </motion.div>

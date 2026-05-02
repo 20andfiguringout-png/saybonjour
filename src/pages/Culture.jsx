@@ -494,7 +494,7 @@ Free concerts throughout France. Everyone can play in the street.
           <div className="card p-4 sm:p-6 md:p-8">
             <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none">
               <div
-                className="leading-relaxed text-gray-800"
+                className="leading-relaxed text-gray-800 dark:text-gray-200 rich-content"
                 style={{ fontFamily: 'Georgia, serif', fontSize: window.innerWidth < 640 ? '14px' : '16px', lineHeight: '1.7' }}
                 dangerouslySetInnerHTML={{
                   __html: (showTranslation ? selectedArticle.englishContent : selectedArticle.frenchContent)

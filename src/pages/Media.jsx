@@ -208,10 +208,10 @@ const Media = () => {
 
   const getLevelColor = (level) => {
     switch (level) {
-      case 'Beginner': return 'bg-burgundy-100 text-burgundy-800'
-      case 'Intermediate': return 'bg-burgundy-200 text-burgundy-800'
-      case 'Advanced': return 'bg-burgundy-300 text-burgundy-900'
-      default: return 'bg-cream-200 text-burgundy-800'
+      case 'Beginner': return 'bg-burgundy-100 dark:bg-burgundy-900/40 text-burgundy-800 dark:text-burgundy-300'
+      case 'Intermediate': return 'bg-burgundy-200 dark:bg-burgundy-900/50 text-burgundy-800 dark:text-burgundy-300'
+      case 'Advanced': return 'bg-burgundy-300 dark:bg-burgundy-900/60 text-burgundy-900 dark:text-burgundy-200'
+      default: return 'bg-cream-200 dark:bg-dark-warm-200 text-burgundy-800 dark:text-gray-300'
     }
   }
 
@@ -230,7 +230,7 @@ const Media = () => {
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-burgundy-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading media...</p>
+          <p className="text-gray-600 dark:text-gray-400">Loading media...</p>
         </div>
       </div>
     )

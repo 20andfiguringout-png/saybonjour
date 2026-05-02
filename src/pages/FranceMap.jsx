@@ -144,7 +144,7 @@ const FranceMap = () => {
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.8 }}
-      className="absolute z-50 bg-white rounded-lg shadow-xl border border-gray-200 p-3 sm:p-4 min-w-48 sm:min-w-64 max-w-xs"
+      className="absolute z-50 bg-white dark:bg-dark-warm-100 rounded-lg shadow-xl border border-gray-200 dark:border-dark-warm-50 p-3 sm:p-4 min-w-48 sm:min-w-64 max-w-xs"
       style={{
         left: `${position.x}%`,
         top: `${position.y}%`,
@@ -152,19 +152,19 @@ const FranceMap = () => {
       }}
     >
       <div className="text-center">
-        <h3 className="text-sm sm:text-base font-bold text-gray-900 mb-2">{region.name}</h3>
+        <h3 className="text-sm sm:text-base font-bold text-gray-900 dark:text-cream-50 mb-2">{region.name}</h3>
         <div className="space-y-1 sm:space-y-2 text-xs sm:text-sm">
           <div className="flex items-center justify-between">
-            <span className="text-gray-600">Capital:</span>
-            <span className="font-medium">{region.capital}</span>
+            <span className="text-gray-600 dark:text-gray-400">Capital:</span>
+            <span className="font-medium dark:text-gray-200">{region.capital}</span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-gray-600">Dialect:</span>
-            <span className="font-medium truncate ml-2">{region.dialect}</span>
+            <span className="text-gray-600 dark:text-gray-400">Dialect:</span>
+            <span className="font-medium truncate ml-2 dark:text-gray-200">{region.dialect}</span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-gray-600">Specialty:</span>
-            <span className="font-medium truncate ml-2">{region.specialFood}</span>
+            <span className="text-gray-600 dark:text-gray-400">Specialty:</span>
+            <span className="font-medium truncate ml-2 dark:text-gray-200">{region.specialFood}</span>
           </div>
         </div>
         <button
@@ -255,7 +255,7 @@ const FranceMap = () => {
 
                     {/* Region Label */}
                     <div
-                      className="absolute text-xs font-medium text-gray-700 pointer-events-none transform -translate-x-1/2 hidden sm:block"
+                      className="absolute text-xs font-medium text-gray-700 dark:text-gray-300 pointer-events-none transform -translate-x-1/2 hidden sm:block"
                       style={{
                         left: `${region.position.x}%`,
                         top: `${region.position.y + 8}%`
@@ -340,58 +340,58 @@ const FranceMap = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
                 {/* Pronunciation */}
-                <div className="bg-gradient-to-br from-burgundy-50 to-burgundy-100 rounded-lg sm:rounded-xl p-3 sm:p-4">
+                <div className="bg-gradient-to-br from-burgundy-50 to-burgundy-100 dark:from-dark-warm-200 dark:to-dark-warm-100 rounded-lg sm:rounded-xl p-3 sm:p-4">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs sm:text-sm font-semibold text-burgundy-800">Pronunciation</span>
+                    <span className="text-xs sm:text-sm font-semibold text-burgundy-800 dark:text-cream-50">Pronunciation</span>
                     <button
                       onClick={() => playPronunciation(selectedRegion.name)}
-                      className="text-burgundy-600 hover:text-burgundy-700"
+                      className="text-burgundy-600 dark:text-burgundy-400 hover:text-burgundy-700"
                       aria-label="Play pronunciation"
                     >
                       <Volume2 size={16} className="sm:w-5 sm:h-5" />
                     </button>
                   </div>
-                  <p className="text-sm sm:text-base md:text-lg font-medium text-burgundy-900">{selectedRegion.pronunciation}</p>
+                  <p className="text-sm sm:text-base md:text-lg font-medium text-burgundy-900 dark:text-cream-50">{selectedRegion.pronunciation}</p>
                 </div>
 
                 {/* Dialect */}
-                <div className="bg-gradient-to-br from-burgundy-100 to-burgundy-200 rounded-lg sm:rounded-xl p-3 sm:p-4">
+                <div className="bg-gradient-to-br from-burgundy-100 to-burgundy-200 dark:from-dark-warm-200 dark:to-dark-warm-100 rounded-lg sm:rounded-xl p-3 sm:p-4">
                   <div className="flex items-center space-x-2 mb-2">
-                    <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-burgundy-600" />
-                    <span className="text-xs sm:text-sm font-semibold text-burgundy-800">Local Dialect</span>
+                    <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-burgundy-600 dark:text-burgundy-400" />
+                    <span className="text-xs sm:text-sm font-semibold text-burgundy-800 dark:text-cream-50">Local Dialect</span>
                   </div>
-                  <h4 className="text-sm sm:text-base font-bold text-burgundy-900 mb-1">{selectedRegion.dialect}</h4>
-                  <p className="text-xs sm:text-sm text-burgundy-700">{selectedRegion.dialectInfo}</p>
+                  <h4 className="text-sm sm:text-base font-bold text-burgundy-900 dark:text-cream-50 mb-1">{selectedRegion.dialect}</h4>
+                  <p className="text-xs sm:text-sm text-burgundy-700 dark:text-gray-300">{selectedRegion.dialectInfo}</p>
                 </div>
 
                 {/* Key City */}
-                <div className="bg-gradient-to-br from-burgundy-200 to-burgundy-300 rounded-lg sm:rounded-xl p-3 sm:p-4">
+                <div className="bg-gradient-to-br from-burgundy-200 to-burgundy-300 dark:from-dark-warm-200 dark:to-dark-warm-100 rounded-lg sm:rounded-xl p-3 sm:p-4">
                   <div className="flex items-center space-x-2 mb-2">
-                    <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-burgundy-600" />
-                    <span className="text-xs sm:text-sm font-semibold text-burgundy-800">Key City</span>
+                    <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-burgundy-600 dark:text-burgundy-400" />
+                    <span className="text-xs sm:text-sm font-semibold text-burgundy-800 dark:text-cream-50">Key City</span>
                   </div>
-                  <h4 className="text-sm sm:text-base font-bold text-burgundy-900 mb-1">{selectedRegion.keyCity}</h4>
-                  <p className="text-xs sm:text-sm text-burgundy-700">{selectedRegion.cityInfo}</p>
+                  <h4 className="text-sm sm:text-base font-bold text-burgundy-900 dark:text-cream-50 mb-1">{selectedRegion.keyCity}</h4>
+                  <p className="text-xs sm:text-sm text-burgundy-700 dark:text-gray-300">{selectedRegion.cityInfo}</p>
                 </div>
 
                 {/* Special Food */}
-                <div className="bg-gradient-to-br from-cream-100 to-cream-200 rounded-lg sm:rounded-xl p-3 sm:p-4">
+                <div className="bg-gradient-to-br from-cream-100 to-cream-200 dark:from-dark-warm-200 dark:to-dark-warm-100 rounded-lg sm:rounded-xl p-3 sm:p-4">
                   <div className="flex items-center space-x-2 mb-2">
-                    <Utensils className="w-4 h-4 sm:w-5 sm:h-5 text-burgundy-600" />
-                    <span className="text-xs sm:text-sm font-semibold text-burgundy-800">Regional Specialty</span>
+                    <Utensils className="w-4 h-4 sm:w-5 sm:h-5 text-burgundy-600 dark:text-burgundy-400" />
+                    <span className="text-xs sm:text-sm font-semibold text-burgundy-800 dark:text-cream-50">Regional Specialty</span>
                   </div>
-                  <h4 className="text-sm sm:text-base font-bold text-burgundy-900 mb-1">{selectedRegion.specialFood}</h4>
-                  <p className="text-xs sm:text-sm text-burgundy-700">{selectedRegion.foodInfo}</p>
+                  <h4 className="text-sm sm:text-base font-bold text-burgundy-900 dark:text-cream-50 mb-1">{selectedRegion.specialFood}</h4>
+                  <p className="text-xs sm:text-sm text-burgundy-700 dark:text-gray-300">{selectedRegion.foodInfo}</p>
                 </div>
               </div>
 
               {/* Fun Fact - Full Width */}
-              <div className="mt-4 sm:mt-6 bg-gradient-to-r from-cream-50 to-cream-100 rounded-lg sm:rounded-xl p-4 sm:p-6 border border-burgundy-200">
+              <div className="mt-4 sm:mt-6 bg-gradient-to-r from-cream-50 to-cream-100 dark:from-dark-warm-200 dark:to-dark-warm-100 rounded-lg sm:rounded-xl p-4 sm:p-6 border border-burgundy-200 dark:border-dark-warm-50">
                 <div className="flex items-center space-x-2 sm:space-x-3 mb-2 sm:mb-3">
-                  <Star className="w-5 h-5 sm:w-6 sm:h-6 text-burgundy-600" />
-                  <span className="text-base sm:text-lg md:text-xl font-bold text-burgundy-800">Fun Fact</span>
+                  <Star className="w-5 h-5 sm:w-6 sm:h-6 text-burgundy-600 dark:text-burgundy-400" />
+                  <span className="text-base sm:text-lg md:text-xl font-bold text-burgundy-800 dark:text-cream-50">Fun Fact</span>
                 </div>
-                <p className="text-sm sm:text-base md:text-lg text-burgundy-700">{selectedRegion.funFact}</p>
+                <p className="text-sm sm:text-base md:text-lg text-burgundy-700 dark:text-gray-300">{selectedRegion.funFact}</p>
               </div>
             </motion.div>
           )}
@@ -415,28 +415,28 @@ const FranceMap = () => {
 
           {/* Key Aspects Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mb-8 sm:mb-10 md:mb-12">
-            <div className="bg-gradient-to-br from-burgundy-50 to-burgundy-100 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 text-center">
+            <div className="bg-gradient-to-br from-burgundy-50 to-burgundy-100 dark:from-dark-warm-200 dark:to-dark-warm-100 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 text-center">
               <div className="text-2xl sm:text-3xl md:text-4xl mb-3 sm:mb-4">🗣️</div>
-              <h3 className="text-base sm:text-lg md:text-xl font-bold text-burgundy-900 mb-2 sm:mb-3">Regional Accents</h3>
-              <p className="text-sm sm:text-base text-burgundy-600 leading-relaxed">
+              <h3 className="text-base sm:text-lg md:text-xl font-bold text-burgundy-900 dark:text-cream-50 mb-2 sm:mb-3">Regional Accents</h3>
+              <p className="text-sm sm:text-base text-burgundy-600 dark:text-gray-400 leading-relaxed">
                 Each region has distinct pronunciation patterns and vocabulary influenced by local history,
                 neighboring languages, and cultural heritage that add richness to the French language.
               </p>
             </div>
 
-            <div className="bg-gradient-to-br from-burgundy-100 to-burgundy-200 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 text-center">
+            <div className="bg-gradient-to-br from-burgundy-100 to-burgundy-200 dark:from-dark-warm-200 dark:to-dark-warm-100 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 text-center">
               <div className="text-2xl sm:text-3xl md:text-4xl mb-3 sm:mb-4">🍽️</div>
-              <h3 className="text-base sm:text-lg md:text-xl font-bold text-burgundy-900 mb-2 sm:mb-3">Culinary Traditions</h3>
-              <p className="text-sm sm:text-base text-burgundy-600 leading-relaxed">
+              <h3 className="text-base sm:text-lg md:text-xl font-bold text-burgundy-900 dark:text-cream-50 mb-2 sm:mb-3">Culinary Traditions</h3>
+              <p className="text-sm sm:text-base text-burgundy-600 dark:text-gray-400 leading-relaxed">
                 French cuisine varies dramatically by region, reflecting local ingredients, climate, and cultural influences.
                 From Normandy's creamy cheeses to Provence's Mediterranean herbs.
               </p>
             </div>
 
-            <div className="bg-gradient-to-br from-cream-100 to-cream-200 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 text-center">
+            <div className="bg-gradient-to-br from-cream-100 to-cream-200 dark:from-dark-warm-200 dark:to-dark-warm-100 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 text-center">
               <div className="text-2xl sm:text-3xl md:text-4xl mb-3 sm:mb-4">🏛️</div>
-              <h3 className="text-base sm:text-lg md:text-xl font-bold text-burgundy-900 mb-2 sm:mb-3">Cultural Heritage</h3>
-              <p className="text-sm sm:text-base text-burgundy-600 leading-relaxed">
+              <h3 className="text-base sm:text-lg md:text-xl font-bold text-burgundy-900 dark:text-cream-50 mb-2 sm:mb-3">Cultural Heritage</h3>
+              <p className="text-sm sm:text-base text-burgundy-600 dark:text-gray-400 leading-relaxed">
                 From Celtic Brittany to Germanic Alsace, each region preserves unique traditions, architectural styles,
                 and historical influences that contribute to France's diverse cultural landscape.
               </p>

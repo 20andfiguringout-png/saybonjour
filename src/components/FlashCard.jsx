@@ -35,10 +35,10 @@ const FlashCard = ({ card, onNext, onPrevious, currentIndex, totalCards }) => {
     <div className="max-w-md mx-auto">
       {/* Card Counter */}
       <div className="text-center mb-4">
-        <span className="text-sm text-gray-600">
+        <span className="text-sm text-gray-600 dark:text-gray-400">
           {currentIndex + 1} of {totalCards}
         </span>
-        <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+        <div className="w-full bg-gray-200 dark:bg-dark-warm-50 rounded-full h-2 mt-2">
           <motion.div
             className="bg-burgundy-600 h-2 rounded-full"
             initial={{ width: 0 }}
@@ -64,11 +64,11 @@ const FlashCard = ({ card, onNext, onPrevious, currentIndex, totalCards }) => {
         >
           {/* Front of card */}
           <div
-            className="absolute inset-0 w-full h-full bg-cream-50 rounded-xl shadow-lg border-2 border-burgundy-200 flex flex-col justify-center items-center p-6"
+            className="absolute inset-0 w-full h-full bg-cream-50 dark:bg-dark-warm-100 rounded-xl shadow-lg border-2 border-burgundy-200 dark:border-dark-warm-50 flex flex-col justify-center items-center p-6"
             style={{ backfaceVisibility: "hidden" }}
           >
             <div className="text-center">
-              <h3 className="text-2xl font-bold text-burgundy-900 mb-4">
+              <h3 className="text-2xl font-bold text-burgundy-900 dark:text-cream-50 mb-4">
                 {card.french}
               </h3>
               <button
@@ -76,11 +76,11 @@ const FlashCard = ({ card, onNext, onPrevious, currentIndex, totalCards }) => {
                   e.stopPropagation()
                   speakText(card.french)
                 }}
-                className="p-2 text-burgundy-600 hover:text-burgundy-700 hover:bg-burgundy-50 rounded-full transition-colors"
+                className="p-2 text-burgundy-600 dark:text-burgundy-400 hover:text-burgundy-700 hover:bg-burgundy-50 dark:hover:bg-dark-warm-200 rounded-full transition-colors"
               >
                 <Volume2 size={20} />
               </button>
-              <p className="text-sm text-gray-500 mt-4">
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-4">
                 Click to reveal translation
               </p>
             </div>
@@ -88,29 +88,29 @@ const FlashCard = ({ card, onNext, onPrevious, currentIndex, totalCards }) => {
 
           {/* Back of card */}
           <div
-            className="absolute inset-0 w-full h-full bg-burgundy-50 rounded-xl shadow-lg border-2 border-burgundy-200 flex flex-col justify-center items-center p-6"
+            className="absolute inset-0 w-full h-full bg-burgundy-50 dark:bg-dark-warm-200 rounded-xl shadow-lg border-2 border-burgundy-200 dark:border-dark-warm-50 flex flex-col justify-center items-center p-6"
             style={{ 
               backfaceVisibility: "hidden", 
               transform: "rotateY(180deg)" 
             }}
           >
             <div className="text-center">
-              <h3 className="text-2xl font-bold text-burgundy-900 mb-2">
+              <h3 className="text-2xl font-bold text-burgundy-900 dark:text-cream-50 mb-2">
                 {card.english}
               </h3>
               {card.pronunciation && (
-                <p className="text-lg text-burgundy-700 mb-4 italic">
+                <p className="text-lg text-burgundy-700 dark:text-burgundy-400 mb-4 italic">
                   /{card.pronunciation}/
                 </p>
               )}
               {card.example && (
-                <div className="mt-4 p-3 bg-cream-100 rounded-lg">
-                  <p className="text-sm text-burgundy-700 italic">
+                <div className="mt-4 p-3 bg-cream-100 dark:bg-dark-warm-100 rounded-lg">
+                  <p className="text-sm text-burgundy-700 dark:text-gray-300 italic">
                     "{card.example}"
                   </p>
                 </div>
               )}
-              <p className="text-sm text-burgundy-600 mt-4">
+              <p className="text-sm text-burgundy-600 dark:text-burgundy-400 mt-4">
                 Click to flip back
               </p>
             </div>
@@ -123,7 +123,7 @@ const FlashCard = ({ card, onNext, onPrevious, currentIndex, totalCards }) => {
         <motion.button
           onClick={handlePrevious}
           disabled={currentIndex === 0}
-          className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-300 transition-colors"
+          className="px-4 py-2 bg-gray-200 dark:bg-dark-warm-50 text-gray-700 dark:text-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-300 dark:hover:bg-dark-warm-100 transition-colors"
           whileHover={{ scale: currentIndex === 0 ? 1 : 1.05 }}
           whileTap={{ scale: currentIndex === 0 ? 1 : 0.95 }}
         >
@@ -135,7 +135,7 @@ const FlashCard = ({ card, onNext, onPrevious, currentIndex, totalCards }) => {
             setIsFlipped(false)
             setShowAnswer(false)
           }}
-          className="p-2 text-gray-600 hover:text-burgundy-600 hover:bg-gray-100 rounded-full transition-colors"
+          className="p-2 text-gray-600 dark:text-gray-400 hover:text-burgundy-600 dark:hover:text-burgundy-400 hover:bg-gray-100 dark:hover:bg-dark-warm-200 rounded-full transition-colors"
           whileHover={{ scale: 1.1, rotate: 180 }}
           whileTap={{ scale: 0.9 }}
         >

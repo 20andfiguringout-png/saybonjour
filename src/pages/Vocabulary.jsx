@@ -109,7 +109,7 @@ const ReviewCard = ({ card, onRate }) => {
   return (
     <div className="max-w-lg mx-auto">
       <motion.div
-        className="bg-white rounded-2xl shadow-lg border border-cream-200 overflow-hidden"
+        className="bg-white dark:bg-dark-warm-100 rounded-2xl shadow-lg border border-cream-200 dark:border-dark-warm-50 overflow-hidden"
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
       >
@@ -118,19 +118,19 @@ const ReviewCard = ({ card, onRate }) => {
           <span className="text-xs text-cream-200">Interval: {card.interval || 1}d</span>
         </div>
         <div className="p-8 text-center min-h-40 flex flex-col items-center justify-center">
-          <p className="text-3xl font-bold text-burgundy-800 mb-2">{card.french}</p>
+          <p className="text-3xl font-bold text-burgundy-800 dark:text-cream-50 mb-2">{card.french}</p>
           {revealed ? (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <p className="text-xl text-gray-700 font-medium">{card.english}</p>
+              <p className="text-xl text-gray-700 dark:text-gray-300 font-medium">{card.english}</p>
               {card.pronunciation && (
-                <p className="text-sm text-burgundy-500 italic mt-1">/{card.pronunciation}/</p>
+                <p className="text-sm text-burgundy-500 dark:text-burgundy-400 italic mt-1">/{card.pronunciation}/</p>
               )}
             </motion.div>
           ) : (
-            <p className="text-gray-400 text-sm mt-2">Tap to reveal</p>
+            <p className="text-gray-400 dark:text-gray-500 text-sm mt-2">Tap to reveal</p>
           )}
         </div>
 
@@ -145,7 +145,7 @@ const ReviewCard = ({ card, onRate }) => {
           </div>
         ) : (
           <div className="px-6 pb-6">
-            <p className="text-xs text-gray-500 text-center mb-3">How well did you know this?</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 text-center mb-3">How well did you know this?</p>
             <div className="grid grid-cols-4 gap-2">
               {qualityLabels.map(({ q, label, color, icon: Icon }) => (
                 <button
@@ -263,7 +263,7 @@ const Vocabulary = () => {
         </div>
 
         {/* Tabs */}
-        <div className="bg-white border-b border-cream-200 sticky top-16 z-30">
+        <div className="bg-white dark:bg-dark-warm-100 border-b border-cream-200 dark:border-dark-warm-50 sticky top-16 z-30">
           <div className="max-w-4xl mx-auto px-4">
             <div className="flex gap-1 py-2">
               {['browse', 'my deck', 'review'].map(tab => (
@@ -273,7 +273,7 @@ const Vocabulary = () => {
                   className={`px-4 py-2 rounded-lg text-sm font-medium capitalize transition-all ${
                     activeTab === tab
                       ? 'bg-burgundy-600 text-cream-50'
-                      : 'text-gray-600 hover:bg-cream-100 hover:text-burgundy-700'
+                      : 'text-gray-600 dark:text-gray-300 hover:bg-cream-100 dark:hover:bg-dark-warm-200 hover:text-burgundy-700 dark:hover:text-burgundy-400'
                   }`}
                 >
                   {tab}
@@ -302,7 +302,7 @@ const Vocabulary = () => {
                       className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
                         activeList === list
                           ? 'bg-burgundy-600 text-cream-50'
-                          : 'bg-white text-gray-700 border border-cream-200 hover:border-burgundy-300'
+                          : 'bg-white dark:bg-dark-warm-100 text-gray-700 dark:text-gray-300 border border-cream-200 dark:border-dark-warm-50 hover:border-burgundy-300 dark:hover:border-burgundy-500'
                       }`}
                     >
                       {list}
@@ -314,22 +314,22 @@ const Vocabulary = () => {
                   {wordList.map(word => (
                     <motion.div
                       key={word.id}
-                      className="bg-white rounded-xl border border-cream-200 p-4 flex items-center justify-between shadow-sm"
+                      className="bg-white dark:bg-dark-warm-100 rounded-xl border border-cream-200 dark:border-dark-warm-50 p-4 flex items-center justify-between shadow-sm"
                       whileHover={{ y: -2 }}
                     >
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <span className="font-bold text-burgundy-800 text-sm">{word.french}</span>
-                          <span className="text-xs bg-cream-100 text-gray-500 px-1.5 py-0.5 rounded">{word.category}</span>
+                          <span className="font-bold text-burgundy-800 dark:text-cream-50 text-sm">{word.french}</span>
+                          <span className="text-xs bg-cream-100 dark:bg-dark-warm-200 text-gray-500 dark:text-gray-400 px-1.5 py-0.5 rounded">{word.category}</span>
                         </div>
-                        <p className="text-sm text-gray-600 mt-0.5">{word.english}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-0.5">{word.english}</p>
                       </div>
                       <button
                         onClick={() => inDeck(word.id) ? handleRemove(word.id) : handleAddWord(word)}
                         className={`ml-3 p-2 rounded-lg transition-colors flex-shrink-0 ${
                           inDeck(word.id)
-                            ? 'bg-burgundy-100 text-burgundy-600 hover:bg-burgundy-200'
-                            : 'bg-cream-100 text-gray-500 hover:bg-burgundy-100 hover:text-burgundy-600'
+                            ? 'bg-burgundy-100 dark:bg-burgundy-900/40 text-burgundy-600 dark:text-burgundy-400 hover:bg-burgundy-200 dark:hover:bg-burgundy-900/60'
+                            : 'bg-cream-100 dark:bg-dark-warm-200 text-gray-500 dark:text-gray-400 hover:bg-burgundy-100 dark:hover:bg-burgundy-900/30 hover:text-burgundy-600 dark:hover:text-burgundy-400'
                         }`}
                         title={inDeck(word.id) ? 'Remove from deck' : 'Add to deck'}
                       >
@@ -346,9 +346,9 @@ const Vocabulary = () => {
               <motion.div key="deck" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                 {deck.length === 0 ? (
                   <div className="text-center py-16">
-                    <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-lg font-semibold text-gray-500 mb-2">Your deck is empty</h3>
-                    <p className="text-gray-400 text-sm mb-4">Browse word lists and add words to start reviewing.</p>
+                    <BookOpen className="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold text-gray-500 dark:text-gray-400 mb-2">Your deck is empty</h3>
+                    <p className="text-gray-400 dark:text-gray-500 text-sm mb-4">Browse word lists and add words to start reviewing.</p>
                     <button
                       onClick={() => setActiveTab('browse')}
                       className="px-5 py-2 bg-burgundy-600 text-cream-50 rounded-lg text-sm font-medium hover:bg-burgundy-700"
@@ -359,7 +359,7 @@ const Vocabulary = () => {
                 ) : (
                   <>
                     <div className="flex items-center justify-between mb-4">
-                      <h2 className="text-lg font-bold text-burgundy-800">{deck.length} words in your deck</h2>
+                      <h2 className="text-lg font-bold text-burgundy-800 dark:text-cream-50">{deck.length} words in your deck</h2>
                       {dueCards.length > 0 && (
                         <button
                           onClick={startReview}
@@ -372,23 +372,23 @@ const Vocabulary = () => {
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {deck.map(card => (
-                        <div key={card.id} className="bg-white rounded-xl border border-cream-200 p-4 flex items-center justify-between shadow-sm">
+                        <div key={card.id} className="bg-white dark:bg-dark-warm-100 rounded-xl border border-cream-200 dark:border-dark-warm-50 p-4 flex items-center justify-between shadow-sm">
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
-                              <span className="font-bold text-burgundy-800 text-sm">{card.french}</span>
-                              <span className="text-xs bg-cream-100 text-gray-500 px-1.5 py-0.5 rounded">{card.category}</span>
+                              <span className="font-bold text-burgundy-800 dark:text-cream-50 text-sm">{card.french}</span>
+                              <span className="text-xs bg-cream-100 dark:bg-dark-warm-200 text-gray-500 dark:text-gray-400 px-1.5 py-0.5 rounded">{card.category}</span>
                               {(card.repetitions || 0) >= 3 && (
-                                <span className="text-xs bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded">Mastered</span>
+                                <span className="text-xs bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 px-1.5 py-0.5 rounded">Mastered</span>
                               )}
                             </div>
-                            <p className="text-sm text-gray-600 mt-0.5">{card.english}</p>
-                            <p className="text-xs text-gray-400 mt-1">
+                            <p className="text-sm text-gray-600 dark:text-gray-400 mt-0.5">{card.english}</p>
+                            <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
                               {card.nextReview ? `Next: ${new Date(card.nextReview).toLocaleDateString()}` : 'Due now'} · {card.repetitions || 0} reviews
                             </p>
                           </div>
                           <button
                             onClick={() => handleRemove(card.id)}
-                            className="ml-3 p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                            className="ml-3 p-2 text-gray-400 dark:text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
@@ -406,8 +406,8 @@ const Vocabulary = () => {
                 {dueCards.length === 0 && !sessionComplete ? (
                   <div className="text-center py-16">
                     <Check className="w-16 h-16 text-emerald-500 mx-auto mb-4" />
-                    <h3 className="text-xl font-bold text-gray-700 mb-2">All caught up!</h3>
-                    <p className="text-gray-500 mb-4">No cards are due right now. Come back later or add more words.</p>
+                    <h3 className="text-xl font-bold text-gray-700 dark:text-gray-300 mb-2">All caught up!</h3>
+                    <p className="text-gray-500 dark:text-gray-400 mb-4">No cards are due right now. Come back later or add more words.</p>
                     <button
                       onClick={() => setActiveTab('browse')}
                       className="px-5 py-2 bg-burgundy-600 text-cream-50 rounded-lg text-sm font-medium hover:bg-burgundy-700"
@@ -422,8 +422,8 @@ const Vocabulary = () => {
                     animate={{ scale: 1, opacity: 1 }}
                   >
                     <div className="text-6xl mb-4">🎉</div>
-                    <h3 className="text-2xl font-bold text-burgundy-800 mb-2">Session Complete!</h3>
-                    <p className="text-gray-600 mb-1">{sessionStats.reviewed} cards reviewed</p>
+                    <h3 className="text-2xl font-bold text-burgundy-800 dark:text-cream-50 mb-2">Session Complete!</h3>
+                    <p className="text-gray-600 dark:text-gray-400 mb-1">{sessionStats.reviewed} cards reviewed</p>
                     <p className="text-emerald-600 font-bold text-lg mb-6">+{sessionStats.xpEarned} XP earned</p>
                     <div className="flex gap-3 justify-center">
                       <button
@@ -443,8 +443,8 @@ const Vocabulary = () => {
                 ) : (
                   <div>
                     <div className="flex items-center justify-between mb-6">
-                      <p className="text-sm text-gray-500">{reviewIndex + 1} / {dueCards.length} cards</p>
-                      <div className="w-48 bg-gray-200 rounded-full h-2">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{reviewIndex + 1} / {dueCards.length} cards</p>
+                      <div className="w-48 bg-gray-200 dark:bg-dark-warm-50 rounded-full h-2">
                         <div
                           className="bg-burgundy-600 h-2 rounded-full transition-all"
                           style={{ width: `${((reviewIndex) / dueCards.length) * 100}%` }}

@@ -95,6 +95,66 @@
   @apply border-t-2 border-gray-300 my-6;
 }
 
+/* Dark mode overrides for rich text content */
+.dark .rich-content h1 {
+  color: #fffcef;
+}
+.dark .rich-content h2 {
+  color: #e2b4a0;
+  border-color: #a05060;
+}
+.dark .rich-content h3,
+.dark .rich-content h4,
+.dark .rich-content h5,
+.dark .rich-content h6 {
+  color: #e8e0d8;
+}
+.dark .rich-content p {
+  color: #c8bfb8;
+}
+.dark .rich-content strong {
+  color: #fffcef;
+  background-color: rgba(160, 80, 96, 0.15);
+}
+.dark .rich-content li {
+  color: #c8bfb8;
+}
+.dark .rich-content blockquote {
+  color: #a89f98;
+  background-color: rgba(255,255,255,0.04);
+  border-color: #a05060;
+}
+.dark .rich-content code {
+  background-color: #2a2520;
+  color: #e2b4a0;
+}
+.dark .rich-content pre {
+  background-color: #2a2520;
+  color: #c8bfb8;
+}
+.dark .rich-content table {
+  border-color: #3a3028;
+}
+.dark .rich-content th {
+  background-color: #2a2520;
+  border-color: #3a3028;
+  color: #fffcef;
+}
+.dark .rich-content td {
+  border-color: #3a3028;
+  color: #c8bfb8;
+}
+.dark .rich-content a {
+  color: #e2b4a0;
+}
+.dark .rich-content hr {
+  border-color: #3a3028;
+}
+/* Inline-rendered spans from markdown JS replacer */
+.dark .rich-content span {
+  color: inherit;
+}
+
 @layer base {
   body {
     font-family: 'Inter', sans-serif;

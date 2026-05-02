@@ -173,7 +173,7 @@ const StudyTools = () => {
               onClick={() => setActiveTab('flashcards')}
               className={`py-2 px-1 border-b-2 font-medium text-xs sm:text-sm relative ${
                 activeTab === 'flashcards'
-                  ? 'border-burgundy-500 text-burgundy-600'
+                  ? 'border-burgundy-500 text-burgundy-600 dark:text-burgundy-400'
                   : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:border-gray-300'
               }`}
               whileHover={{ y: -2 }}
@@ -187,7 +187,7 @@ const StudyTools = () => {
               onClick={() => setActiveTab('bookmarks')}
               className={`py-2 px-1 border-b-2 font-medium text-xs sm:text-sm relative ${
                 activeTab === 'bookmarks'
-                  ? 'border-burgundy-500 text-burgundy-600'
+                  ? 'border-burgundy-500 text-burgundy-600 dark:text-burgundy-400'
                   : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:border-gray-300'
               }`}
               whileHover={{ y: -2 }}
