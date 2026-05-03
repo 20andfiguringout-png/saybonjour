@@ -32,6 +32,7 @@ import Signup from './pages/Signup'
 import ForgotPassword from './pages/ForgotPassword'
 import ResetPassword from './pages/ResetPassword'
 import VerifyEmail from './pages/VerifyEmail'
+import VerificationBanner from './components/VerificationBanner'
 import Profile from './pages/Profile'
 import Onboarding from './pages/Onboarding'
 import DailyChallenges from './pages/DailyChallenges'
@@ -195,6 +196,7 @@ function App() {
               <div className="min-h-screen bg-cream-50 dark:bg-dark-warm-300 transition-colors duration-300">
                 <Navbar />
                 <AnnouncementBar onVisibilityChange={handleBarVisibility} />
+                <VerificationBanner />
                 <main style={{ paddingTop: barVisible ? '96px' : '60px' }}>
                   <Routes>
                     <Route path="/" element={<Home />} />
