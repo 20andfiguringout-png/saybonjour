@@ -10,82 +10,87 @@ const NATURE_GROUPS = [
     category: 'Landscapes & Geography',
     emoji: '🏔️',
     items: [
-      { fr: 'la montagne', en: 'the mountain' },
-      { fr: 'la mer', en: 'the sea' },
-      { fr: 'l\'océan', en: 'the ocean' },
-      { fr: 'la plage', en: 'the beach' },
-      { fr: 'la forêt', en: 'the forest' },
-      { fr: 'la campagne', en: 'the countryside' },
-      { fr: 'la rivière', en: 'the river (smaller, flows into another river)', note: '"Rivière" flows into another river; "fleuve" flows into the sea' },
-      { fr: 'le fleuve', en: 'the river (large, flows to sea)' },
-      { fr: 'le lac', en: 'the lake' },
-      { fr: 'la vallée', en: 'the valley' },
-      { fr: 'la colline', en: 'the hill' },
-      { fr: 'la côte', en: 'the coast' },
-      { fr: 'l\'île (f)', en: 'the island' },
-      { fr: 'le désert', en: 'the desert' },
+      { fr: 'la montagne', en: 'the mountain', note: 'France has the Alps (highest: Mont Blanc 4,808m), Pyrenees, Massif Central, Vosges, and Jura.' },
+      { fr: 'la mer', en: 'the sea', note: 'France has coastlines on the Atlantic, the Mediterranean, the English Channel, and the North Sea.' },
+      { fr: 'l\'océan (m)', en: 'the ocean', note: '"L\'Océan Atlantique" — France\'s western coast faces the Atlantic.' },
+      { fr: 'la plage', en: 'the beach', note: '"La plage de sable fin" = fine sand beach. "Les galets" = pebbles. Nice has pebble beaches; Atlantic coast has sandy.' },
+      { fr: 'la forêt', en: 'the forest', note: 'France is 30% forest. "La Forêt des Landes" = Europe\'s largest planted forest. "En forêt" = in the forest.' },
+      { fr: 'la campagne', en: 'the countryside', note: '"La vie à la campagne" = country life. "Les champs" = fields. "La campagne française" = iconic rolling farmland.' },
+      { fr: 'la rivière', en: 'the river (smaller, flows into another river)', note: 'Key distinction: "rivière" flows into another river; "fleuve" flows to the sea.' },
+      { fr: 'le fleuve', en: 'the river (large, flows to the sea)', note: 'France\'s major fleuves: la Seine, la Loire, le Rhône, la Garonne. "La Loire" = France\'s longest river.' },
+      { fr: 'le lac', en: 'the lake', note: '"Le lac Léman" (Lake Geneva) — shared with Switzerland. "Le lac d\'Annecy" = one of Europe\'s purest lakes.' },
+      { fr: 'la vallée', en: 'the valley', note: '"La Vallée du Rhône" = France\'s north-south wine corridor. "La vallée de la Loire" = UNESCO World Heritage Site.' },
+      { fr: 'la colline', en: 'the hill', note: '"La colline de Montmartre" = Paris\'s famous hill. "Les collines" = rolling hills.' },
+      { fr: 'la côte', en: 'the coast / coastline', note: '"La Côte d\'Azur" = the Azure/Riviera coast. "La Côte Sauvage" = the Wild Coast (Brittany).' },
+      { fr: 'l\'île (f)', en: 'the island', note: '"La Corse" (Corsica) = France\'s largest island. "La Réunion", "la Martinique" = overseas islands.' },
+      { fr: 'le désert', en: 'the desert', note: 'No true deserts in Metropolitan France, but the "Crau plain" in Provence approaches semi-arid.' },
+      { fr: 'la falaise', en: 'the cliff', note: '"Les falaises d\'Étretat" in Normandy = iconic white chalk cliffs painted by Monet.' },
+      { fr: 'le marais', en: 'the marsh / wetland', note: '"Le Marais Poitevin" = the Poitevin marsh — a network of green canals called the "Venise Verte".' },
     ],
   },
   {
     category: 'Plants & Trees',
     emoji: '🌳',
     items: [
-      { fr: 'un arbre', en: 'a tree' },
-      { fr: 'une fleur', en: 'a flower' },
-      { fr: 'l\'herbe (f)', en: 'grass' },
-      { fr: 'un chêne', en: 'an oak tree' },
-      { fr: 'un peuplier', en: 'a poplar tree', note: 'Iconic in the French countryside' },
-      { fr: 'un rosier', en: 'a rose bush' },
-      { fr: 'le tournesol', en: 'the sunflower', note: 'Lit. "turns with the sun"' },
-      { fr: 'la lavande', en: 'lavender', note: 'Associated with Provence' },
-      { fr: 'le blé', en: 'wheat', note: 'Vast wheat fields cover northern France' },
-      { fr: 'la vigne', en: 'the vine / vineyard plant' },
-      { fr: 'la feuille', en: 'the leaf' },
-      { fr: 'la branche', en: 'the branch' },
+      { fr: 'un arbre', en: 'a tree', note: '"Un arbre centenaire" = a hundred-year-old tree. France has some spectacular ancient oaks and chestnuts.' },
+      { fr: 'une fleur', en: 'a flower', note: '"Cueillir des fleurs" = to pick flowers. "Un bouquet de fleurs" = a bunch of flowers.' },
+      { fr: 'l\'herbe (f)', en: 'grass', note: '"Interdiction de marcher sur les pelouses" = keep off the grass (Paris parks). "Une pelouse" = lawn.' },
+      { fr: 'un chêne', en: 'an oak tree', note: 'The oak is France\'s "national tree". "Le bois de chêne" is used in wine barrel ageing — essential for French wine.' },
+      { fr: 'un peuplier', en: 'a poplar tree', note: '"Les peupliers le long de la route" — iconic in the French landscape, lining canals and roads. Van Gogh painted them obsessively.' },
+      { fr: 'un platane', en: 'a plane tree', note: 'The dominant tree of southern France — lining village squares ("la place ombragée de platanes"). Often used as pétanque shade.' },
+      { fr: 'un rosier', en: 'a rose bush', note: '"Une rose rouge" = a red rose. France is a major rose producer — the Grasse region for perfume.' },
+      { fr: 'le tournesol', en: 'the sunflower', note: '"Tournesol" = turns with the sun. Vast sunflower fields cover the Midi and Dordogne in summer — an iconic French landscape.' },
+      { fr: 'la lavande', en: 'lavender', note: '"Les champs de lavande" in Provence (Valensole, Sault) — July is peak flowering season. A globally iconic French image.' },
+      { fr: 'le blé', en: 'wheat', note: 'Vast wheat fields cover northern France (La Beauce = the "breadbasket of France"). France is one of the world\'s largest wheat exporters.' },
+      { fr: 'la vigne', en: 'the vine / grapevine', note: '"La vigne" = the vine. "Le vignoble" = the vineyard. France has 800,000 hectares of vines.' },
+      { fr: 'la feuille', en: 'the leaf', note: '"Une feuille de platane / de chêne" = a plane/oak leaf. "La chute des feuilles" = the fall of leaves (autumn).' },
+      { fr: 'la branche', en: 'the branch', note: '"Couper une branche" = to cut a branch. "Une branche d\'olivier" = an olive branch (peace).' },
+      { fr: 'la mousse', en: 'moss', note: '"Le tronc recouvert de mousse" = the moss-covered trunk. Common in France\'s wet Atlantic forests.' },
     ],
   },
   {
-    category: 'Weather & Sky',
-    emoji: '⛅',
+    category: 'Animals & Wildlife',
+    emoji: '🦅',
     items: [
-      { fr: 'le soleil', en: 'the sun' },
-      { fr: 'le nuage', en: 'the cloud' },
-      { fr: 'la pluie', en: 'the rain' },
-      { fr: 'la neige', en: 'the snow' },
-      { fr: 'le vent', en: 'the wind' },
-      { fr: 'l\'orage (m)', en: 'the storm / thunderstorm' },
-      { fr: 'la foudre', en: 'lightning / a lightning bolt' },
-      { fr: 'le tonnerre', en: 'thunder' },
-      { fr: 'l\'arc-en-ciel (m)', en: 'the rainbow', note: 'Lit. "arc in the sky"' },
-      { fr: 'le brouillard', en: 'the fog' },
-      { fr: 'la grêle', en: 'hail' },
-      { fr: 'le givre', en: 'frost' },
+      { fr: 'un aigle', en: 'an eagle', note: '"L\'aigle royal" = the golden eagle. Found in the Alps and Pyrenees.' },
+      { fr: 'un renard', en: 'a fox', note: '"Maître Renard" = the fox in La Fontaine\'s famous fables. Very common across France.' },
+      { fr: 'un sanglier', en: 'a wild boar', note: 'Symbol of Astérix\'s village! Very common in French forests — can be dangerous. Hunted in autumn.' },
+      { fr: 'un cerf', en: 'a stag / red deer', note: '"Le brame du cerf" = the stag\'s roar (autumn). Heard in forests at dawn in September.' },
+      { fr: 'une chouette', en: 'an owl', note: '"Chouette !" = great!/cool! (slang). The tawny owl ("la chouette hulotte") is common in French woodlands.' },
+      { fr: 'un papillon', en: 'a butterfly', note: '"Chasser les papillons" = to chase butterflies — French idiom for being distracted/idle.' },
+      { fr: 'une abeille', en: 'a bee', note: '"Travailleur comme une abeille" = hard-working as a bee. Beekeeping ("l\'apiculture") is a major French tradition.' },
+      { fr: 'un dauphin', en: 'a dolphin', note: 'Dolphins are found in the Bay of Biscay and Mediterranean. "Le Dauphin" was the title of the heir to the French throne.' },
+      { fr: 'un chamois', en: 'a chamois (mountain goat)', note: 'Found in the Alps and Pyrenees. "Souple comme un chamois" = as agile as a chamois.' },
+      { fr: 'une cigogne', en: 'a stork', note: 'The stork is the symbol of Alsace. Strasbourg has a stork breeding programme — they nest on church towers.' },
     ],
   },
   {
     category: 'Environment',
     emoji: '🌍',
     items: [
-      { fr: 'l\'environnement (m)', en: 'the environment' },
-      { fr: 'le réchauffement climatique', en: 'global warming' },
-      { fr: 'le changement climatique', en: 'climate change' },
-      { fr: 'la pollution', en: 'pollution' },
-      { fr: 'le recyclage', en: 'recycling' },
-      { fr: 'les énergies renouvelables', en: 'renewable energy' },
-      { fr: 'la biodiversité', en: 'biodiversity' },
-      { fr: 'le développement durable', en: 'sustainable development' },
-      { fr: 'les espèces menacées', en: 'endangered species' },
+      { fr: 'l\'environnement (m)', en: 'the environment', note: '"La protection de l\'environnement" = environmental protection. France has a Ministry of Ecological Transition.' },
+      { fr: 'le réchauffement climatique', en: 'global warming', note: 'France signed the Paris Agreement in 2015 — a significant moment of national and global climate commitment.' },
+      { fr: 'le changement climatique', en: 'climate change', note: '"Le dérèglement climatique" = climate disruption (more accurate term used in French media).' },
+      { fr: 'la pollution', en: 'pollution', note: '"La pollution de l\'air" = air pollution. Paris occasionally bans cars on alternating days during pollution peaks.' },
+      { fr: 'le recyclage', en: 'recycling', note: '"Trier ses déchets" = to sort your waste. France has a colour-coded bin system: jaune (yellow) = recyclables, verte (green) = glass.' },
+      { fr: 'les énergies renouvelables', en: 'renewable energy', note: 'France generates 70% of its electricity from nuclear power — controversial but low-carbon. Wind and solar expanding rapidly.' },
+      { fr: 'la biodiversité', en: 'biodiversity', note: 'France is one of the most biodiverse countries in Europe — 10 national parks, 55 regional nature parks.' },
+      { fr: 'le développement durable', en: 'sustainable development', note: '"Durable" = sustainable (not the same as English "durable" meaning long-lasting). "Le développement durable" is a key French political concept.' },
+      { fr: 'les espèces menacées', en: 'endangered species', note: '"En voie de disparition" = on the way to extinction. The wolf returned to France in the 1990s — controversial with farmers.' },
+      { fr: 'une réserve naturelle', en: 'a nature reserve', note: 'France has 165 natural reserves. "La Camargue" = the Rhône delta — flamingos, wild horses, bulls.' },
     ],
   },
 ]
 
 const NATURE_PHRASES = [
-  { fr: 'Il fait beau aujourd\'hui.', en: 'The weather is lovely today.' },
-  { fr: 'On va à la montagne ce week-end.', en: 'We\'re going to the mountains this weekend.' },
-  { fr: 'La Seine est le fleuve de Paris.', en: 'The Seine is Paris\'s river.' },
-  { fr: 'J\'adore me promener en forêt.', en: 'I love walking in the forest.' },
-  { fr: 'La lavande pousse en Provence.', en: 'Lavender grows in Provence.' },
-  { fr: 'Protéger la nature est essentiel.', en: 'Protecting nature is essential.' },
+  { fr: 'Il fait beau — on va se promener dans la forêt ?', en: 'The weather\'s lovely — shall we go for a walk in the forest?', note: '"Se promener" = to take a walk. "Une balade" = a stroll/walk (informal).' },
+  { fr: 'On va à la montagne ce week-end — j\'adore ça !', en: 'We\'re going to the mountains this weekend — I love it!', note: '"La montagne" = mountains. "Faire de la randonnée" = to hike.' },
+  { fr: 'La Seine est le fleuve qui traverse Paris.', en: 'The Seine is the river that flows through Paris.', note: '"Traverser" = to cross / flow through. "La Seine fait 775 km de long."' },
+  { fr: 'J\'adore me promener en forêt — ça me ressource.', en: 'I love walking in the forest — it recharges me.', note: '"Se ressourcer" = to recharge/restore oneself (in nature). A very French concept.' },
+  { fr: 'La lavande pousse partout en Provence en juillet.', en: 'Lavender grows everywhere in Provence in July.', note: '"Pousser" = to grow (plants). "Partout" = everywhere.' },
+  { fr: 'Protéger la nature, c\'est protéger notre avenir.', en: 'Protecting nature is protecting our future.', note: 'A slogan commonly heard in French environmental campaigns.' },
+  { fr: 'Les champs de tournesols sont magnifiques en été.', en: 'The sunflower fields are magnificent in summer.', note: '"Un champ" = a field. "Les champs" = fields. Dordogne and Midi have spectacular sunflower fields.' },
+  { fr: 'Le mont Blanc est le plus haut sommet d\'Europe occidentale.', en: 'Mont Blanc is the highest peak in Western Europe.', note: '"4 808 mètres" above sea level. Located on the France–Italy border.' },
 ]
 
 export default function FrenchNature() {
@@ -94,11 +99,11 @@ export default function FrenchNature() {
 
   return (
     <div className="min-h-screen bg-cream-50 dark:bg-dark-warm-300">
-      <SEO title="French Nature Vocabulary | SayBonjour!" description="Learn French nature vocabulary — landscapes, plants, weather, environment — with useful phrases." />
+      <SEO title="French Nature Vocabulary | SayBonjour!" description="French nature vocabulary — landscapes, plants, wildlife, environment, and phrases with French natural world notes." />
       <div className="max-w-3xl mx-auto px-4 py-10">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold font-playfair text-gray-900 dark:text-cream-50">Nature in French</h1>
-          <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">La nature — landscapes, plants, weather, and the environment</p>
+          <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">La nature — landscapes, plants, wildlife, and the environment in France</p>
         </div>
 
         <div className="flex gap-3 mb-6 flex-wrap">
@@ -120,15 +125,18 @@ export default function FrenchNature() {
                 </button>
               ))}
             </div>
-            <div className="grid sm:grid-cols-2 gap-3">
+            <div className="space-y-2">
               {NATURE_GROUPS[activeGroup].items.map((item, i) => (
                 <motion.div key={item.fr} initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}
-                  className="bg-white dark:bg-dark-warm-100 rounded-xl shadow border border-gray-100 dark:border-dark-warm-50 p-3 flex items-start gap-2">
+                  className="bg-white dark:bg-dark-warm-100 rounded-xl shadow border border-gray-100 dark:border-dark-warm-50 px-4 py-3 flex items-start gap-2"
+                  onClick={() => addXP(2, 'vocabulary')}>
                   <SpeakButton text={item.fr} size="sm" />
                   <div>
-                    <p className="font-medium text-sm text-burgundy-700 dark:text-burgundy-vibrant-300">{item.fr}</p>
-                    <p className="text-xs text-gray-400">{item.en}</p>
-                    {item.note && <p className="text-xs text-amber-600 dark:text-amber-400 italic">{item.note}</p>}
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <p className="font-medium text-sm text-burgundy-700 dark:text-burgundy-vibrant-300">{item.fr}</p>
+                      <span className="text-xs text-gray-400">— {item.en}</span>
+                    </div>
+                    {item.note && <p className="text-xs text-amber-600 dark:text-amber-400 italic mt-0.5">💡 {item.note}</p>}
                   </div>
                 </motion.div>
               ))}
@@ -140,11 +148,13 @@ export default function FrenchNature() {
           <div className="space-y-3">
             {NATURE_PHRASES.map((p, i) => (
               <motion.div key={p.fr} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}
-                className="bg-white dark:bg-dark-warm-100 rounded-xl shadow border border-gray-100 dark:border-dark-warm-50 p-4 flex items-start gap-3">
+                className="bg-white dark:bg-dark-warm-100 rounded-xl shadow border border-gray-100 dark:border-dark-warm-50 p-4 flex items-start gap-3"
+                onClick={() => addXP(2, 'vocabulary')}>
                 <SpeakButton text={p.fr} size="sm" />
                 <div>
                   <p className="font-medium text-sm italic text-gray-800 dark:text-cream-50">"{p.fr}"</p>
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{p.en}</p>
+                  {p.note && <p className="text-xs text-amber-600 dark:text-amber-400 italic mt-0.5">💡 {p.note}</p>}
                 </div>
               </motion.div>
             ))}
