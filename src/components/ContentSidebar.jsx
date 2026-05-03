@@ -71,7 +71,7 @@ const ContentSidebar = ({
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="bg-burgundy-800 dark:bg-burgundy-900 overflow-hidden"
+                  className="bg-cream-50 dark:bg-dark-warm-200 overflow-hidden"
                 >
                   {section.items.map((item) => (
                     <button
