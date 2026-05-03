@@ -240,8 +240,10 @@ const Navbar = () => {
   const navItemCls = (active) =>
     `flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
       active
-        ? 'text-burgundy-400'
-        : 'text-gray-300 hover:text-white hover:bg-white/5'
+        ? isScrolled ? 'text-burgundy-400' : 'text-burgundy-700'
+        : isScrolled
+          ? 'text-gray-300 hover:text-white hover:bg-white/5'
+          : 'text-gray-700 hover:text-gray-900 hover:bg-black/5'
     }`
 
   const MegaMenuColumn = ({ col, isLast }) => {
@@ -415,12 +417,14 @@ const Navbar = () => {
               <div className="relative" ref={searchRef}>
                 <div className={`flex items-center transition-all duration-300 rounded-xl border ${
                   isSearchOpen
-                    ? 'w-56 border-burgundy-500 bg-gray-800'
-                    : 'w-9 border-transparent bg-gray-800 cursor-pointer hover:bg-gray-700'
+                    ? `w-56 border-burgundy-500 ${isScrolled ? 'bg-gray-800' : 'bg-white'}`
+                    : isScrolled
+                      ? 'w-9 border-transparent bg-gray-800 cursor-pointer hover:bg-gray-700'
+                      : 'w-9 border-transparent bg-black/8 cursor-pointer hover:bg-black/12'
                 }`}>
                   <button
                     onClick={() => { setIsSearchOpen(true); setTimeout(() => searchInputRef.current?.focus(), 50) }}
-                    className="flex-shrink-0 w-9 h-9 flex items-center justify-center text-gray-400"
+                    className={`flex-shrink-0 w-9 h-9 flex items-center justify-center ${isScrolled ? 'text-gray-400' : 'text-gray-600'}`}
                   >
                     <Search size={15} />
                   </button>
@@ -484,7 +488,7 @@ const Navbar = () => {
               <div className="relative" ref={langRef}>
                 <button
                   onClick={() => setIsLangOpen(o => !o)}
-                  className="w-9 h-9 flex items-center justify-center rounded-xl text-gray-400 hover:bg-gray-800 transition-colors text-[11px] font-bold tracking-wider"
+                  className={`w-9 h-9 flex items-center justify-center rounded-xl transition-colors text-[11px] font-bold tracking-wider ${isScrolled ? 'text-gray-400 hover:bg-gray-800' : 'text-gray-600 hover:bg-black/5'}`}
                   title="Switch language"
                 >
                   {lang.toUpperCase()}
@@ -519,7 +523,7 @@ const Navbar = () => {
               {/* Dark mode toggle */}
               <button
                 onClick={toggleTheme}
-                className="w-9 h-9 flex items-center justify-center rounded-xl text-gray-400 hover:bg-gray-800 transition-colors"
+                className={`w-9 h-9 flex items-center justify-center rounded-xl transition-colors ${isScrolled ? 'text-gray-400 hover:bg-gray-800' : 'text-gray-600 hover:bg-black/5'}`}
                 title={isDark ? 'Light mode' : 'Dark mode'}
               >
                 {isDark ? <Sun size={16} /> : <Moon size={16} />}
