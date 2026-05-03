@@ -2,7 +2,9 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Plane, Hotel, Utensils, MapPin, AlertTriangle, CheckCircle, XCircle, ChevronDown, ChevronUp, ChevronRight, Star, BookOpen, MessageCircle, Trophy } from 'lucide-react'
 import { addXP } from '../utils/progress'
-import { travelVocab, travelPhrases, travelScenarios, travelQuiz } from '../data/travelData'
+import { travelPhrases, travelScenarios, travelQuiz } from '../data/travelData'
+import { getContent } from '../utils/contentStore'
+const travelVocab = getContent('travel')
 import SpeakButton from '../components/SpeakButton'
 import SEO from '../components/SEO'
 

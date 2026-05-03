@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { BookOpen, Brain, Bookmark, MapPin, ArrowRight, Award, Play, TrendingUp, Globe, Zap, Heart, Users, Film, Lightbulb, Map, FileText, PenTool, MessageCircle, Ear, Building, Theater, Wine, Music, Tv } from 'lucide-react'
+import { BookOpen, Brain, Bookmark, MapPin, ArrowRight, Award, Play, TrendingUp, Globe, Zap, Heart, Users, Film, Lightbulb, Map, FileText, PenTool, MessageCircle, Ear, Building, Theater, Wine, Music, Tv, Flame } from 'lucide-react'
 import { motion } from 'framer-motion'
 import SEO from '../components/SEO'
 import SpeakButton from '../components/SpeakButton'
+import { updateAndGetStreak, getWeekDots, getStreakMotivation, getStreakEmoji } from '../utils/streak'
 
 const TypewriterText = ({ text, delay = 0 }) => {
   const [displayText, setDisplayText] = useState('')
@@ -35,6 +36,12 @@ const TypewriterText = ({ text, delay = 0 }) => {
 
 
 const Home = () => {
+  const [streak, setStreak] = useState({ currentStreak: 0, longestStreak: 0 })
+
+  useEffect(() => {
+    setStreak(updateAndGetStreak())
+  }, [])
+
   const particles = useMemo(() => Array.from({ length: 15 }, () => ({
     left: Math.random() * 100,
     top: Math.random() * 100,
@@ -333,7 +340,7 @@ const Home = () => {
 
           {/* Enhanced Action Buttons */}
           <motion.div
-            className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center mb-8 sm:mb-12 md:mb-16 px-4"
+            className="grid grid-cols-2 sm:flex sm:flex-row gap-3 sm:gap-6 justify-center items-center mb-8 sm:mb-12 md:mb-16 px-4"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.4 }}
@@ -345,7 +352,7 @@ const Home = () => {
             >
               <Link
                 to="/resources"
-                className="relative px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 rounded-full font-bold transition-all duration-300 flex items-center justify-center space-x-2 sm:space-x-3 shadow-lg text-base sm:text-lg w-full sm:w-auto"
+                className="relative px-4 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 rounded-full font-bold transition-all duration-300 flex items-center justify-center space-x-2 sm:space-x-3 shadow-lg text-sm sm:text-lg w-full sm:w-auto"
                 style={{
                   backgroundColor: '#F5F2E8',
                   color: '#800020',
@@ -372,7 +379,7 @@ const Home = () => {
             >
               <Link
                 to="/quizzes"
-                className="relative px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 rounded-full font-bold transition-all duration-300 flex items-center justify-center space-x-2 sm:space-x-3 text-base sm:text-lg w-full sm:w-auto"
+                className="relative px-4 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 rounded-full font-bold transition-all duration-300 flex items-center justify-center space-x-2 sm:space-x-3 text-sm sm:text-lg w-full sm:w-auto"
                 style={{
                   border: `2px solid #F5F2E8`,
                   color: '#F5F2E8',
@@ -399,7 +406,7 @@ const Home = () => {
 
         {/* Enhanced Bottom Navigation Links */}
         <motion.div
-          className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-4 right-4 sm:left-6 sm:right-6 md:left-8 md:right-8 flex flex-col sm:flex-row justify-center sm:justify-between items-center sm:items-end gap-3 sm:gap-0 z-20"
+          className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-4 right-4 sm:left-6 sm:right-6 md:left-8 md:right-8 flex flex-row justify-between items-end gap-2 sm:gap-0 z-20"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.6 }}
@@ -407,11 +414,11 @@ const Home = () => {
           <motion.div
             whileHover={{ x: 10, scale: 1.05 }}
             transition={{ duration: 0.3 }}
-            className="group w-full sm:w-auto"
+            className="group"
           >
             <Link
               to="/culture"
-              className="transition-all duration-300 flex items-center justify-center sm:justify-start space-x-2 sm:space-x-3 text-sm sm:text-base md:text-lg font-medium bg-cream-50/10 backdrop-blur-sm px-4 sm:px-5 md:px-6 py-2 sm:py-3 rounded-full border border-cream-50/20 group-hover:bg-cream-50/20 w-full sm:w-auto"
+              className="transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base md:text-lg font-medium bg-cream-50/10 backdrop-blur-sm px-3 sm:px-5 md:px-6 py-2 sm:py-3 rounded-full border border-cream-50/20 group-hover:bg-cream-50/20 whitespace-nowrap"
               style={{ color: '#F5F2E8' }}
             >
               <motion.span
@@ -435,11 +442,11 @@ const Home = () => {
           <motion.div
             whileHover={{ x: -10, scale: 1.05 }}
             transition={{ duration: 0.3 }}
-            className="group w-full sm:w-auto"
+            className="group"
           >
             <Link
               to="/study-tools"
-              className="transition-all duration-300 flex items-center justify-center sm:justify-start space-x-2 sm:space-x-3 text-sm sm:text-base md:text-lg font-medium bg-cream-50/10 backdrop-blur-sm px-4 sm:px-5 md:px-6 py-2 sm:py-3 rounded-full border border-cream-50/20 group-hover:bg-cream-50/20 w-full sm:w-auto"
+              className="transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base md:text-lg font-medium bg-cream-50/10 backdrop-blur-sm px-3 sm:px-5 md:px-6 py-2 sm:py-3 rounded-full border border-cream-50/20 group-hover:bg-cream-50/20 whitespace-nowrap"
               style={{ color: '#F5F2E8' }}
             >
               <motion.span
@@ -517,7 +524,7 @@ const Home = () => {
               Comprehensive Learning Platform
             </motion.div>
             <motion.h2
-              className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-cream-50 mb-3 sm:mb-4 transition-colors duration-300 px-2"
+              className="text-2xl sm:text-3xl md:text-4xl font-bold text-burgundy-600 dark:text-cream-50 mb-3 sm:mb-4 transition-colors duration-300 px-2"
               initial={{ opacity: 1, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -526,7 +533,7 @@ const Home = () => {
               Everything You Need to Master French
             </motion.h2>
             <motion.p
-              className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto transition-colors duration-300 px-2"
+              className="text-base sm:text-lg md:text-xl text-gray-800 dark:text-gray-300 max-w-2xl mx-auto transition-colors duration-300 px-2"
               initial={{ opacity: 1, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -542,10 +549,10 @@ const Home = () => {
             {/* Core Learning Section */}
             <div>
               <h3 className="category-header">Core Learning</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
 
                 {/* Content & Resources */}
-                <Link to="/resources" className="block lg:col-span-2">
+                <Link to="/resources" className="block sm:col-span-2 lg:col-span-2">
                   <motion.div
                     className="bento-card-primary"
                     initial={{ opacity: 1, y: 30 }}
@@ -567,19 +574,19 @@ const Home = () => {
                         <div className="w-10 h-10 sm:w-12 sm:h-12 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-2 sm:mb-3">
                           <span className="text-base sm:text-lg">📖</span>
                         </div>
-                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium">200+ Articles</p>
+                        <p className="bento-label sm:text-sm font-medium">200+ Articles</p>
                       </div>
                       <div className="text-center">
                         <div className="w-10 h-10 sm:w-12 sm:h-12 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-2 sm:mb-3">
                           <span className="text-base sm:text-lg">🎓</span>
                         </div>
-                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium">All Levels</p>
+                        <p className="bento-label sm:text-sm font-medium">All Levels</p>
                       </div>
                       <div className="text-center">
                         <div className="w-10 h-10 sm:w-12 sm:h-12 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-2 sm:mb-3">
                           <span className="text-base sm:text-lg">📋</span>
                         </div>
-                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium">Study Guides</p>
+                        <p className="bento-label sm:text-sm font-medium">Study Guides</p>
                       </div>
                     </div>
                     <div className="bento-cta">
@@ -612,19 +619,19 @@ const Home = () => {
                         <div className="w-8 h-8 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-1">
                           <PenTool className="w-4 h-4 text-burgundy-700 dark:text-cream-50" />
                         </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Grammar</p>
+                        <p className="bento-label">Grammar</p>
                       </div>
                       <div className="text-center">
                         <div className="w-8 h-8 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-1">
                           <MessageCircle className="w-4 h-4 text-burgundy-700 dark:text-cream-50" />
                         </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Speaking</p>
+                        <p className="bento-label">Speaking</p>
                       </div>
                       <div className="text-center">
                         <div className="w-8 h-8 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-1">
                           <Ear className="w-4 h-4 text-burgundy-700 dark:text-cream-50" />
                         </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Listening</p>
+                        <p className="bento-label">Listening</p>
                       </div>
                     </div>
                     <div className="bento-cta">
@@ -639,7 +646,65 @@ const Home = () => {
             {/* Quick Access Tools Section */}
             <div>
               <h3 className="category-header">Quick Access</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              <div className="grid grid-cols-2 gap-3 sm:gap-6">
+
+                {/* Daily Streak */}
+                <Link to="/quizzes" className="block">
+                  <motion.div
+                    className="bento-card-tools h-full"
+                    initial={{ opacity: 1, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                    viewport={{ once: true }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <div className="bento-icon-tools">
+                      <Flame className="w-6 h-6 text-cream-50" />
+                    </div>
+                    <h3 className="bento-title">Daily Streak</h3>
+                    <div className="flex items-end gap-3 mb-3">
+                      <span className="text-5xl font-extrabold leading-none bento-streak-number">
+                        {streak.currentStreak}
+                      </span>
+                      <div className="pb-1">
+                        <p className="bento-label font-semibold leading-tight">day{streak.currentStreak !== 1 ? 's' : ''}</p>
+                        <p className="bento-label leading-tight">in a row {getStreakEmoji(streak.currentStreak)}</p>
+                      </div>
+                    </div>
+                    <p className="bento-description mb-3">{getStreakMotivation(streak.currentStreak)}</p>
+
+                    {/* Weekly progress dots */}
+                    <div className="mb-4">
+                      <p className="bento-label mb-2 font-semibold">This week</p>
+                      <div className="flex items-center justify-between gap-1">
+                        {['M','T','W','T','F','S','S'].map((label, i) => {
+                          const dots = getWeekDots(streak)
+                          const dot = dots[i]
+                          let dotClass = 'streak-dot-future'
+                          if (dot.isVisited) dotClass = 'streak-dot-visited'
+                          else if (dot.isToday) dotClass = 'streak-dot-today'
+                          return (
+                            <div key={i} className="flex flex-col items-center gap-1">
+                              <div className={dotClass}>
+                                {dot.isVisited ? '✓' : dot.isToday ? '·' : ''}
+                              </div>
+                              <span style={{ fontSize: '10px' }} className="bento-label">{label}</span>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+
+                    {streak.longestStreak > 0 && (
+                      <p className="bento-label mb-4">Best: <span className="font-semibold">{streak.longestStreak} day{streak.longestStreak !== 1 ? 's' : ''}</span></p>
+                    )}
+                    <div className="bento-cta">
+                      <span>Keep Learning</span>
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </div>
+                  </motion.div>
+                </Link>
 
                 {/* Phrase of the Day */}
                 <Link to="/phrase-of-the-day" className="block">
@@ -658,14 +723,14 @@ const Home = () => {
                     <h3 className="bento-title">Phrase of the Day</h3>
                     <div className="mb-4">
                       <div className="flex items-center justify-between mb-2">
-                        <p className="text-sm font-semibold text-gray-900 dark:text-cream-50">"Petit à petit, l'oiseau fait son nid"</p>
+                        <p className="bento-quote">"Petit à petit, l'oiseau fait son nid"</p>
                         <SpeakButton
                           text="Petit à petit, l'oiseau fait son nid"
                           size="sm"
                           variant="ghost"
                         />
                       </div>
-                      <p className="text-xs text-gray-600 dark:text-gray-400 italic">Little by little, the bird builds its nest</p>
+                      <p className="bento-label italic">Little by little, the bird builds its nest</p>
                     </div>
                     <div className="bento-cta">
                       <span>Daily Wisdom</span>
@@ -718,7 +783,7 @@ const Home = () => {
                       Download PDFs for offline practice and structured learning exercises.
                     </p>
                     <div className="flex items-center justify-between mb-4">
-                      <span className="text-xs bg-burgundy-100 dark:bg-burgundy-vibrant-600 text-burgundy-900 dark:text-cream-50 px-3 py-1 rounded-full font-medium">50+ PDFs</span>
+                      <span className="bento-badge">50+ PDFs</span>
                     </div>
                     <div className="bento-cta">
                       <span>Get Worksheets</span>
@@ -732,7 +797,7 @@ const Home = () => {
             {/* Culture & Media Section */}
             <div>
               <h3 className="category-header">Culture & Media</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
 
                 {/* Cultural Insights */}
                 <Link to="/culture" className="block">
@@ -757,19 +822,19 @@ const Home = () => {
                         <div className="w-8 h-8 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-1">
                           <Building className="w-4 h-4 text-burgundy-700 dark:text-cream-50" />
                         </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Traditions</p>
+                        <p className="bento-label">Traditions</p>
                       </div>
                       <div className="text-center">
                         <div className="w-8 h-8 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-1">
                           <MessageCircle className="w-4 h-4 text-burgundy-700 dark:text-cream-50" />
                         </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Dialects</p>
+                        <p className="bento-label">Dialects</p>
                       </div>
                       <div className="text-center">
                         <div className="w-8 h-8 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-1">
                           <Theater className="w-4 h-4 text-burgundy-700 dark:text-cream-50" />
                         </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Etiquette</p>
+                        <p className="bento-label">Etiquette</p>
                       </div>
                     </div>
                     <div className="bento-cta">
@@ -802,19 +867,19 @@ const Home = () => {
                         <div className="w-8 h-8 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-1">
                           <MapPin className="w-4 h-4 text-burgundy-700 dark:text-cream-50" />
                         </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Regions</p>
+                        <p className="bento-label">Regions</p>
                       </div>
                       <div className="text-center">
                         <div className="w-8 h-8 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-1">
                           <Wine className="w-4 h-4 text-burgundy-700 dark:text-cream-50" />
                         </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Specialties</p>
+                        <p className="bento-label">Specialties</p>
                       </div>
                       <div className="text-center">
                         <div className="w-8 h-8 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-1">
                           <MessageCircle className="w-4 h-4 text-burgundy-700 dark:text-cream-50" />
                         </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Dialects</p>
+                        <p className="bento-label">Dialects</p>
                       </div>
                     </div>
                     <div className="bento-cta">
@@ -847,19 +912,19 @@ const Home = () => {
                         <div className="w-8 h-8 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-1">
                           <Film className="w-4 h-4 text-burgundy-700 dark:text-cream-50" />
                         </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Movies</p>
+                        <p className="bento-label">Movies</p>
                       </div>
                       <div className="text-center">
                         <div className="w-8 h-8 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-1">
                           <Music className="w-4 h-4 text-burgundy-700 dark:text-cream-50" />
                         </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Music</p>
+                        <p className="bento-label">Music</p>
                       </div>
                       <div className="text-center">
                         <div className="w-8 h-8 bg-burgundy-100 dark:bg-burgundy-vibrant-600 rounded-lg flex items-center justify-center mb-1">
                           <Tv className="w-4 h-4 text-burgundy-700 dark:text-cream-50" />
                         </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">TV Shows</p>
+                        <p className="bento-label">TV Shows</p>
                       </div>
                     </div>
                     <div className="bento-cta">
@@ -952,11 +1017,9 @@ const Home = () => {
             {/* Brand Section */}
             <div className="lg:col-span-2">
               <div className="flex items-center space-x-2 mb-4">
-                <img
-                  src="/logo.png"
-                  alt="SayBonjour Logo"
-                  className="w-10 h-10 object-contain"
-                />
+                <div className="w-10 h-10 rounded-lg bg-burgundy-600 flex items-center justify-center flex-shrink-0">
+                  <span className="text-cream-50 font-bold text-lg">B</span>
+                </div>
                 <span className="brand-font text-xl text-cream-50">SayBonjour!</span>
               </div>
               <p className="text-cream-200 text-sm mb-6 max-w-sm">
@@ -1008,9 +1071,9 @@ const Home = () => {
                 <li><Link to="/culture" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">Cultural Insights</Link></li>
                 <li><Link to="/france-map" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">Interactive France Map</Link></li>
                 <li><Link to="/media" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">French in Media</Link></li>
-                <li><span className="text-cream-300">French Movies</span></li>
-                <li><span className="text-cream-300">French Music</span></li>
-                <li><span className="text-cream-300">French TV Shows</span></li>
+                <li><Link to="/media" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">French Movies</Link></li>
+                <li><Link to="/media" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">French Music</Link></li>
+                <li><Link to="/media" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">French TV Shows</Link></li>
               </ul>
             </div>
 
@@ -1018,13 +1081,13 @@ const Home = () => {
             <div>
               <h3 className="text-burgundy-300 font-semibold text-sm uppercase tracking-wider mb-4">Levels</h3>
               <ul className="space-y-3 text-sm">
-                <li><span className="text-cream-200">Beginner (A1-A2)</span></li>
-                <li><span className="text-cream-200">Intermediate (B1-B2)</span></li>
-                <li><span className="text-cream-200">Advanced (C1-C2)</span></li>
-                <li><span className="text-cream-300">Grammar Basics</span></li>
-                <li><span className="text-cream-300">Vocabulary Building</span></li>
-                <li><span className="text-cream-300">Pronunciation Guide</span></li>
-                <li><span className="text-cream-300">Conversation Practice</span></li>
+                <li><Link to="/levels" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">Beginner (A1-A2)</Link></li>
+                <li><Link to="/levels" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">Intermediate (B1-B2)</Link></li>
+                <li><Link to="/levels" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">Advanced (C1-C2)</Link></li>
+                <li><Link to="/grammar" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">Grammar Basics</Link></li>
+                <li><Link to="/vocabulary" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">Vocabulary Building</Link></li>
+                <li><Link to="/pronunciation" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">Pronunciation Guide</Link></li>
+                <li><Link to="/conversation" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">Conversation Practice</Link></li>
               </ul>
             </div>
 

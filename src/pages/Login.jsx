@@ -52,15 +52,11 @@ export default function Login() {
   return (
     <>
       <SEO title="Log In | SayBonjour!" url="/login" noindex />
-      <div className="min-h-screen flex bg-white dark:bg-dark-warm-100">
+      <div className="min-h-[calc(100vh-60px)] flex bg-white dark:bg-dark-warm-100">
 
         {/* ── Left panel: AI illustration ── */}
         <div className="hidden lg:block relative overflow-hidden" style={{ width: '58%' }}>
-          <img
-            src="/login-illustration.png"
-            alt="Parisian rooftop at golden hour"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
+          <div className="absolute inset-0 bg-gradient-to-br from-burgundy-900 via-burgundy-700 to-burgundy-500" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-black/30" />
           <div className="absolute top-8 left-8 z-10">
             <p className="text-white font-bold text-xl drop-shadow-lg" style={{ fontFamily: 'Playfair Display, serif' }}>SayBonjour!</p>

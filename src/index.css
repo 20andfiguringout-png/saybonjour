@@ -287,22 +287,18 @@
   /* Section gradients for both modes */
   .section-gradient {
     background: linear-gradient(135deg, #FFFCEF 0%, #F5F2E8 50%, #EBE8DB 100%);
-    color: #1f2937;
   }
 
   .dark .section-gradient {
     background: linear-gradient(135deg, #1A1A1A 0%, #2B1B1B 50%, #2C2C2C 100%);
-    color: #fffcef;
   }
 
   .section-gradient-alt {
     background: linear-gradient(145deg, #FFFCEF 0%, #FEF2F2 30%, #F5F2E8 100%);
-    color: #1f2937;
   }
 
   .dark .section-gradient-alt {
     background: linear-gradient(145deg, #1A1A1A 0%, #2B1B1B 30%, #2C2C2C 100%);
-    color: #fffcef;
   }
 
   /* Parallax and Motion Effects */
@@ -325,14 +321,21 @@
 
   /* Bento Grid Card Components */
   .bento-card {
-    @apply bg-cream-50 rounded-xl sm:rounded-2xl shadow-sm border border-cream-200 p-4 sm:p-6 md:p-8 h-full transition-all duration-300 hover:shadow-lg hover:border-burgundy-200 hover:-translate-y-1 cursor-pointer relative overflow-hidden;
+    @apply bg-cream-50 rounded-xl sm:rounded-2xl shadow-sm border border-cream-200 p-3 sm:p-6 md:p-8 h-full transition-all duration-300 hover:shadow-lg hover:border-burgundy-200 hover:-translate-y-1 cursor-pointer relative overflow-hidden;
     @apply dark:bg-dark-warm-100 dark:border-dark-warm-50 dark:hover:border-burgundy-vibrant-500 dark:shadow-lg;
-    min-height: 240px;
+    min-height: 160px;
   }
 
   @media (min-width: 640px) {
     .bento-card {
       min-height: 280px;
+      padding: 1.5rem;
+    }
+  }
+  @media (min-width: 768px) {
+    .bento-card {
+      min-height: 300px;
+      padding: 2rem;
     }
   }
 
@@ -408,7 +411,7 @@
 
   /* Bento Card Typography */
   .bento-title {
-    @apply text-lg font-bold mb-3 leading-tight;
+    @apply text-sm sm:text-lg font-bold mb-1 sm:mb-3 leading-tight;
     color: #1f2937;
   }
 
@@ -417,7 +420,7 @@
   }
 
   .bento-title-large {
-    @apply text-xl font-bold mb-4 leading-tight;
+    @apply text-base sm:text-xl font-bold mb-2 sm:mb-4 leading-tight;
     color: #1f2937;
   }
 
@@ -426,13 +429,96 @@
   }
 
   .bento-description {
-    @apply text-sm mb-4 leading-relaxed;
+    @apply hidden sm:block text-sm mb-4 leading-relaxed;
     color: #4b5563;
     line-height: 1.6;
   }
 
   .dark .bento-description {
     color: #e5e0d8;
+  }
+
+  .bento-quote {
+    @apply text-sm font-semibold mb-2 leading-snug;
+    color: #111827;
+  }
+
+  .dark .bento-quote {
+    color: #fffcef;
+  }
+
+  .bento-label {
+    @apply text-xs font-medium;
+    color: #4b5563;
+  }
+
+  .dark .bento-label {
+    color: #9ca3af;
+  }
+
+  .bento-badge {
+    @apply text-xs px-3 py-1 rounded-full font-medium;
+    background-color: #fee2e2;
+    color: #330009;
+  }
+
+  .dark .bento-badge {
+    background-color: #A52A2A;
+    color: #fffcef;
+  }
+
+  .bento-streak-number {
+    color: #660019;
+    font-variant-numeric: tabular-nums;
+    font-size: 2.5rem;
+  }
+  @media (min-width: 640px) {
+    .bento-streak-number {
+      font-size: 3rem;
+    }
+  }
+
+  .dark .bento-streak-number {
+    color: #fffcef;
+  }
+
+  .streak-dot {
+    @apply w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300;
+  }
+
+  .streak-dot-visited {
+    @apply streak-dot;
+    background-color: #660019;
+    color: #fffcef;
+  }
+
+  .dark .streak-dot-visited {
+    background-color: #fffcef;
+    color: #330009;
+  }
+
+  .streak-dot-today {
+    @apply streak-dot;
+    background-color: #fee2e2;
+    color: #660019;
+    box-shadow: 0 0 0 2px #660019;
+  }
+
+  .dark .streak-dot-today {
+    background-color: #3a1a1a;
+    color: #fffcef;
+    box-shadow: 0 0 0 2px #fffcef;
+  }
+
+  .streak-dot-future {
+    @apply streak-dot;
+    background-color: #f5f2e8;
+    color: #c4bfb0;
+  }
+
+  .dark .streak-dot-future {
+    background-color: #2c2c2c;
+    color: #5a5a5a;
   }
 
   .bento-cta {
@@ -454,7 +540,7 @@
 
   /* Bento Card Icons */
   .bento-icon {
-    @apply w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-all duration-300;
+    @apply w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center mb-2 sm:mb-4 transition-all duration-300;
   }
 
   .bento-icon-primary {

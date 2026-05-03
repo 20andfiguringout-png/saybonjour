@@ -71,7 +71,7 @@ const ContentSidebar = ({
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="bg-burgundy-800 dark:bg-burgundy-900 overflow-hidden"
+                  className="bg-cream-50 dark:bg-dark-warm-200 overflow-hidden"
                 >
                   {section.items.map((item) => (
                     <button
@@ -84,9 +84,9 @@ const ContentSidebar = ({
                       }`}
                     >
                       <div className="pl-3 sm:pl-4">
-                        <div className="font-medium text-xs sm:text-sm text-cream-50">{item.title}</div>
+                        <div className="font-medium text-xs sm:text-sm text-gray-900 dark:text-cream-50">{item.title}</div>
                         {item.description && (
-                          <div className="text-xs text-cream-200 mt-1 line-clamp-2">
+                          <div className="text-xs text-gray-600 dark:text-cream-200 mt-1 line-clamp-2">
                             {item.description}
                           </div>
                         )}

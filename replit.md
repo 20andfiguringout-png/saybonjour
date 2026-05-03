@@ -41,7 +41,7 @@ An interactive French learning platform called "SayBonjour!" with a React/Vite f
 - `src/utils/progress.js` - XP, streaks, levels, badges, rank tiers, XP multipliers, daily login reward
 - `src/utils/srs.js` - SM-2 spaced repetition algorithm
 
-## Pages (34 routes)
+## Pages (52 routes)
 
 ### Core
 - `/` - Home (hero, features, animated background)
@@ -71,6 +71,15 @@ An interactive French learning platform called "SayBonjour!" with a React/Vite f
 - `/business-french` - Professional vocabulary, phrases, dialogues, quiz
 - `/slang-french` - Street French, verlan, informal register, quiz
 - `/travel-french` - Travel vocab, phrases, real scenarios, quiz — **Phase 3**
+- `/vocabulary-themes` - Themed vocabulary sets (food, family, home, weather, etc.)
+- `/verb-drills` - Timed conjugation drills with leaderboard, level filter, streak
+- `/dictation` - French dictation with TTS, 3 difficulties, spelling check
+- `/study-planner` - Weekly study schedule builder with goal tracking
+- `/numbers` - French numbers 0–1M, ordinals, time-telling, maths vocab, quiz
+- `/hangman` - French Hangman (Le Pendu) with CEFR level filter, SVG gallows, keyboard
+- `/word-scramble` - Unscramble French words with hint, timer, score
+- `/spelling-bee` - French spelling bee with TTS, lives, score
+- `/levels` - CEFR level guide A1–C2
 
 ### Resources
 - `/resources` - Articles and learning content
@@ -82,9 +91,28 @@ An interactive French learning platform called "SayBonjour!" with a React/Vite f
 - `/worksheets` - Downloadable practice sheets
 - `/phrase-of-the-day` - Daily French phrase
 - `/jokes` - French jokes & humour with punchlines and vocab notes — **Phase 3**
+- `/false-friends` - Faux amis quiz and list (French–English lookalikes)
+- `/tongue-twisters` - Virelangues with TTS and difficulty rating
+- `/cultural-calendar` - Monthly French holidays and cultural events
+- `/leaderboard` - Global XP leaderboard with rank/streak display
+- `/achievements` - Badge gallery and progress trophies
 
 ### Admin
-- `/admin` - Admin panel (requires admin login via `Authorization: Bearer` header)
+- `/admin` - Comprehensive CMS (requires admin login via `Authorization: Bearer` header)
+  - Tabs: Sections, Articles, Quizzes, Worksheets, Phrases, Phrase Sections, Vocabulary, Daily Vocab, **Jokes, Travel, Business, Slang, Reading, Writing, Sentences**, Site Settings
+  - **Vocabulary tab**: CRUD for custom vocab words (`custom_vocab_words` table) — French, English, list name, category, difficulty, notes; SpeakButton preview
+  - **Daily Vocab tab**: CRUD for daily challenge vocab entries (`custom_daily_vocab` table) — French, English, category; SpeakButton preview
+  - **Site Settings tab**: Edit hero title, hero subtitle, site name, CTA buttons, announcement bar, footer tagline (persisted to `site_settings` table)
+  - **Jokes tab**: Full CRUD — category, setup/punchline (FR+EN), vocab hint, cultural note
+  - **Travel Vocab tab**: Full CRUD — French/English pairs with airport/hotel/restaurant/transport categories
+  - **Business Vocab tab**: Full CRUD — French/English pairs with roles/meetings/finance/legal categories
+  - **Slang tab**: Full CRUD — expression, meaning, register (verlan/youth/informal), etymology note
+  - **Reading tab**: Full CRUD — level, title, passage text, comprehension questions (with options + correct answer), vocab
+  - **Writing tab**: Full CRUD — level, register, title, template text, key phrases (FR+EN pairs), notes
+  - **Sentences tab**: Full CRUD — level, hint, word tiles (comma-separated), correct order, translation, explanation
+  - All new tabs backed by `src/utils/contentStore.js` (localStorage with static data fallback)
+  - All corresponding pages (FrenchJokes, TravelFrench, BusinessFrench, SlangFrench, ReadingComprehension, WritingTemplates, SentenceBuilder) load from contentStore
+  - Admin password: `admin123` (set via ADMIN_PASSWORD_HASH env var)
 
 ## Feature Modules
 
@@ -109,6 +137,9 @@ An interactive French learning platform called "SayBonjour!" with a React/Vite f
 - `users` — 20+ columns incl. bio, avatar_url, learning_style, study_reminder, weekly_xp_goal, notification_prefs, onboarding_complete, google_id
 - `study_history` — id, user_id, type, xp_gained, duration_mins, topic, created_at
 - `user_sessions` — id, user_id, page, progress_data, updated_at
+- `site_settings` — key, value, updated_at (pre-seeded with 7 hero/site settings defaults)
+- `custom_vocab_words` — id, french, english, category, list_name, difficulty, notes, active, created_at
+- `custom_daily_vocab` — id, french, english, category, active, created_at
 
 ### Accessibility (`/settings` → Accessibility tab + AccessibilityContext)
 - **Font size**: small / medium / large / x-large — CSS `font-size` on `<html>` root
@@ -117,8 +148,10 @@ An interactive French learning platform called "SayBonjour!" with a React/Vite f
 - **Reduce motion**: `.reduce-motion` class; disables all CSS animations/transitions
 
 ### Internationalisation (I18nContext)
-- EN / FR toggle; full strings dictionary in `src/context/i18nContext.jsx`
-- `useI18n()` hook returns `{ t, lang, toggle }` — `t('key')` returns translated string
+- EN / FR / ES 3-way cycle; full strings dictionary in `src/context/i18nContext.jsx`
+- `useI18n()` hook returns `{ t, lang, setLang, toggle }` — `t('key')` returns translated string
+- Language persists to localStorage key `saybonjour_lang`
+- Navbar desktop: dropdown selector (EN/FR/ES); mobile: tap button cycles EN→FR→ES→EN
 
 ### Google OAuth
 - Frontend: Google GSI script loaded in `index.html`; uses `window.google.accounts.id.prompt()` One Tap

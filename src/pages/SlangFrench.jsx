@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Zap, ArrowLeftRight, Users, Trophy, ChevronRight } from 'lucide-react'
-import { slangExpressions, verlanExamples, formalVsInformal, slangQuiz } from '../data/slangData'
+import { verlanExamples, formalVsInformal, slangQuiz } from '../data/slangData'
+import { getContent } from '../utils/contentStore'
+const slangExpressions = getContent('slang')
 import { addXP } from '../utils/progress'
 import SEO from '../components/SEO'
 import SpeakButton from '../components/SpeakButton'

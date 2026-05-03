@@ -10,6 +10,7 @@ import { getFavoritesCounts } from '../utils/favorites'
 import { getProgress } from '../utils/progress'
 import { useTheme } from '../context/ThemeContext'
 import { useUser } from '../context/UserContext'
+import { useI18n } from '../context/i18nContext'
 
 const SEARCH_INDEX = [
   { label: 'Verb Conjugator', desc: 'All tenses for 25+ verbs', href: '/conjugate', category: 'Language Tools' },
@@ -17,27 +18,66 @@ const SEARCH_INDEX = [
   { label: 'Vocabulary SRS', desc: 'Spaced repetition flashcards', href: '/vocabulary', category: 'Language Tools' },
   { label: 'Study Tools', desc: 'Flashcards and bookmarks', href: '/study-tools', category: 'Language Tools' },
   { label: 'Writing Templates', desc: 'Emails, letters & essays', href: '/writing', category: 'Language Tools' },
+  { label: 'Vocabulary Themes', desc: 'Learn by topic — food, family, home', href: '/vocabulary-themes', category: 'Language Tools' },
+  { label: 'Verb Drills', desc: 'Timed conjugation practice', href: '/verb-drills', category: 'Language Tools' },
+  { label: 'Grammar Tips', desc: 'Quick grammar wins with mini-quizzes', href: '/grammar-tips', category: 'Language Tools' },
+  { label: 'Gender Practice', desc: 'Le ou la? Master noun genders', href: '/gender-practice', category: 'Language Tools' },
+  { label: 'French Keyboard', desc: 'Type accented characters easily', href: '/french-keyboard', category: 'Language Tools' },
+  { label: 'Quick Translator', desc: 'French phrase lookup tool', href: '/quick-translator', category: 'Language Tools' },
+  { label: 'Vocabulary Export', desc: 'Download word lists as CSV or Anki', href: '/vocabulary-export', category: 'Language Tools' },
   { label: 'Reading Comprehension', desc: 'A1–B2 graded passages', href: '/reading', category: 'Practice' },
   { label: 'Daily Challenges', desc: 'New challenges every day', href: '/daily-challenges', category: 'Practice' },
   { label: 'Interactive Stories', desc: 'Choose-your-path French', href: '/stories', category: 'Practice' },
   { label: 'Sentence Builder', desc: 'Arrange & fill-in-blank exercises', href: '/sentence-builder', category: 'Practice' },
+  { label: 'Dictation', desc: 'Listen and write French sentences', href: '/dictation', category: 'Practice' },
+  { label: 'Study Planner', desc: 'Plan your weekly study schedule', href: '/study-planner', category: 'Practice' },
+  { label: 'DELF / DALF Prep', desc: 'Exam preparation A1–C2', href: '/delf-prep', category: 'Practice' },
   { label: 'Word Match Game', desc: 'Match French & English words', href: '/word-match', category: 'Games' },
   { label: 'Typing Race', desc: 'Type French translations fast!', href: '/typing-race', category: 'Games' },
+  { label: 'Hangman', desc: 'Guess French words letter by letter', href: '/hangman', category: 'Games' },
+  { label: 'Word Scramble', desc: 'Unscramble French words', href: '/word-scramble', category: 'Games' },
+  { label: 'Spelling Bee', desc: 'Hear and spell French words', href: '/spelling-bee', category: 'Games' },
+  { label: 'French Numbers', desc: 'Learn numbers, ordinals, and time', href: '/numbers', category: 'Games' },
+  { label: 'Crossword', desc: 'French vocabulary crossword puzzles', href: '/crossword', category: 'Games' },
+  { label: 'Picture Vocabulary', desc: 'Match emoji pictures to French words', href: '/picture-vocabulary', category: 'Games' },
+  { label: 'High Scores', desc: 'Your personal best scores', href: '/high-scores', category: 'Games' },
   { label: 'Business French', desc: 'Professional vocabulary & dialogues', href: '/business-french', category: 'Specialist' },
   { label: 'Slang & Informal French', desc: 'Street French & verlan', href: '/slang-french', category: 'Specialist' },
   { label: 'Travel French', desc: 'Essential travel vocab & phrases', href: '/travel-french', category: 'Specialist' },
+  { label: 'French Food Guide', desc: 'Cuisine vocabulary & restaurant phrases', href: '/french-food', category: 'Specialist' },
+  { label: 'Regional Accents', desc: 'Paris to Québec — accent guide', href: '/regional-accents', category: 'Specialist' },
   { label: 'Quizzes', desc: 'Interactive French quizzes', href: '/quizzes', category: 'Learn' },
   { label: 'Content & Resources', desc: 'Articles, lessons, and materials', href: '/resources', category: 'Resources' },
+  { label: 'Word of the Day', desc: 'Beautiful new French word daily', href: '/word-of-the-day', category: 'Resources' },
   { label: 'Phrase of the Day', desc: 'Daily French phrases', href: '/phrase-of-the-day', category: 'Resources' },
+  { label: 'French Proverbs', desc: '20+ proverbs with context & audio', href: '/proverbs', category: 'Resources' },
   { label: 'Memory Boosters', desc: 'Cognates, idioms, and tips', href: '/memory-boosters', category: 'Resources' },
   { label: 'Worksheets', desc: 'Downloadable practice sheets', href: '/worksheets', category: 'Resources' },
+  { label: 'Printable Sheets', desc: 'Print vocab tables & conjugation grids', href: '/printable-sheets', category: 'Resources' },
   { label: 'French Jokes', desc: 'Humour & jeux de mots', href: '/jokes', category: 'Resources' },
+  { label: 'False Friends', desc: 'Faux amis — tricky look-alike words', href: '/false-friends', category: 'Resources' },
+  { label: 'Tongue Twisters', desc: 'Virelangues pronunciation practice', href: '/tongue-twisters', category: 'Resources' },
   { label: 'Cultural Insights', desc: 'French traditions and customs', href: '/culture', category: 'Culture & Media' },
+  { label: 'Cultural Calendar', desc: 'French holidays and traditions by month', href: '/cultural-calendar', category: 'Culture & Media' },
   { label: 'Interactive France Map', desc: 'Explore French regions', href: '/france-map', category: 'Culture & Media' },
   { label: 'French in Media', desc: 'Movies, music, and TV shows', href: '/media', category: 'Culture & Media' },
+  { label: 'French Songs', desc: 'Learn through iconic French music', href: '/french-songs', category: 'Culture & Media' },
+  { label: 'French Movies', desc: 'Cinema français for language learners', href: '/french-movies', category: 'Culture & Media' },
+  { label: 'French Radio & Podcasts', desc: 'Best stations and podcasts for learners', href: '/french-radio', category: 'Culture & Media' },
+  { label: 'Leaderboard', desc: 'See how you rank globally', href: '/leaderboard', category: 'Account' },
+  { label: 'Achievements', desc: 'Your badges and trophies', href: '/achievements', category: 'Account' },
   { label: 'Progress Dashboard', desc: 'Track XP, streaks, and badges', href: '/progress', category: 'Account' },
   { label: 'Favorites', desc: 'Your saved content', href: '/favorites', category: 'Account' },
   { label: 'My Profile', desc: 'Account settings and stats', href: '/profile', category: 'Account' },
+  { label: 'High Scores', desc: 'Personal best scores across all games', href: '/high-scores', category: 'Account' },
+  { label: 'Notifications', desc: 'Study reminders and activity updates', href: '/notifications', category: 'Account' },
+  { label: 'French Idioms', desc: '25+ common idioms with explanations', href: '/idioms', category: 'Resources' },
+  { label: 'Mini Flashcards', desc: 'Quick vocabulary flashcard decks', href: '/mini-flashcards', category: 'Resources' },
+  { label: 'Listening Practice', desc: 'Graded French audio comprehension A1–B2', href: '/listening-practice', category: 'Practice' },
+  { label: 'French Quotes', desc: 'Famous quotes from French thinkers', href: '/french-quotes', category: 'Resources' },
+  { label: 'Verb Constructions', desc: 'Phrasal patterns — avoir, faire, se + verb', href: '/phrasal-verbs', category: 'Language Tools' },
+  { label: 'French Art', desc: 'Masterpieces and art vocabulary', href: '/french-art', category: 'Culture & Media' },
+  { label: 'Conjugation Quiz', desc: 'Test all tenses with instant feedback', href: '/conjugation-quiz', category: 'Practice' },
 ]
 
 const LEARN_COLUMNS = [
@@ -46,18 +86,28 @@ const LEARN_COLUMNS = [
     items: [
       { name: 'Verb Conjugator', href: '/conjugate', icon: BookMarked, desc: 'All tenses for 25+ verbs' },
       { name: 'Grammar A1–C2', href: '/grammar', icon: GraduationCap, desc: 'CEFR-structured lessons' },
+      { name: 'Grammar Tips', href: '/grammar-tips', icon: Lightbulb, desc: 'Quick wins & mini-quizzes' },
       { name: 'Vocabulary SRS', href: '/vocabulary', icon: Brain, desc: 'Spaced repetition cards' },
-      { name: 'Study Tools', href: '/study-tools', icon: Lightbulb, desc: 'Flashcards & bookmarks' },
+      { name: 'Vocabulary Themes', href: '/vocabulary-themes', icon: BookOpen, desc: 'Learn by topic' },
+      { name: 'Gender Practice', href: '/gender-practice', icon: Brain, desc: 'Le ou la? Master genders' },
+      { name: 'Verb Drills', href: '/verb-drills', icon: Zap, desc: 'Timed conjugation practice' },
       { name: 'Writing Templates', href: '/writing', icon: PenLine, desc: 'Emails, letters & essays' },
+      { name: 'French Keyboard', href: '/french-keyboard', icon: FileText, desc: 'Type accented characters' },
+      { name: 'Quick Translator', href: '/quick-translator', icon: Globe, desc: 'Phrase lookup tool' },
     ],
   },
   {
     heading: 'Practice',
     items: [
       { name: 'Reading Comprehension', href: '/reading', icon: BookOpenCheck, desc: 'A1–B2 graded passages' },
+      { name: 'Dictation', href: '/dictation', icon: MessageCircle, desc: 'Listen & write' },
+      { name: 'Listening Practice', href: '/listening-practice', icon: MessageCircle, desc: 'Audio comprehension A1–B2' },
       { name: 'Daily Challenges', href: '/daily-challenges', icon: Zap, desc: 'New challenges every day' },
       { name: 'Interactive Stories', href: '/stories', icon: BookOpen, desc: 'Choose-your-path French' },
       { name: 'Sentence Builder', href: '/sentence-builder', icon: FileText, desc: 'Arrange & fill-in-blank' },
+      { name: 'Conjugation Quiz', href: '/conjugation-quiz', icon: Brain, desc: 'Test all tenses — instant feedback' },
+      { name: 'Study Planner', href: '/study-planner', icon: Lightbulb, desc: 'Plan your schedule' },
+      { name: 'DELF / DALF Prep', href: '/delf-prep', icon: GraduationCap, desc: 'Exam prep A1–C2' },
     ],
   },
   {
@@ -68,6 +118,12 @@ const LEARN_COLUMNS = [
         items: [
           { name: 'Word Match', href: '/word-match', icon: Gamepad2, desc: 'Match French & English' },
           { name: 'Typing Race', href: '/typing-race', icon: Zap, desc: 'Type translations fast!' },
+          { name: 'Hangman', href: '/hangman', icon: Gamepad2, desc: 'Guess the French word' },
+          { name: 'Word Scramble', href: '/word-scramble', icon: Gamepad2, desc: 'Unscramble French words' },
+          { name: 'Crossword', href: '/crossword', icon: Gamepad2, desc: 'French vocabulary crossword' },
+          { name: 'Picture Vocabulary', href: '/picture-vocabulary', icon: Brain, desc: 'Match pictures to words' },
+          { name: 'Spelling Bee', href: '/spelling-bee', icon: Gamepad2, desc: 'Hear & spell French' },
+          { name: 'French Numbers', href: '/numbers', icon: Brain, desc: 'Numbers, time & ordinals' },
         ],
       },
       {
@@ -76,6 +132,10 @@ const LEARN_COLUMNS = [
           { name: 'Business French', href: '/business-french', icon: GraduationCap, desc: 'Professional vocab' },
           { name: 'Slang & Informal', href: '/slang-french', icon: MessageCircle, desc: 'Street French & verlan' },
           { name: 'Travel French', href: '/travel-french', icon: Plane, desc: 'Travel vocab & phrases' },
+          { name: 'French Food Guide', href: '/french-food', icon: Globe, desc: 'Cuisine & restaurant phrases' },
+          { name: 'Regional Accents', href: '/regional-accents', icon: Map, desc: 'Paris to Québec accents' },
+          { name: 'Verb Constructions', href: '/phrasal-verbs', icon: BookOpen, desc: 'Avoir, faire, se + verb' },
+          { name: 'French Idioms', href: '/idioms', icon: Lightbulb, desc: '25+ idiomatic expressions' },
         ],
       },
     ],
@@ -88,14 +148,26 @@ const RESOURCES_COLUMNS = [
     items: [
       { name: 'Content & Resources', href: '/resources', icon: BookOpen, desc: 'Articles & materials' },
       { name: 'Quizzes', href: '/quizzes', icon: Brain, desc: 'Interactive French quizzes' },
+      { name: 'Leaderboard', href: '/leaderboard', icon: TrendingUp, desc: 'See global rankings' },
+      { name: 'Achievements', href: '/achievements', icon: GraduationCap, desc: 'Your badges & trophies' },
+      { name: 'High Scores', href: '/high-scores', icon: TrendingUp, desc: 'Your personal bests' },
     ],
   },
   {
-    heading: 'Quick Access',
+    heading: 'Daily & Reference',
     items: [
+      { name: 'Word of the Day', href: '/word-of-the-day', icon: Lightbulb, desc: 'Beautiful French word daily' },
       { name: 'Phrase of the Day', href: '/phrase-of-the-day', icon: MessageCircle, desc: 'Daily French phrases' },
+      { name: 'French Proverbs', href: '/proverbs', icon: BookOpen, desc: '20+ proverbs & context' },
+      { name: 'French Quotes', href: '/french-quotes', icon: BookOpen, desc: 'Famous quotes from great minds' },
+      { name: 'French Idioms', href: '/idioms', icon: Lightbulb, desc: '25+ idiomatic expressions' },
+      { name: 'Mini Flashcards', href: '/mini-flashcards', icon: BookOpen, desc: 'Quick vocabulary review' },
       { name: 'Memory Boosters', href: '/memory-boosters', icon: Lightbulb, desc: 'Cognates, idioms & tips' },
+      { name: 'False Friends', href: '/false-friends', icon: Lightbulb, desc: 'Faux amis to watch out for' },
+      { name: 'Tongue Twisters', href: '/tongue-twisters', icon: MessageCircle, desc: 'Virelangues practice' },
       { name: 'Worksheets', href: '/worksheets', icon: FileText, desc: 'Practice sheets' },
+      { name: 'Printable Sheets', href: '/printable-sheets', icon: FileText, desc: 'Print vocab & conjugation' },
+      { name: 'Vocabulary Export', href: '/vocabulary-export', icon: FileText, desc: 'Download as CSV / Anki' },
       { name: 'French Jokes', href: '/jokes', icon: Laugh, desc: 'Humour & jeux de mots' },
     ],
   },
@@ -103,8 +175,13 @@ const RESOURCES_COLUMNS = [
     heading: 'Culture & Media',
     items: [
       { name: 'Cultural Insights', href: '/culture', icon: Globe, desc: 'French traditions' },
+      { name: 'Cultural Calendar', href: '/cultural-calendar', icon: Globe, desc: 'Holidays & events' },
       { name: 'France Map', href: '/france-map', icon: Map, desc: 'Explore French regions' },
       { name: 'French in Media', href: '/media', icon: Film, desc: 'Movies, music & TV' },
+      { name: 'French Songs', href: '/french-songs', icon: Film, desc: 'Learn through music' },
+      { name: 'French Movies', href: '/french-movies', icon: Film, desc: 'Cinema français' },
+      { name: 'French Radio', href: '/french-radio', icon: Globe, desc: 'Stations & podcasts' },
+      { name: 'French Art', href: '/french-art', icon: Globe, desc: 'Masterpieces & art vocab' },
     ],
   },
 ]
@@ -134,6 +211,7 @@ const Navbar = () => {
   const [isResourcesOpen, setIsResourcesOpen] = useState(false)
   const [isLearnOpen, setIsLearnOpen] = useState(false)
   const [isUserOpen, setIsUserOpen] = useState(false)
+  const [isLangOpen, setIsLangOpen] = useState(false)
   const [xp, setXp] = useState(0)
   const [streak, setStreak] = useState(0)
   const [searchQuery, setSearchQuery] = useState('')
@@ -143,12 +221,14 @@ const Navbar = () => {
   const learnTimer = useRef(null)
   const resourcesTimer = useRef(null)
   const userMenuRef = useRef(null)
+  const langRef = useRef(null)
   const searchRef = useRef(null)
   const searchInputRef = useRef(null)
   const navigate = useNavigate()
 
   const { isDark, toggleTheme } = useTheme()
   const { user, logout } = useUser()
+  const { lang, setLang } = useI18n()
   const location = useLocation()
 
   useEffect(() => {
@@ -187,6 +267,7 @@ const Navbar = () => {
   useEffect(() => {
     const handleClick = (e) => {
       if (userMenuRef.current && !userMenuRef.current.contains(e.target)) setIsUserOpen(false)
+      if (langRef.current && !langRef.current.contains(e.target)) setIsLangOpen(false)
       if (searchRef.current && !searchRef.current.contains(e.target)) {
         setIsSearchOpen(false)
         setSearchQuery('')
@@ -235,8 +316,10 @@ const Navbar = () => {
   const navItemCls = (active) =>
     `flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
       active
-        ? 'text-burgundy-400'
-        : 'text-gray-300 hover:text-white hover:bg-white/5'
+        ? isScrolled ? 'text-burgundy-400' : 'text-burgundy-700'
+        : isScrolled
+          ? 'text-gray-300 hover:text-white hover:bg-white/5'
+          : 'text-gray-700 hover:text-gray-900 hover:bg-black/5'
     }`
 
   const MegaMenuColumn = ({ col, isLast }) => {
@@ -410,12 +493,14 @@ const Navbar = () => {
               <div className="relative" ref={searchRef}>
                 <div className={`flex items-center transition-all duration-300 rounded-xl border ${
                   isSearchOpen
-                    ? 'w-56 border-burgundy-500 bg-gray-800'
-                    : 'w-9 border-transparent bg-gray-800 cursor-pointer hover:bg-gray-700'
+                    ? `w-56 border-burgundy-500 ${isScrolled ? 'bg-gray-800' : 'bg-white'}`
+                    : isScrolled
+                      ? 'w-9 border-transparent bg-gray-800 cursor-pointer hover:bg-gray-700'
+                      : 'w-9 border-transparent bg-black/8 cursor-pointer hover:bg-black/12'
                 }`}>
                   <button
                     onClick={() => { setIsSearchOpen(true); setTimeout(() => searchInputRef.current?.focus(), 50) }}
-                    className="flex-shrink-0 w-9 h-9 flex items-center justify-center text-gray-400"
+                    className={`flex-shrink-0 w-9 h-9 flex items-center justify-center ${isScrolled ? 'text-gray-400' : 'text-gray-600'}`}
                   >
                     <Search size={15} />
                   </button>
@@ -475,10 +560,46 @@ const Navbar = () => {
                 </AnimatePresence>
               </div>
 
+              {/* Language selector */}
+              <div className="relative" ref={langRef}>
+                <button
+                  onClick={() => setIsLangOpen(o => !o)}
+                  className={`w-9 h-9 flex items-center justify-center rounded-xl transition-colors text-[11px] font-bold tracking-wider ${isScrolled ? 'text-gray-400 hover:bg-gray-800' : 'text-gray-600 hover:bg-black/5'}`}
+                  title="Switch language"
+                >
+                  {lang.toUpperCase()}
+                </button>
+                <AnimatePresence>
+                  {isLangOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -6 }}
+                      transition={{ duration: 0.12 }}
+                      className="absolute right-0 top-full mt-2 w-32 bg-gray-900 rounded-xl shadow-xl border border-gray-700 z-50 py-1 overflow-hidden"
+                    >
+                      {[
+                        { code: 'en', label: '🇬🇧 English' },
+                        { code: 'fr', label: '🇫🇷 Français' },
+                        { code: 'es', label: '🇪🇸 Español' },
+                      ].map(({ code, label }) => (
+                        <button
+                          key={code}
+                          onClick={() => { setLang(code); setIsLangOpen(false) }}
+                          className={`w-full text-left px-3 py-2 text-xs font-medium transition-colors ${lang === code ? 'bg-burgundy-900/30 text-burgundy-300' : 'text-gray-300 hover:bg-gray-800'}`}
+                        >
+                          {label}
+                        </button>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
               {/* Dark mode toggle */}
               <button
                 onClick={toggleTheme}
-                className="w-9 h-9 flex items-center justify-center rounded-xl text-gray-400 hover:bg-gray-800 transition-colors"
+                className={`w-9 h-9 flex items-center justify-center rounded-xl transition-colors ${isScrolled ? 'text-gray-400 hover:bg-gray-800' : 'text-gray-600 hover:bg-black/5'}`}
                 title={isDark ? 'Light mode' : 'Dark mode'}
               >
                 {isDark ? <Sun size={16} /> : <Moon size={16} />}
@@ -539,8 +660,15 @@ const Navbar = () => {
               )}
             </div>
 
-            {/* Mobile right: theme toggle + hamburger */}
+            {/* Mobile right: lang + theme toggle + hamburger */}
             <div className="lg:hidden flex items-center gap-2">
+              <button
+                onClick={() => setLang(lang === 'en' ? 'fr' : lang === 'fr' ? 'es' : 'en')}
+                className="w-9 h-9 flex items-center justify-center rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-[11px] font-bold tracking-wider"
+                title="Switch language"
+              >
+                {lang.toUpperCase()}
+              </button>
               <button onClick={toggleTheme}
                 className="w-9 h-9 flex items-center justify-center rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
                 {isDark ? <Sun size={16} /> : <Moon size={16} />}
