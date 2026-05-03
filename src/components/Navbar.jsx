@@ -342,10 +342,10 @@ const Navbar = () => {
   const navItemCls = (active) =>
     `flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
       active
-        ? isScrolled ? 'text-burgundy-400' : 'text-burgundy-700'
+        ? isScrolled ? 'text-burgundy-400' : 'text-burgundy-300'
         : isScrolled
           ? 'text-gray-300 hover:text-white hover:bg-white/5'
-          : 'text-gray-700 hover:text-gray-900 hover:bg-black/5'
+          : 'text-gray-200 hover:text-white hover:bg-white/10'
     }`
 
   const MegaMenuColumn = ({ col, isLast, dailyChallengesDone }) => {
@@ -354,25 +354,25 @@ const Navbar = () => {
       const isDaily = item.href === '/daily-challenges'
       return (
         <Link key={item.href} to={item.href}
-          className={`flex items-start gap-3 px-2 py-2 rounded-lg transition-all group ${isActive(item.href) ? 'bg-burgundy-900/20' : 'hover:bg-gray-700/40'}`}>
-          <div className="w-7 h-7 flex-shrink-0 rounded-lg bg-gray-700 flex items-center justify-center group-hover:bg-burgundy-900/30 transition-colors">
+          className={`flex items-center gap-3 px-2.5 py-2 rounded-lg transition-all group ${isActive(item.href) ? 'bg-burgundy-900/30' : 'hover:bg-gray-700/50'}`}>
+          <div className="w-7 h-7 flex-shrink-0 rounded-md bg-gray-800 border border-gray-700/60 flex items-center justify-center group-hover:border-burgundy-700/60 group-hover:bg-burgundy-900/20 transition-colors">
             <Icon size={13} className="text-burgundy-400" />
           </div>
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-1.5">
-              <p className="text-sm font-medium text-gray-100 leading-tight">{item.name}</p>
+            <div className="flex items-center gap-2">
+              <p className="text-[13px] font-semibold text-gray-100 whitespace-nowrap leading-none">{item.name}</p>
               {isDaily && !dailyChallengesDone && (
-                <span className="flex-shrink-0 text-[10px] font-bold bg-amber-400 text-gray-900 rounded-full px-1.5 py-0.5 leading-none">
+                <span className="flex-shrink-0 text-[9px] font-bold bg-amber-400 text-gray-900 rounded-full px-1.5 py-0.5 leading-none uppercase tracking-wide">
                   Today
                 </span>
               )}
               {isDaily && dailyChallengesDone && (
-                <span className="flex-shrink-0 text-[10px] font-bold bg-emerald-500 text-white rounded-full px-1.5 py-0.5 leading-none">
+                <span className="flex-shrink-0 text-[9px] font-bold bg-emerald-500 text-white rounded-full px-1.5 py-0.5 leading-none">
                   ✓ Done
                 </span>
               )}
             </div>
-            <p className="text-xs text-gray-400 leading-tight mt-0.5">{item.desc}</p>
+            <p className="text-[11px] text-gray-500 leading-none mt-1 truncate">{item.desc}</p>
           </div>
         </Link>
       )
@@ -380,10 +380,10 @@ const Navbar = () => {
 
     if (col.subSections) {
       return (
-        <div className={`${isLast ? '' : 'border-r border-gray-700 pr-6'}`}>
+        <div className={`${isLast ? '' : 'border-r border-gray-700/60 pr-7'}`}>
           {col.subSections.map((sub) => (
             <div key={sub.heading} className="mb-5 last:mb-0">
-              <p className="text-[11px] font-bold uppercase tracking-widest text-burgundy-400 mb-2 px-1">{sub.heading}</p>
+              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-burgundy-400 mb-2.5 px-2.5">{sub.heading}</p>
               <div className="space-y-0.5">
                 {sub.items.map(renderItem)}
               </div>
@@ -393,8 +393,8 @@ const Navbar = () => {
       )
     }
     return (
-      <div className={`${isLast ? '' : 'border-r border-gray-700 pr-6'}`}>
-        <p className="text-[11px] font-bold uppercase tracking-widest text-burgundy-400 mb-3 px-1">{col.heading}</p>
+      <div className={`${isLast ? '' : 'border-r border-gray-700/60 pr-7'}`}>
+        <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-burgundy-400 mb-2.5 px-2.5">{col.heading}</p>
         <div className="space-y-0.5">
           {col.items.map(renderItem)}
         </div>
@@ -456,8 +456,8 @@ const Navbar = () => {
                       transition={{ duration: 0.15 }}
                       onMouseEnter={() => clearTimeout(learnTimer.current)}
                       onMouseLeave={closeLearn}
-                      className="absolute top-full left-0 mt-2 z-50 bg-gray-900 rounded-2xl shadow-2xl border border-gray-700 p-5"
-                      style={{ width: '680px' }}
+                      className="absolute top-full left-0 mt-2 z-50 bg-gray-900 rounded-2xl shadow-2xl border border-gray-700 p-6"
+                      style={{ width: '900px' }}
                     >
                       <div className="grid grid-cols-3 gap-6">
                         {LEARN_COLUMNS.map((col, i) => (
@@ -486,8 +486,8 @@ const Navbar = () => {
                       transition={{ duration: 0.15 }}
                       onMouseEnter={() => clearTimeout(resourcesTimer.current)}
                       onMouseLeave={closeResources}
-                      className="absolute top-full left-0 mt-2 z-50 bg-gray-900 rounded-2xl shadow-2xl border border-gray-700 p-5"
-                      style={{ width: '600px' }}
+                      className="absolute top-full left-0 mt-2 z-50 bg-gray-900 rounded-2xl shadow-2xl border border-gray-700 p-6"
+                      style={{ width: '860px' }}
                     >
                       <div className="grid grid-cols-3 gap-6">
                         {RESOURCES_COLUMNS.map((col, i) => (
