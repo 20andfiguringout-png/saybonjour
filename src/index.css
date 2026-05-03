@@ -321,14 +321,21 @@
 
   /* Bento Grid Card Components */
   .bento-card {
-    @apply bg-cream-50 rounded-xl sm:rounded-2xl shadow-sm border border-cream-200 p-4 sm:p-6 md:p-8 h-full transition-all duration-300 hover:shadow-lg hover:border-burgundy-200 hover:-translate-y-1 cursor-pointer relative overflow-hidden;
+    @apply bg-cream-50 rounded-xl sm:rounded-2xl shadow-sm border border-cream-200 p-3 sm:p-6 md:p-8 h-full transition-all duration-300 hover:shadow-lg hover:border-burgundy-200 hover:-translate-y-1 cursor-pointer relative overflow-hidden;
     @apply dark:bg-dark-warm-100 dark:border-dark-warm-50 dark:hover:border-burgundy-vibrant-500 dark:shadow-lg;
-    min-height: 240px;
+    min-height: 160px;
   }
 
   @media (min-width: 640px) {
     .bento-card {
       min-height: 280px;
+      padding: 1.5rem;
+    }
+  }
+  @media (min-width: 768px) {
+    .bento-card {
+      min-height: 300px;
+      padding: 2rem;
     }
   }
 
@@ -404,7 +411,7 @@
 
   /* Bento Card Typography */
   .bento-title {
-    @apply text-lg font-bold mb-3 leading-tight;
+    @apply text-sm sm:text-lg font-bold mb-1 sm:mb-3 leading-tight;
     color: #1f2937;
   }
 
@@ -413,7 +420,7 @@
   }
 
   .bento-title-large {
-    @apply text-xl font-bold mb-4 leading-tight;
+    @apply text-base sm:text-xl font-bold mb-2 sm:mb-4 leading-tight;
     color: #1f2937;
   }
 
@@ -422,7 +429,7 @@
   }
 
   .bento-description {
-    @apply text-sm mb-4 leading-relaxed;
+    @apply hidden sm:block text-sm mb-4 leading-relaxed;
     color: #4b5563;
     line-height: 1.6;
   }
@@ -463,6 +470,12 @@
   .bento-streak-number {
     color: #660019;
     font-variant-numeric: tabular-nums;
+    font-size: 2.5rem;
+  }
+  @media (min-width: 640px) {
+    .bento-streak-number {
+      font-size: 3rem;
+    }
   }
 
   .dark .bento-streak-number {
@@ -470,7 +483,7 @@
   }
 
   .streak-dot {
-    @apply w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300;
+    @apply w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300;
   }
 
   .streak-dot-visited {
@@ -527,7 +540,7 @@
 
   /* Bento Card Icons */
   .bento-icon {
-    @apply w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-all duration-300;
+    @apply w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center mb-2 sm:mb-4 transition-all duration-300;
   }
 
   .bento-icon-primary {

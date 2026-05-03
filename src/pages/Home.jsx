@@ -340,7 +340,7 @@ const Home = () => {
 
           {/* Enhanced Action Buttons */}
           <motion.div
-            className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center mb-8 sm:mb-12 md:mb-16 px-4"
+            className="grid grid-cols-2 sm:flex sm:flex-row gap-3 sm:gap-6 justify-center items-center mb-8 sm:mb-12 md:mb-16 px-4"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.4 }}
@@ -352,7 +352,7 @@ const Home = () => {
             >
               <Link
                 to="/resources"
-                className="relative px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 rounded-full font-bold transition-all duration-300 flex items-center justify-center space-x-2 sm:space-x-3 shadow-lg text-base sm:text-lg w-full sm:w-auto"
+                className="relative px-4 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 rounded-full font-bold transition-all duration-300 flex items-center justify-center space-x-2 sm:space-x-3 shadow-lg text-sm sm:text-lg w-full sm:w-auto"
                 style={{
                   backgroundColor: '#F5F2E8',
                   color: '#800020',
@@ -379,7 +379,7 @@ const Home = () => {
             >
               <Link
                 to="/quizzes"
-                className="relative px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 rounded-full font-bold transition-all duration-300 flex items-center justify-center space-x-2 sm:space-x-3 text-base sm:text-lg w-full sm:w-auto"
+                className="relative px-4 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 rounded-full font-bold transition-all duration-300 flex items-center justify-center space-x-2 sm:space-x-3 text-sm sm:text-lg w-full sm:w-auto"
                 style={{
                   border: `2px solid #F5F2E8`,
                   color: '#F5F2E8',
@@ -406,7 +406,7 @@ const Home = () => {
 
         {/* Enhanced Bottom Navigation Links */}
         <motion.div
-          className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-4 right-4 sm:left-6 sm:right-6 md:left-8 md:right-8 flex flex-col sm:flex-row justify-center sm:justify-between items-center sm:items-end gap-3 sm:gap-0 z-20"
+          className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-4 right-4 sm:left-6 sm:right-6 md:left-8 md:right-8 flex flex-row justify-between items-end gap-2 sm:gap-0 z-20"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.6 }}
@@ -414,11 +414,11 @@ const Home = () => {
           <motion.div
             whileHover={{ x: 10, scale: 1.05 }}
             transition={{ duration: 0.3 }}
-            className="group w-full sm:w-auto"
+            className="group"
           >
             <Link
               to="/culture"
-              className="transition-all duration-300 flex items-center justify-center sm:justify-start space-x-2 sm:space-x-3 text-sm sm:text-base md:text-lg font-medium bg-cream-50/10 backdrop-blur-sm px-4 sm:px-5 md:px-6 py-2 sm:py-3 rounded-full border border-cream-50/20 group-hover:bg-cream-50/20 w-full sm:w-auto"
+              className="transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base md:text-lg font-medium bg-cream-50/10 backdrop-blur-sm px-3 sm:px-5 md:px-6 py-2 sm:py-3 rounded-full border border-cream-50/20 group-hover:bg-cream-50/20 whitespace-nowrap"
               style={{ color: '#F5F2E8' }}
             >
               <motion.span
@@ -442,11 +442,11 @@ const Home = () => {
           <motion.div
             whileHover={{ x: -10, scale: 1.05 }}
             transition={{ duration: 0.3 }}
-            className="group w-full sm:w-auto"
+            className="group"
           >
             <Link
               to="/study-tools"
-              className="transition-all duration-300 flex items-center justify-center sm:justify-start space-x-2 sm:space-x-3 text-sm sm:text-base md:text-lg font-medium bg-cream-50/10 backdrop-blur-sm px-4 sm:px-5 md:px-6 py-2 sm:py-3 rounded-full border border-cream-50/20 group-hover:bg-cream-50/20 w-full sm:w-auto"
+              className="transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base md:text-lg font-medium bg-cream-50/10 backdrop-blur-sm px-3 sm:px-5 md:px-6 py-2 sm:py-3 rounded-full border border-cream-50/20 group-hover:bg-cream-50/20 whitespace-nowrap"
               style={{ color: '#F5F2E8' }}
             >
               <motion.span
@@ -549,10 +549,10 @@ const Home = () => {
             {/* Core Learning Section */}
             <div>
               <h3 className="category-header">Core Learning</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
 
                 {/* Content & Resources */}
-                <Link to="/resources" className="block lg:col-span-2">
+                <Link to="/resources" className="block sm:col-span-2 lg:col-span-2">
                   <motion.div
                     className="bento-card-primary"
                     initial={{ opacity: 1, y: 30 }}
@@ -646,7 +646,7 @@ const Home = () => {
             {/* Quick Access Tools Section */}
             <div>
               <h3 className="category-header">Quick Access</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              <div className="grid grid-cols-2 gap-3 sm:gap-6">
 
                 {/* Daily Streak */}
                 <Link to="/quizzes" className="block">
@@ -797,7 +797,7 @@ const Home = () => {
             {/* Culture & Media Section */}
             <div>
               <h3 className="category-header">Culture & Media</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
 
                 {/* Cultural Insights */}
                 <Link to="/culture" className="block">
