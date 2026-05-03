@@ -28,15 +28,7 @@ export default function BadgeToast() {
   useEffect(() => () => clearTimeout(timerRef.current), [])
 
   return (
-    <AnimatePresence onExitComplete={() => {
-      if (queue.length > 0) {
-        const [next, ...rest] = queue
-        setCurrent(next)
-        setQueue(rest)
-        clearTimeout(timerRef.current)
-        timerRef.current = setTimeout(() => setCurrent(null), 4500)
-      }
-    }}>
+    <AnimatePresence>
       {current && (
         <motion.div
           key={current.uid}

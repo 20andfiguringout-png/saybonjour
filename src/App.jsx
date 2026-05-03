@@ -356,12 +356,12 @@ function App() {
                     <Route path="/french-conversation-topics" element={<FrenchConversationTopics />} />
                     <Route path="/french-regions" element={<FrenchRegionalFrance />} />
                     <Route path="/french-social-media" element={<FrenchSocialMedia />} />
-                    <Route path="/french-politics" element={<FrenchPoliticsVocab />} />
+                    <Route path="/french-politics-vocab" element={<FrenchPoliticsVocab />} />
                     <Route path="/french-time-expressions" element={<FrenchTimeExpressions />} />
                     <Route path="/french-cinema" element={<FrenchCinema />} />
-                    <Route path="/french-weather" element={<FrenchWeather2 />} />
+                    <Route path="/french-weather-2" element={<FrenchWeather2 />} />
                     <Route path="/french-colors-guide" element={<FrenchColors2 />} />
-                    <Route path="/french-transport" element={<FrenchTransport2 />} />
+                    <Route path="/french-transport-2" element={<FrenchTransport2 />} />
                     <Route path="/admin/pages" element={<AdminFeaturePages />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>

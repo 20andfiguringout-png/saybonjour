@@ -101,6 +101,7 @@ export default function Signup() {
                     value={name}
                     onChange={e => setName(e.target.value)}
                     required
+                    autoComplete="name"
                     className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-dark-warm-50 rounded-xl text-sm bg-gray-50 dark:bg-dark-warm-200 text-gray-800 dark:text-cream-50 focus:outline-none focus:ring-2 focus:ring-burgundy-400 transition-all"
                     placeholder="Marie Dupont"
                   />
@@ -116,6 +117,7 @@ export default function Signup() {
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     required
+                    autoComplete="email"
                     className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-dark-warm-50 rounded-xl text-sm bg-gray-50 dark:bg-dark-warm-200 text-gray-800 dark:text-cream-50 focus:outline-none focus:ring-2 focus:ring-burgundy-400 transition-all"
                     placeholder="you@example.com"
                   />
