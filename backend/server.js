@@ -997,6 +997,9 @@ const initUsersTable = () => {
   addCol('progress_data', 'TEXT DEFAULT NULL')
   addCol('reset_token', 'TEXT DEFAULT NULL')
   addCol('reset_token_expiry', 'INTEGER DEFAULT NULL')
+  addCol('email_verified', 'INTEGER DEFAULT 0')
+  addCol('verification_token', 'TEXT DEFAULT NULL')
+  addCol('verification_token_expiry', 'INTEGER DEFAULT NULL')
 
   db.prepare(`
     CREATE TABLE IF NOT EXISTS study_history (
@@ -1266,7 +1269,7 @@ const authenticateUser = (req, res, next) => {
 
 const userRegisterLimiter = rateLimit({ windowMs: 60 * 60 * 1000, max: 10 })
 
-app.post('/api/users/register', userRegisterLimiter, (req, res) => {
+app.post('/api/users/register', userRegisterLimiter, async (req, res) => {
   const { name, email, password } = req.body
   if (!name || !email || !password) return res.status(400).json({ message: 'Name, email and password required' })
   if (password.length < 6) return res.status(400).json({ message: 'Password must be at least 6 characters' })
@@ -1276,10 +1279,60 @@ app.post('/api/users/register', userRegisterLimiter, (req, res) => {
     const existing = db.prepare('SELECT id FROM users WHERE email = ?').get(email.toLowerCase())
     if (existing) { db.close(); return res.status(409).json({ message: 'An account with this email already exists' }) }
     const hash = hashUserPassword(password)
-    const result = db.prepare('INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)').run(name.trim(), email.toLowerCase(), hash)
-    const user = db.prepare('SELECT id, name, email, cefr_level, goal, daily_goal_mins, created_at FROM users WHERE id = ?').get(result.lastInsertRowid)
+    const verificationToken = crypto.randomBytes(32).toString('hex')
+    const verificationExpiry = Date.now() + 24 * 60 * 60 * 1000 // 24 hours
+    const result = db.prepare(
+      'INSERT INTO users (name, email, password_hash, email_verified, verification_token, verification_token_expiry) VALUES (?, ?, ?, 0, ?, ?)'
+    ).run(name.trim(), email.toLowerCase(), hash, verificationToken, verificationExpiry)
+    const user = db.prepare('SELECT id, name, email, cefr_level, goal, daily_goal_mins, email_verified, created_at FROM users WHERE id = ?').get(result.lastInsertRowid)
     db.close()
     const token = jwt.sign({ userId: user.id }, USER_JWT_SECRET, { expiresIn: '30d' })
+
+    // Send verification email
+    if (process.env.RESEND_API_KEY) {
+      const appUrl = process.env.REPLIT_DEV_DOMAIN
+        ? `https://${process.env.REPLIT_DEV_DOMAIN}`
+        : `${req.protocol}://${req.get('host')}`
+      const verifyUrl = `${appUrl}/verify-email?token=${verificationToken}`
+      const firstName = name.trim().split(' ')[0]
+      const resend = new Resend(process.env.RESEND_API_KEY)
+      await resend.emails.send({
+        from: 'SayBonjour! <onboarding@resend.dev>',
+        to: email.toLowerCase(),
+        subject: 'Confirm your SayBonjour! email address',
+        html: `
+          <div style="font-family: Georgia, serif; max-width: 520px; margin: 0 auto; color: #1a1a1a;">
+            <div style="background: linear-gradient(135deg, #6b1d1d, #9b2c2c); padding: 32px; border-radius: 12px 12px 0 0; text-align: center;">
+              <h1 style="color: #fff; font-size: 26px; margin: 0; letter-spacing: 0.5px;">SayBonjour!</h1>
+              <p style="color: rgba(255,255,255,0.7); font-size: 13px; margin: 6px 0 0; text-transform: uppercase; letter-spacing: 2px;">French Learning Platform</p>
+            </div>
+            <div style="background: #ffffff; padding: 36px 40px; border-radius: 0 0 12px 12px; border: 1px solid #e5e7eb; border-top: none;">
+              <p style="font-size: 17px; margin: 0 0 8px;">Bonjour ${firstName} !</p>
+              <p style="font-size: 15px; color: #4b5563; line-height: 1.6; margin: 0 0 8px;">
+                Welcome to SayBonjour! — your French learning journey starts now.
+              </p>
+              <p style="font-size: 15px; color: #4b5563; line-height: 1.6; margin: 0 0 24px;">
+                Please confirm your email address to activate your account. This link expires in <strong>24 hours</strong>.
+              </p>
+              <div style="text-align: center; margin: 28px 0;">
+                <a href="${verifyUrl}" style="background: #7f1d1d; color: #fff; text-decoration: none; padding: 14px 36px; border-radius: 8px; font-size: 15px; font-weight: 600; display: inline-block;">
+                  Confirm My Email
+                </a>
+              </div>
+              <p style="font-size: 13px; color: #9ca3af; line-height: 1.6; margin: 24px 0 0;">
+                If you didn't create this account, you can safely ignore this email.<br><br>
+                Or copy this link into your browser:<br>
+                <a href="${verifyUrl}" style="color: #7f1d1d; word-break: break-all; font-size: 12px;">${verifyUrl}</a>
+              </p>
+            </div>
+            <p style="text-align: center; font-size: 12px; color: #d1d5db; margin-top: 16px;">
+              © ${new Date().getFullYear()} SayBonjour! — Bonne chance avec votre français !
+            </p>
+          </div>
+        `
+      }).catch(e => console.error('Verification email error:', e))
+    }
+
     res.status(201).json({ token, user })
   } catch (e) {
     console.error('Register error:', e)
@@ -1383,6 +1436,84 @@ app.put('/api/users/change-password', authenticateUser, (req, res) => {
     res.json({ message: 'Password changed successfully' })
   } catch (e) {
     res.status(500).json({ message: 'Failed to change password' })
+  }
+})
+
+app.get('/api/users/verify-email', (req, res) => {
+  const { token } = req.query
+  if (!token) return res.status(400).json({ message: 'Verification token is required' })
+  try {
+    const db = new Database(path.join(__dirname, 'french_learning.db'))
+    const user = db.prepare('SELECT id, email_verified, verification_token_expiry FROM users WHERE verification_token = ?').get(token)
+    if (!user) { db.close(); return res.status(400).json({ message: 'Invalid verification link.' }) }
+    if (user.email_verified) { db.close(); return res.json({ message: 'Email already verified', alreadyVerified: true }) }
+    if (user.verification_token_expiry && Date.now() > user.verification_token_expiry) {
+      db.close(); return res.status(400).json({ message: 'Verification link has expired. Please request a new one.' })
+    }
+    db.prepare('UPDATE users SET email_verified = 1, verification_token = NULL, verification_token_expiry = NULL, updated_at = CURRENT_TIMESTAMP WHERE id = ?').run(user.id)
+    db.close()
+    res.json({ message: 'Email verified successfully' })
+  } catch (e) {
+    console.error('Verify email error:', e)
+    res.status(500).json({ message: 'Verification failed. Please try again.' })
+  }
+})
+
+app.post('/api/users/resend-verification', async (req, res) => {
+  const { email } = req.body
+  if (!email) return res.status(400).json({ message: 'Email is required' })
+  try {
+    const db = new Database(path.join(__dirname, 'french_learning.db'))
+    const user = db.prepare('SELECT id, name, email_verified FROM users WHERE email = ?').get(email.toLowerCase())
+    if (!user) { db.close(); return res.json({ message: 'If that email has an unverified account, a new link has been sent.' }) }
+    if (user.email_verified) { db.close(); return res.status(400).json({ message: 'This email is already verified.' }) }
+    const verificationToken = crypto.randomBytes(32).toString('hex')
+    const verificationExpiry = Date.now() + 24 * 60 * 60 * 1000
+    db.prepare('UPDATE users SET verification_token = ?, verification_token_expiry = ? WHERE id = ?').run(verificationToken, verificationExpiry, user.id)
+    db.close()
+    if (process.env.RESEND_API_KEY) {
+      const appUrl = process.env.REPLIT_DEV_DOMAIN
+        ? `https://${process.env.REPLIT_DEV_DOMAIN}`
+        : `${req.protocol}://${req.get('host')}`
+      const verifyUrl = `${appUrl}/verify-email?token=${verificationToken}`
+      const firstName = user.name ? user.name.split(' ')[0] : 'there'
+      const resend = new Resend(process.env.RESEND_API_KEY)
+      await resend.emails.send({
+        from: 'SayBonjour! <onboarding@resend.dev>',
+        to: email.toLowerCase(),
+        subject: 'Confirm your SayBonjour! email address',
+        html: `
+          <div style="font-family: Georgia, serif; max-width: 520px; margin: 0 auto; color: #1a1a1a;">
+            <div style="background: linear-gradient(135deg, #6b1d1d, #9b2c2c); padding: 32px; border-radius: 12px 12px 0 0; text-align: center;">
+              <h1 style="color: #fff; font-size: 26px; margin: 0; letter-spacing: 0.5px;">SayBonjour!</h1>
+              <p style="color: rgba(255,255,255,0.7); font-size: 13px; margin: 6px 0 0; text-transform: uppercase; letter-spacing: 2px;">French Learning Platform</p>
+            </div>
+            <div style="background: #ffffff; padding: 36px 40px; border-radius: 0 0 12px 12px; border: 1px solid #e5e7eb; border-top: none;">
+              <p style="font-size: 17px; margin: 0 0 8px;">Bonjour ${firstName} !</p>
+              <p style="font-size: 15px; color: #4b5563; line-height: 1.6; margin: 0 0 24px;">
+                Here's your new confirmation link. Click below to verify your email — it expires in <strong>24 hours</strong>.
+              </p>
+              <div style="text-align: center; margin: 28px 0;">
+                <a href="${verifyUrl}" style="background: #7f1d1d; color: #fff; text-decoration: none; padding: 14px 36px; border-radius: 8px; font-size: 15px; font-weight: 600; display: inline-block;">
+                  Confirm My Email
+                </a>
+              </div>
+              <p style="font-size: 13px; color: #9ca3af; line-height: 1.6; margin: 24px 0 0;">
+                Or copy this link:<br>
+                <a href="${verifyUrl}" style="color: #7f1d1d; word-break: break-all; font-size: 12px;">${verifyUrl}</a>
+              </p>
+            </div>
+            <p style="text-align: center; font-size: 12px; color: #d1d5db; margin-top: 16px;">
+              © ${new Date().getFullYear()} SayBonjour!
+            </p>
+          </div>
+        `
+      }).catch(e => console.error('Resend verification email error:', e))
+    }
+    res.json({ message: 'If that email has an unverified account, a new link has been sent.' })
+  } catch (e) {
+    console.error('Resend verification error:', e)
+    res.status(500).json({ message: 'Failed to resend verification email.' })
   }
 })
 

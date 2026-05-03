@@ -43,7 +43,7 @@ export default function Signup() {
     setLoading(true)
     try {
       await register(name, email, password)
-      navigate('/onboarding')
+      navigate(`/verify-email?email=${encodeURIComponent(email)}`)
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed. Try a different email.')
     } finally {
