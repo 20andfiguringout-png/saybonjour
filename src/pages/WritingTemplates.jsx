@@ -2,7 +2,9 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Mail, FileText, BookOpen, Copy, CheckCheck, ChevronDown, Menu, X } from 'lucide-react'
 import SEO from '../components/SEO'
-import { emailTemplates, letterTemplates, essayStructures, usefulConnectors } from '../data/writingData'
+import { letterTemplates, essayStructures, usefulConnectors } from '../data/writingData'
+import { getContent } from '../utils/contentStore'
+const emailTemplates = getContent('writing')
 
 const LEVEL_COLORS = {
   A1: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300',

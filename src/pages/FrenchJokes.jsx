@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Laugh, BookOpen, ChevronDown, Shuffle, Info, ChevronRight } from 'lucide-react'
-import { frenchJokes, jokeCategories, jokeFacts } from '../data/jokesData'
+import { jokeCategories, jokeFacts } from '../data/jokesData'
+import { getContent } from '../utils/contentStore'
+const frenchJokes = getContent('jokes')
 import SEO from '../components/SEO'
 import SpeakButton from '../components/SpeakButton'
 

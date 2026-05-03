@@ -85,11 +85,20 @@ An interactive French learning platform called "SayBonjour!" with a React/Vite f
 
 ### Admin
 - `/admin` - Comprehensive CMS (requires admin login via `Authorization: Bearer` header)
-  - Tabs: Sections, Articles, Quizzes, Worksheets, Phrases, Phrase Sections, Vocabulary, Daily Vocab, Site Settings
+  - Tabs: Sections, Articles, Quizzes, Worksheets, Phrases, Phrase Sections, Vocabulary, Daily Vocab, **Jokes, Travel, Business, Slang, Reading, Writing, Sentences**, Site Settings
   - **Vocabulary tab**: CRUD for custom vocab words (`custom_vocab_words` table) — French, English, list name, category, difficulty, notes; SpeakButton preview
   - **Daily Vocab tab**: CRUD for daily challenge vocab entries (`custom_daily_vocab` table) — French, English, category; SpeakButton preview
   - **Site Settings tab**: Edit hero title, hero subtitle, site name, CTA buttons, announcement bar, footer tagline (persisted to `site_settings` table)
-  - Admin password: `Admin@123`
+  - **Jokes tab**: Full CRUD — category, setup/punchline (FR+EN), vocab hint, cultural note
+  - **Travel Vocab tab**: Full CRUD — French/English pairs with airport/hotel/restaurant/transport categories
+  - **Business Vocab tab**: Full CRUD — French/English pairs with roles/meetings/finance/legal categories
+  - **Slang tab**: Full CRUD — expression, meaning, register (verlan/youth/informal), etymology note
+  - **Reading tab**: Full CRUD — level, title, passage text, comprehension questions (with options + correct answer), vocab
+  - **Writing tab**: Full CRUD — level, register, title, template text, key phrases (FR+EN pairs), notes
+  - **Sentences tab**: Full CRUD — level, hint, word tiles (comma-separated), correct order, translation, explanation
+  - All new tabs backed by `src/utils/contentStore.js` (localStorage with static data fallback)
+  - All corresponding pages (FrenchJokes, TravelFrench, BusinessFrench, SlangFrench, ReadingComprehension, WritingTemplates, SentenceBuilder) load from contentStore
+  - Admin password: `admin123` (set via ADMIN_PASSWORD_HASH env var)
 
 ## Feature Modules
 

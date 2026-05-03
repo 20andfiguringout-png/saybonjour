@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CheckCircle, XCircle, RotateCcw, ArrowRight, Lightbulb, Shuffle, PenLine, Zap, ChevronDown, Menu, X } from 'lucide-react'
-import { sentenceExercises, fillInBlanks } from '../data/sentenceData'
+import { fillInBlanks } from '../data/sentenceData'
+import { getContent } from '../utils/contentStore'
+const sentenceExercises = getContent('sentences')
 import { addXP } from '../utils/progress'
 import SEO from '../components/SEO'
 import SpeakButton from '../components/SpeakButton'

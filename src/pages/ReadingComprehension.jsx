@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { BookOpen, CheckCircle, XCircle, ChevronDown, Menu, X, RotateCcw } from 'lucide-react'
-import { readingPassages } from '../data/readingData'
+import { getContent } from '../utils/contentStore'
+const readingPassages = getContent('reading')
 import { addXP } from '../utils/progress'
 import SEO from '../components/SEO'
 import SpeakButton from '../components/SpeakButton'

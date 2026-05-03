@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Briefcase, BookOpen, MessageSquare, CheckCircle, XCircle, ChevronDown, ChevronUp, Trophy } from 'lucide-react'
-import { businessVocab, businessPhrases, businessDialogues, businessQuiz } from '../data/businessData'
+import { businessPhrases, businessDialogues, businessQuiz } from '../data/businessData'
+import { getContent } from '../utils/contentStore'
+const businessVocab = getContent('business')
 import { addXP } from '../utils/progress'
 import SEO from '../components/SEO'
 import SpeakButton from '../components/SpeakButton'

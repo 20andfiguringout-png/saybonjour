@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Plus, Edit, Trash2, BookOpen, Brain, Save, X, Settings, FolderPlus, Bold, Italic, Underline, List, ListOrdered, AlignLeft, AlignCenter, AlignRight, FileText, Upload, Download, MessageCircle, Globe, Zap, Volume2, CheckCircle } from 'lucide-react'
+import { Plus, Edit, Trash2, BookOpen, Brain, Save, X, Settings, FolderPlus, Bold, Italic, Underline, List, ListOrdered, AlignLeft, AlignCenter, AlignRight, FileText, Upload, Download, MessageCircle, Globe, Zap, Volume2, CheckCircle, Laugh, Plane, Briefcase, Flame, BookMarked, PenLine, Layers } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import AdminLogin from '../components/AdminLogin'
 import SpeakButton from '../components/SpeakButton'
+import AdminContentPanel from '../components/AdminContentPanel'
 import { loadPhrases, savePhrases, loadPhraseSections, savePhraseSections } from '../utils/phraseData'
 import axios from 'axios'
+
+const CONTENT_TABS = ['jokes', 'travel-vocab', 'business-vocab', 'slang', 'reading', 'writing', 'sentences']
 
 const Admin = () => {
   const { isAuthenticated, loading } = useAuth()
@@ -789,6 +792,48 @@ const Admin = () => {
               Daily Vocab
             </button>
             <button
+              onClick={() => setActiveTab('jokes')}
+              className={`py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${activeTab === 'jokes' ? 'border-burgundy-500 text-burgundy-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+            >
+              <Laugh className="inline-block w-4 h-4 mr-2" />Jokes
+            </button>
+            <button
+              onClick={() => setActiveTab('travel-vocab')}
+              className={`py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${activeTab === 'travel-vocab' ? 'border-burgundy-500 text-burgundy-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+            >
+              <Plane className="inline-block w-4 h-4 mr-2" />Travel
+            </button>
+            <button
+              onClick={() => setActiveTab('business-vocab')}
+              className={`py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${activeTab === 'business-vocab' ? 'border-burgundy-500 text-burgundy-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+            >
+              <Briefcase className="inline-block w-4 h-4 mr-2" />Business
+            </button>
+            <button
+              onClick={() => setActiveTab('slang')}
+              className={`py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${activeTab === 'slang' ? 'border-burgundy-500 text-burgundy-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+            >
+              <Flame className="inline-block w-4 h-4 mr-2" />Slang
+            </button>
+            <button
+              onClick={() => setActiveTab('reading')}
+              className={`py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${activeTab === 'reading' ? 'border-burgundy-500 text-burgundy-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+            >
+              <BookMarked className="inline-block w-4 h-4 mr-2" />Reading
+            </button>
+            <button
+              onClick={() => setActiveTab('writing')}
+              className={`py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${activeTab === 'writing' ? 'border-burgundy-500 text-burgundy-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+            >
+              <PenLine className="inline-block w-4 h-4 mr-2" />Writing
+            </button>
+            <button
+              onClick={() => setActiveTab('sentences')}
+              className={`py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${activeTab === 'sentences' ? 'border-burgundy-500 text-burgundy-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+            >
+              <Layers className="inline-block w-4 h-4 mr-2" />Sentences
+            </button>
+            <button
               onClick={() => setActiveTab('site-settings')}
               className={`py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
                 activeTab === 'site-settings'
@@ -802,8 +847,11 @@ const Admin = () => {
           </nav>
         </div>
 
+        {/* Content panels for new CMS tabs */}
+        {CONTENT_TABS.includes(activeTab) && <AdminContentPanel activeTab={activeTab} />}
+
         {/* Add Button — only for list-based tabs */}
-        {!['vocabulary', 'daily-vocab', 'site-settings'].includes(activeTab) && (
+        {!['vocabulary', 'daily-vocab', 'site-settings', ...CONTENT_TABS].includes(activeTab) && (
           <div className="mb-6">
             <button
               onClick={() => activeTab === 'sections' ? setShowSectionForm(true) : setShowForm(true)}
@@ -1005,7 +1053,7 @@ const Admin = () => {
         )}
 
         {/* Content List — hidden for new CMS tabs */}
-        {!['vocabulary', 'daily-vocab', 'site-settings'].includes(activeTab) && (
+        {!['vocabulary', 'daily-vocab', 'site-settings', ...CONTENT_TABS].includes(activeTab) && (
         <div className="bg-amber-50 dark:bg-dark-warm-100 shadow overflow-hidden sm:rounded-md">
           <ul className="divide-y divide-gray-200">
             {currentItems.map((item) => (
