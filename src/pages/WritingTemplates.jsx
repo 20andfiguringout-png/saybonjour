@@ -1,14 +1,8 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Mail, FileText, BookOpen, Copy, CheckCheck, ChevronDown, ChevronUp } from 'lucide-react'
+import { Mail, FileText, BookOpen, Copy, CheckCheck, ChevronDown, Menu, X } from 'lucide-react'
 import SEO from '../components/SEO'
 import { emailTemplates, letterTemplates, essayStructures, usefulConnectors } from '../data/writingData'
-
-const TABS = [
-  { id: 'emails', label: 'Emails', icon: Mail },
-  { id: 'letters', label: 'Letters', icon: FileText },
-  { id: 'essays', label: 'Essays', icon: BookOpen },
-]
 
 const LEVEL_COLORS = {
   A1: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300',
@@ -23,6 +17,30 @@ const REGISTER_COLORS = {
   Informal: 'bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300',
 }
 
+const NAV_SECTIONS = [
+  {
+    id: 'emails',
+    label: 'Emails',
+    icon: Mail,
+    items: emailTemplates.map(t => ({ id: t.id, label: t.title, data: t, type: 'template' })),
+  },
+  {
+    id: 'letters',
+    label: 'Letters',
+    icon: FileText,
+    items: letterTemplates.map(t => ({ id: t.id, label: t.title, data: t, type: 'template' })),
+  },
+  {
+    id: 'essays',
+    label: 'Essays',
+    icon: BookOpen,
+    items: [
+      ...essayStructures.map(e => ({ id: e.id, label: e.title, data: e, type: 'essay' })),
+      { id: 'connectors', label: 'Useful Connectors', data: null, type: 'connectors' },
+    ],
+  },
+]
+
 function CopyButton({ text }) {
   const [copied, setCopied] = useState(false)
   const handleCopy = () => {
@@ -33,125 +51,113 @@ function CopyButton({ text }) {
   return (
     <button
       onClick={handleCopy}
-      className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-warm-200 transition-all"
+      className="flex items-center gap-1.5 text-sm px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-warm-200 transition-all"
     >
-      {copied ? <><CheckCheck size={12} className="text-green-500" /> Copied!</> : <><Copy size={12} /> Copy template</>}
+      {copied
+        ? <><CheckCheck size={14} className="text-green-500" /> Copied!</>
+        : <><Copy size={14} /> Copy template</>}
     </button>
   )
 }
 
-function TemplateCard({ item }) {
-  const [expanded, setExpanded] = useState(false)
-  const [phrasesOpen, setPhrasesOpen] = useState(false)
-
+function TemplateArticle({ item }) {
   return (
-    <div className="bg-white dark:bg-dark-warm-100 border border-gray-200 dark:border-gray-600 rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
-      <div className="px-6 py-5">
-        <div className="flex flex-wrap items-center gap-2 mb-3">
-          <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${LEVEL_COLORS[item.level]}`}>{item.level}</span>
-          <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${REGISTER_COLORS[item.register]}`}>{item.register}</span>
+    <article>
+      <div className="flex flex-wrap gap-2 mb-4">
+        <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${LEVEL_COLORS[item.level]}`}>{item.level}</span>
+        <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${REGISTER_COLORS[item.register]}`}>{item.register}</span>
+      </div>
+
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">{item.title}</h1>
+      <p className="text-burgundy-600 dark:text-burgundy-400 font-semibold mb-5">{item.titleFr}</p>
+
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-6 pb-5 border-b border-gray-200 dark:border-gray-700">
+        <span className="text-sm text-gray-500 dark:text-gray-400">Last Updated : May 2026</span>
+        <CopyButton text={item.template} />
+      </div>
+
+      <p className="text-gray-700 dark:text-gray-300 mb-8 leading-relaxed text-[15px]">{item.context}</p>
+
+      <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Template</h2>
+      <pre className="text-sm text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-dark-warm-200 rounded-xl p-5 whitespace-pre-wrap font-mono leading-relaxed border border-gray-200 dark:border-gray-600 overflow-x-auto mb-6">
+        {item.template}
+      </pre>
+
+      {item.notes && (
+        <div className="mb-8 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/40 rounded-xl p-4">
+          <p className="text-sm text-amber-800 dark:text-amber-300 leading-relaxed">📌 {item.notes}</p>
         </div>
-        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-0.5">{item.title}</h3>
-        <p className="text-sm text-burgundy-600 font-medium mb-2">{item.titleFr}</p>
-        <p className="text-sm text-gray-600 dark:text-gray-400">{item.context}</p>
-      </div>
+      )}
 
-      {/* Template */}
-      <div className="border-t border-gray-100 dark:border-gray-700">
-        <button
-          onClick={() => setExpanded(!expanded)}
-          className="w-full px-6 py-3 flex items-center justify-between text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-dark-warm-200 transition-colors"
-        >
-          <span>View Template</span>
-          {expanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-        </button>
-        <AnimatePresence>
-          {expanded && (
-            <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
-              <div className="px-6 pb-4">
-                <div className="flex justify-end mb-2">
-                  <CopyButton text={item.template} />
-                </div>
-                <pre className="text-sm text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-dark-warm-200 rounded-xl p-4 whitespace-pre-wrap font-mono leading-relaxed border border-gray-200 dark:border-gray-600 overflow-x-auto">
-                  {item.template}
-                </pre>
-                {item.notes && (
-                  <div className="mt-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/40 rounded-xl p-3">
-                    <p className="text-xs text-amber-800 dark:text-amber-300 leading-relaxed">📌 {item.notes}</p>
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+      <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Key Phrases ({item.keyPhrases.length})</h2>
+      <div className="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+        {item.keyPhrases.map((ph, i) => (
+          <div
+            key={i}
+            className={`flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 px-5 py-3.5 ${
+              i < item.keyPhrases.length - 1 ? 'border-b border-gray-100 dark:border-gray-700' : ''
+            } ${i % 2 === 0 ? 'bg-white dark:bg-dark-warm-100' : 'bg-gray-50 dark:bg-dark-warm-200'}`}
+          >
+            <p className="font-semibold text-gray-900 dark:text-white text-sm">{ph.fr}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-right sm:max-w-[50%]">{ph.en}</p>
+          </div>
+        ))}
       </div>
-
-      {/* Key Phrases */}
-      <div className="border-t border-gray-100 dark:border-gray-700">
-        <button
-          onClick={() => setPhrasesOpen(!phrasesOpen)}
-          className="w-full px-6 py-3 flex items-center justify-between text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-dark-warm-200 transition-colors"
-        >
-          <span>Key phrases ({item.keyPhrases.length})</span>
-          {phrasesOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-        </button>
-        <AnimatePresence>
-          {phrasesOpen && (
-            <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
-              <div className="px-6 pb-5">
-                <div className="space-y-2">
-                  {item.keyPhrases.map((ph, i) => (
-                    <div key={i} className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 py-2 border-b border-gray-50 dark:border-gray-700/50 last:border-0">
-                      <p className="font-medium text-gray-900 dark:text-white text-sm">{ph.fr}</p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-right sm:max-w-[45%]">{ph.en}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </div>
+    </article>
   )
 }
 
-function EssayCard({ essay }) {
+function EssayArticle({ essay }) {
   const [expandedPart, setExpandedPart] = useState(null)
-
   return (
-    <div className="bg-white dark:bg-dark-warm-100 border border-gray-200 dark:border-gray-600 rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
-      <div className="px-6 py-5">
-        <div className="flex flex-wrap gap-2 mb-3">
-          <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${LEVEL_COLORS[essay.level]}`}>{essay.level}</span>
-        </div>
-        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">{essay.title}</h3>
-        <p className="text-sm text-gray-600 dark:text-gray-400">{essay.context}</p>
+    <article>
+      <div className="flex flex-wrap gap-2 mb-4">
+        <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${LEVEL_COLORS[essay.level]}`}>{essay.level}</span>
       </div>
-      <div className="border-t border-gray-100 dark:border-gray-700 divide-y divide-gray-100 dark:divide-gray-700">
+
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-5">{essay.title}</h1>
+
+      <div className="flex items-center justify-between mb-6 pb-5 border-b border-gray-200 dark:border-gray-700">
+        <span className="text-sm text-gray-500 dark:text-gray-400">Last Updated : May 2026</span>
+      </div>
+
+      <p className="text-gray-700 dark:text-gray-300 mb-8 leading-relaxed text-[15px]">{essay.context}</p>
+
+      <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Essay Structure</h2>
+      <div className="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
         {essay.structure.map((part, pi) => (
-          <div key={pi}>
+          <div key={pi} className="border-b border-gray-100 dark:border-gray-700 last:border-0">
             <button
               onClick={() => setExpandedPart(expandedPart === pi ? null : pi)}
-              className="w-full px-6 py-3.5 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-dark-warm-200 transition-colors"
+              className="w-full px-5 py-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-dark-warm-200 transition-colors"
             >
               <div className="flex items-center gap-3">
-                <span className="flex-shrink-0 w-6 h-6 bg-burgundy-600 text-white rounded-full text-xs flex items-center justify-center font-bold">{pi + 1}</span>
+                <span className="flex-shrink-0 w-6 h-6 bg-burgundy-600 text-white rounded-full text-xs flex items-center justify-center font-bold">
+                  {pi + 1}
+                </span>
                 <div className="text-left">
                   <p className="font-semibold text-sm text-gray-900 dark:text-white">{part.part}</p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">{part.label}</p>
                 </div>
               </div>
-              {expandedPart === pi ? <ChevronUp size={16} className="text-gray-400" /> : <ChevronDown size={16} className="text-gray-400" />}
+              <ChevronDown
+                size={16}
+                className={`text-gray-400 transition-transform duration-200 ${expandedPart === pi ? 'rotate-180' : ''}`}
+              />
             </button>
             <AnimatePresence>
               {expandedPart === pi && (
-                <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
-                  <div className="px-6 pb-5 pt-2">
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  className="overflow-hidden"
+                >
+                  <div className="px-5 pb-5 pt-2 bg-gray-50 dark:bg-dark-warm-200">
                     <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">{part.description}</p>
                     <div className="space-y-2">
                       {part.phrases.map((ph, phi) => (
-                        <div key={phi} className="bg-cream-50 dark:bg-dark-warm-200 rounded-xl px-4 py-2.5">
+                        <div key={phi} className="bg-white dark:bg-dark-warm-100 rounded-lg px-4 py-2.5 border border-gray-100 dark:border-gray-600">
                           <p className="text-sm text-gray-800 dark:text-gray-200">{ph}</p>
                         </div>
                       ))}
@@ -163,90 +169,209 @@ function EssayCard({ essay }) {
           </div>
         ))}
       </div>
+    </article>
+  )
+}
+
+function ConnectorsArticle() {
+  return (
+    <article>
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">Useful Connectors</h1>
+      <p className="text-burgundy-600 dark:text-burgundy-400 font-semibold mb-5">Connecteurs utiles</p>
+      <div className="flex items-center mb-6 pb-5 border-b border-gray-200 dark:border-gray-700">
+        <span className="text-sm text-gray-500 dark:text-gray-400">Last Updated : May 2026</span>
+      </div>
+      <p className="text-gray-700 dark:text-gray-300 mb-8 leading-relaxed text-[15px]">
+        Linking words and phrases to make your French writing flow naturally. Use these to connect ideas, show contrast, give examples, and conclude.
+      </p>
+      <div className="grid sm:grid-cols-2 gap-3">
+        {usefulConnectors.map((c, i) => (
+          <div key={i} className="bg-white dark:bg-dark-warm-100 rounded-xl p-4 border border-gray-200 dark:border-gray-700 hover:shadow-sm transition-shadow">
+            <p className="text-xs font-bold text-burgundy-600 dark:text-burgundy-400 uppercase tracking-wide mb-1.5">{c.category}</p>
+            <p className="font-semibold text-gray-900 dark:text-white text-sm mb-0.5">{c.fr}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">{c.en}</p>
+          </div>
+        ))}
+      </div>
+    </article>
+  )
+}
+
+function Welcome() {
+  return (
+    <div className="flex flex-col items-center justify-center min-h-[50vh] text-center px-4 py-16">
+      <div className="text-6xl mb-6">✍️</div>
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Writing Templates</h1>
+      <p className="text-burgundy-600 dark:text-burgundy-400 font-semibold mb-4">Modèles d'écriture</p>
+      <p className="text-gray-600 dark:text-gray-300 max-w-md leading-relaxed">
+        Ready-to-use templates for French emails, formal letters, and academic essays — with key phrases, structural guides, and cultural tips.
+      </p>
+      <p className="text-sm text-gray-400 dark:text-gray-500 mt-8 flex items-center gap-2">
+        <span>←</span>
+        <span>Select a template from the sidebar to get started</span>
+      </p>
     </div>
   )
 }
 
 export default function WritingTemplates() {
-  const [activeTab, setActiveTab] = useState('emails')
+  const [activeId, setActiveId] = useState(null)
+  const [openSections, setOpenSections] = useState({ emails: true, letters: true, essays: true })
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  const toggleSection = (id) =>
+    setOpenSections(prev => ({ ...prev, [id]: !prev[id] }))
+
+  const handleSelect = (id) => {
+    setActiveId(id)
+    setSidebarOpen(false)
+  }
+
+  let activeItem = null
+  let activeType = null
+  for (const section of NAV_SECTIONS) {
+    for (const navItem of section.items) {
+      if (navItem.id === activeId) {
+        activeItem = navItem.data
+        activeType = navItem.type
+        break
+      }
+    }
+    if (activeType) break
+  }
 
   return (
-    <div className="min-h-screen bg-cream-50 dark:bg-dark-warm-300 py-12 px-4">
+    <div className="min-h-screen bg-cream-50 dark:bg-dark-warm-300">
       <SEO
         title="French Writing Templates — Emails, Letters & Essays | SayBonjour!"
         description="Practise French writing with structured templates for formal emails, personal letters, and DELF-style essays. Includes vocabulary connectors and copy-to-clipboard functionality."
         keywords="french writing templates, french email template, french letter template, french essay writing, DELF writing practice, formal french writing"
-        url="/writing-templates"
+        url="/writing"
       />
-      <div className="max-w-4xl mx-auto">
 
-        {/* Header */}
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10">
-          <div className="text-5xl mb-4">✍️</div>
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">Writing Templates</h1>
-          <p className="text-burgundy-600 font-medium mb-3">Modèles d'écriture</p>
-          <p className="text-gray-600 dark:text-gray-300 max-w-xl mx-auto">
-            Ready-to-use templates for French emails, formal letters, and academic essays — with key phrases, structural guides, and cultural tips.
-          </p>
-        </motion.div>
+      <div className="flex relative">
 
-        {/* Tabs */}
-        <div className="flex gap-2 mb-8">
-          {TABS.map(({ id, label, icon: Icon }) => (
-            <button
-              key={id}
-              onClick={() => setActiveTab(id)}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-medium transition-all ${
-                activeTab === id
-                  ? 'bg-burgundy-600 text-white shadow-md'
-                  : 'bg-white dark:bg-dark-warm-100 text-gray-700 dark:text-gray-300 hover:bg-burgundy-50 dark:hover:bg-dark-warm-200 border border-gray-200 dark:border-gray-600'
-              }`}
-            >
-              <Icon size={15} />
-              {label}
-            </button>
-          ))}
-        </div>
-
-        <AnimatePresence mode="wait">
-          {activeTab === 'emails' && (
-            <motion.div key="emails" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-5">
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Click any template to expand it. Use the copy button to paste directly into your email client.</p>
-              {emailTemplates.map(item => <TemplateCard key={item.id} item={item} />)}
-            </motion.div>
-          )}
-
-          {activeTab === 'letters' && (
-            <motion.div key="letters" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-5">
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">French formal letters follow a very specific layout. Expand a template to see the full structure.</p>
-              {letterTemplates.map(item => <TemplateCard key={item.id} item={item} />)}
-            </motion.div>
-          )}
-
-          {activeTab === 'essays' && (
-            <motion.div key="essays" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">Click each section of an essay structure to see example phrases and transitions.</p>
-              <div className="space-y-5 mb-8">
-                {essayStructures.map(essay => <EssayCard key={essay.id} essay={essay} />)}
-              </div>
-
-              {/* Connectors */}
-              <div className="bg-white dark:bg-dark-warm-100 border border-gray-200 dark:border-gray-600 rounded-2xl p-6">
-                <h3 className="font-bold text-gray-900 dark:text-white text-lg mb-1">Useful Connectors</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-5">Linking words and phrases to make your writing flow naturally.</p>
-                <div className="grid sm:grid-cols-2 gap-3">
-                  {usefulConnectors.map((c, i) => (
-                    <div key={i} className="bg-gray-50 dark:bg-dark-warm-200 rounded-xl p-3">
-                      <p className="text-xs font-semibold text-burgundy-600 uppercase tracking-wide mb-1">{c.category}</p>
-                      <p className="font-medium text-gray-900 dark:text-white text-sm">{c.fr}</p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{c.en}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
+        {/* Mobile overlay */}
+        <AnimatePresence>
+          {sidebarOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/40 z-30 lg:hidden"
+              onClick={() => setSidebarOpen(false)}
+            />
           )}
         </AnimatePresence>
+
+        {/* Sidebar */}
+        <aside
+          className={`fixed lg:sticky top-0 lg:top-20 left-0 h-screen lg:h-[calc(100vh-5rem)] w-60 bg-white dark:bg-dark-warm-100 border-r border-gray-200 dark:border-gray-700 overflow-y-auto z-40 lg:z-auto transition-transform duration-300 flex-shrink-0 ${
+            sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+          }`}
+        >
+          {/* Mobile close button */}
+          <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100 dark:border-gray-700 lg:hidden">
+            <span className="font-bold text-gray-900 dark:text-white text-sm">Browse Templates</span>
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-dark-warm-200"
+            >
+              <X size={16} />
+            </button>
+          </div>
+
+          <nav className="p-3 pt-4">
+            {NAV_SECTIONS.map(({ id, label, icon: Icon, items }) => (
+              <div key={id} className="mb-1">
+                <button
+                  onClick={() => toggleSection(id)}
+                  className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-semibold text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-dark-warm-200 transition-colors"
+                >
+                  <span className="flex items-center gap-2">
+                    <Icon size={14} className="text-gray-500 dark:text-gray-400" />
+                    {label}
+                  </span>
+                  <ChevronDown
+                    size={14}
+                    className={`text-gray-400 transition-transform duration-200 ${openSections[id] ? 'rotate-180' : ''}`}
+                  />
+                </button>
+
+                <AnimatePresence initial={false}>
+                  {openSections[id] && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="ml-1 mt-0.5 space-y-0.5 pb-1">
+                        {items.map((item) => (
+                          <button
+                            key={item.id}
+                            onClick={() => handleSelect(item.id)}
+                            className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors leading-snug ${
+                              activeId === item.id
+                                ? 'bg-burgundy-50 dark:bg-burgundy-900/30 text-burgundy-700 dark:text-burgundy-300 font-semibold'
+                                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-warm-200 hover:text-gray-900 dark:hover:text-gray-100'
+                            }`}
+                          >
+                            {item.label}
+                          </button>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ))}
+          </nav>
+        </aside>
+
+        {/* Main content */}
+        <main className="flex-1 min-w-0">
+          {/* Mobile breadcrumb bar */}
+          <div className="lg:hidden sticky top-20 z-20 bg-white dark:bg-dark-warm-100 border-b border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center gap-3">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-burgundy-600 dark:hover:text-burgundy-400 flex-shrink-0"
+            >
+              <Menu size={17} />
+              <span>Templates</span>
+            </button>
+            {activeItem && (
+              <>
+                <span className="text-gray-300 dark:text-gray-600 flex-shrink-0">/</span>
+                <span className="text-sm text-gray-500 dark:text-gray-400 truncate">
+                  {activeItem.title || 'Useful Connectors'}
+                </span>
+              </>
+            )}
+          </div>
+
+          <div className="px-6 py-10 lg:px-12 lg:py-10 max-w-3xl">
+            <AnimatePresence mode="wait">
+              {!activeId ? (
+                <motion.div key="welcome" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                  <Welcome />
+                </motion.div>
+              ) : activeType === 'template' ? (
+                <motion.div key={activeId} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+                  <TemplateArticle item={activeItem} />
+                </motion.div>
+              ) : activeType === 'essay' ? (
+                <motion.div key={activeId} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+                  <EssayArticle essay={activeItem} />
+                </motion.div>
+              ) : (
+                <motion.div key="connectors" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+                  <ConnectorsArticle />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </main>
       </div>
     </div>
   )
