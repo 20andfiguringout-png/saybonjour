@@ -1,3 +1,5 @@
+import { getHappyHourMultiplierBonus } from './happyHour'
+
 const PROGRESS_KEY = 'saybonjour_progress'
 
 const defaultProgress = {
@@ -71,8 +73,10 @@ export const getXPMultiplier = (streak) => {
 export const addXP = (amount, reason = '') => {
   const progress = getProgress()
 
-  const multiplier = getXPMultiplier(progress.streak)
+  const streakMult = getXPMultiplier(progress.streak)
   const skipMultiplier = ['daily_login'].includes(reason)
+  const happyBonus = skipMultiplier ? 0 : getHappyHourMultiplierBonus()
+  const multiplier = skipMultiplier ? 1 : Math.min(4, streakMult + happyBonus)
   const finalAmount = skipMultiplier ? amount : amount * multiplier
 
   progress.xp += finalAmount

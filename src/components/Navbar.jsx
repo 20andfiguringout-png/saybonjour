@@ -8,6 +8,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion'
 import { getFavoritesCounts } from '../utils/favorites'
 import { getProgress } from '../utils/progress'
+import { getHappyHourStatus, formatMins } from '../utils/happyHour'
 import { useTheme } from '../context/ThemeContext'
 import { useUser } from '../context/UserContext'
 import { useI18n } from '../context/i18nContext'
@@ -227,6 +228,7 @@ const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [searchFocused, setSearchFocused] = useState(false)
   const [dailyChallengesDone, setDailyChallengesDone] = useState(checkDailyChallengesDone)
+  const [happyHour, setHappyHour] = useState(() => getHappyHourStatus())
 
   const learnTimer = useRef(null)
   const resourcesTimer = useRef(null)
@@ -271,6 +273,12 @@ const Navbar = () => {
     window.addEventListener('progressUpdated', update)
     window.addEventListener('storage', update)
     return () => { window.removeEventListener('progressUpdated', update); window.removeEventListener('storage', update) }
+  }, [])
+
+  useEffect(() => {
+    const tick = () => setHappyHour(getHappyHourStatus())
+    const id = setInterval(tick, 30000)
+    return () => clearInterval(id)
   }, [])
 
   useEffect(() => {
@@ -510,6 +518,27 @@ const Navbar = () => {
                   </span>
                 )}
               </Link>
+
+              {/* Happy Hour pill */}
+              <AnimatePresence>
+                {happyHour.active && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.85, x: -8 }}
+                    animate={{ opacity: 1, scale: 1, x: 0 }}
+                    exit={{ opacity: 0, scale: 0.85, x: -8 }}
+                    transition={{ duration: 0.2 }}
+                    title={`${happyHour.label} — ${Math.min(4, 1 + happyHour.multiplierBonus)}× XP on all activities!`}
+                  >
+                    <Link to="/daily-challenges"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-gradient-to-r from-amber-400 to-orange-400 text-gray-900 shadow-md hover:from-amber-300 hover:to-orange-300 transition-all"
+                    >
+                      <Zap size={12} className="flex-shrink-0" />
+                      <span>Happy Hour · {(1 + happyHour.multiplierBonus)}× XP</span>
+                      <span className="opacity-70">· {formatMins(happyHour.endsInMins)}</span>
+                    </Link>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             {/* Right side: search + theme + auth */}
@@ -744,6 +773,16 @@ const Navbar = () => {
                       </button>
                     ))}
                   </div>
+                )}
+
+                {/* Happy Hour banner (mobile) */}
+                {happyHour.active && (
+                  <Link to="/daily-challenges" onClick={() => setIsOpen(false)}
+                    className="flex items-center gap-2.5 w-full px-4 py-3 rounded-xl bg-gradient-to-r from-amber-400 to-orange-400 text-gray-900 font-bold text-sm mb-2">
+                    <Zap size={15} className="flex-shrink-0" />
+                    <span className="flex-1">Happy Hour — {1 + happyHour.multiplierBonus}× XP active!</span>
+                    <span className="text-xs font-semibold opacity-75">{formatMins(happyHour.endsInMins)} left</span>
+                  </Link>
                 )}
 
                 {/* User info / auth */}
