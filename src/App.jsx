@@ -56,6 +56,7 @@ import Conversation from './pages/Conversation'
 import Levels from './pages/Levels'
 import NotFound from './pages/NotFound'
 import FrenchNumbers from './pages/FrenchNumbers'
+import Games from './pages/Games'
 import Hangman from './pages/Hangman'
 import WordScramble from './pages/WordScramble'
 import SpellingBee from './pages/SpellingBee'
@@ -250,6 +251,7 @@ function App() {
                     <Route path="/conversation" element={<Conversation />} />
                     <Route path="/levels" element={<Levels />} />
                     <Route path="/numbers" element={<FrenchNumbers />} />
+                    <Route path="/games" element={<Games />} />
                     <Route path="/hangman" element={<Hangman />} />
                     <Route path="/word-scramble" element={<WordScramble />} />
                     <Route path="/spelling-bee" element={<SpellingBee />} />

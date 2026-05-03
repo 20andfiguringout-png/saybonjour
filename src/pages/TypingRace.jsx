@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
+import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Keyboard, Clock, RotateCcw, Trophy, Zap, ChevronDown, Menu, X, Volume2, Play } from 'lucide-react'
+import { Keyboard, Clock, RotateCcw, Trophy, Zap, ChevronDown, ChevronLeft, Menu, X, Volume2, Play } from 'lucide-react'
 import { addXP } from '../utils/progress'
 import SEO from '../components/SEO'
 import SpeakButton from '../components/SpeakButton'

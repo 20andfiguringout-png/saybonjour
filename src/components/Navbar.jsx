@@ -79,6 +79,7 @@ const SEARCH_INDEX = [
   { label: 'Verb Constructions', desc: 'Phrasal patterns — avoir, faire, se + verb', href: '/phrasal-verbs', category: 'Language Tools' },
   { label: 'French Art', desc: 'Masterpieces and art vocabulary', href: '/french-art', category: 'Culture & Media' },
   { label: 'Conjugation Quiz', desc: 'Test all tenses with instant feedback', href: '/conjugation-quiz', category: 'Practice' },
+  { label: 'Games Hub', desc: 'All French learning games in one place', href: '/games', category: 'Games' },
 ]
 
 const LEARN_COLUMNS = [
@@ -117,6 +118,7 @@ const LEARN_COLUMNS = [
       {
         heading: 'Mini Games',
         items: [
+          { name: 'Games Hub', href: '/games', icon: Gamepad2, desc: 'Browse all 14 games' },
           { name: 'Word Match', href: '/word-match', icon: Gamepad2, desc: 'Match French & English' },
           { name: 'Typing Race', href: '/typing-race', icon: Zap, desc: 'Type translations fast!' },
           { name: 'Hangman', href: '/hangman', icon: Gamepad2, desc: 'Guess the French word' },
