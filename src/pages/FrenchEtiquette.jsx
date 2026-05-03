@@ -10,54 +10,74 @@ const ETIQUETTE_SECTIONS = [
     title: 'Greetings & Politeness',
     icon: '🤝',
     rules: [
-      { rule: 'Always say "Bonjour"', desc: 'Enter any shop, doctor\'s office, lift, or small gathering and say "Bonjour" first. Starting without a greeting is considered rude. "Bonjour Madame / Monsieur" is even better.' },
-      { rule: 'Use "vous" with strangers and authority', desc: 'The formal "vous" is essential with shop staff, officials, older people, and anyone you\'ve just met. Using "tu" too quickly can seem presumptuous.' },
-      { rule: '"S\'il vous plaît" is non-negotiable', desc: 'Never order in a café without "s\'il vous plaît." "Un café" alone sounds brusque. "Un café, s\'il vous plaît" is the minimum.' },
-      { rule: '"Au revoir" when leaving', desc: 'Leaving a shop, café, or appointment without "au revoir" is considered abrupt. Always take a moment to say goodbye.' },
+      { rule: 'Always say "Bonjour" first', desc: 'Enter any shop, doctor\'s office, lift, café, or small gathering and say "Bonjour" first — before anything else. Starting a transaction or conversation without a greeting is genuinely considered rude. "Bonjour Madame / Bonjour Monsieur" is even better.' },
+      { rule: 'Use "vous" with strangers and authority figures', desc: 'The formal "vous" is essential with shop staff, officials, doctors, older people, teachers, and anyone you\'ve just met. Using "tu" too quickly can seem presumptuous or disrespectful. When in doubt, use "vous" and wait to be invited to switch.' },
+      { rule: '"S\'il vous plaît" is non-negotiable', desc: 'Never order in a café without "s\'il vous plaît". "Un café" alone sounds brusque and rude. "Un café, s\'il vous plaît" is the minimum. "Je voudrais un café, s\'il vous plaît" is even better.' },
+      { rule: '"Au revoir" when leaving', desc: 'Leaving a shop, café, doctor\'s surgery, or social gathering without "au revoir" is considered abrupt. Always take a moment to acknowledge your departure. "Bonne journée !" (Have a good day!) or "Bonne soirée !" (Good evening!) are excellent add-ons.' },
+      { rule: 'The bisou — la bise (cheek kiss)', desc: 'Greeting between friends and acquaintances involves la bise — cheek kisses. The number varies by region: 1 in some areas, 2 in most of France, 3 in some regions (Provence), 4 in some areas (Normandy). The bise is always air-kiss cheek-to-cheek, never lips. Start right cheek in Paris. COVID changed some habits, but la bise is returning.' },
+      { rule: 'Handshake in professional settings', desc: 'In professional contexts (meetings, introductions), a firm handshake is correct. Colleagues who see each other daily often shake hands in the morning. This is more formal than Anglo-American professional culture.' },
     ],
   },
   {
     title: 'Table & Dining Manners',
     icon: '🍽️',
     rules: [
-      { rule: 'Wait for "Bon appétit!"', desc: 'Don\'t start eating until the host or someone at the table says "Bon appétit!" Silence before starting to eat is common.' },
-      { rule: 'Bread on the table, not a plate', desc: 'Bread goes directly on the table (not on a side plate). It\'s not rude — it\'s tradition.' },
-      { rule: 'Both hands on the table', desc: 'Keep both wrists or forearms visible on the table — not in your lap. This comes from a historical tradition.' },
-      { rule: 'Don\'t ask for doggy bags', desc: 'Taking leftover food home is unusual in France. It\'s becoming more accepted but is not standard practice.' },
-      { rule: 'Cheese before dessert', desc: 'In a French meal, cheese (le fromage) comes BEFORE dessert, not after. Never cut the tip off a wedge of cheese.' },
+      { rule: 'Wait for "Bon appétit!"', desc: 'Don\'t start eating until the host or someone at the table says "Bon appétit!" — or everyone is served. Beginning before others is considered impolite.' },
+      { rule: 'Bread on the table, not a plate', desc: 'Bread goes directly on the table (or a small side plate if provided) — not on a bread plate (pain plate). It\'s a tradition, not bad manners. Feel free to use bread to soak up sauce (le saucer) — it\'s perfectly acceptable.' },
+      { rule: 'Both forearms visible on the table', desc: 'Keep both wrists or forearms visible on the table — not in your lap. This dates from a historical tradition of showing you aren\'t hiding a weapon. Considered proper posture.' },
+      { rule: 'Cheese before dessert — always', desc: 'In a French meal, cheese (le fromage) comes BEFORE dessert, not after. Never cut the tip off a triangular wedge of cheese (the "pointe") — take a slice from the side. With round cheeses, cut a wedge like a cake.' },
+      { rule: 'Don\'t rush the meal', desc: 'French meals are long by intention. A Sunday lunch (le déjeuner du dimanche) can last 3–4 hours. Rushing indicates you aren\'t enjoying the food or company — both insults. The conversation is as important as the food.' },
+      { rule: 'Asking for modifications is unusual', desc: 'Asking for extensive dish modifications ("no sauce, dressing on the side, gluten-free") is less common in traditional French restaurants and can be poorly received. Simple requests (vegetarian, allergy) are increasingly accepted.' },
     ],
   },
   {
     title: 'Social Etiquette',
     icon: '🥂',
     rules: [
-      { rule: 'Bring a gift when invited to someone\'s home', desc: 'Wine, flowers (not chrysanthemums — those are for funerals), or chocolates. Don\'t bring 13 flowers. The host may not open the gift in front of you.' },
-      { rule: 'Don\'t discuss money or salary', desc: 'Personal finances are private in France. Asking someone\'s salary is very impolite. Discussing the price of things can also be awkward.' },
-      { rule: 'Punctuality is expected but flexible', desc: 'Being 10–15 minutes late to a social dinner is considered polite (arriver en avance embarrasses the host). For professional appointments, be on time.' },
-      { rule: 'Arguments about food and politics are normal', desc: 'Passionate debate — about food quality, politics, or philosophy — is part of French conversation culture. Don\'t be alarmed by vigorous disagreement.' },
+      { rule: 'Bring a gift when invited to someone\'s home', desc: 'Wine, good chocolates, or flowers (not chrysanthemums — those are for funerals; not too many — 13 flowers is bad luck). Don\'t bring red roses (romantic). The host may not open the gift immediately in front of you.' },
+      { rule: 'Don\'t discuss money, salary or the price of things', desc: 'Personal finances are private in France. Asking someone\'s salary is very impolite. Mentioning what you paid for something can feel boastful or inappropriate. The French find American-style salary transparency culturally strange.' },
+      { rule: 'Arrive 10–15 minutes late for dinner', desc: '"Arriver en avance" (arriving early) embarrasses the host who isn\'t ready. For a social dinner invitation, 10–15 minutes late is correct. For professional appointments, be precisely on time or 2 minutes early.' },
+      { rule: 'Debate and argument are social virtues', desc: 'Passionate disagreement about food, politics, philosophy, and culture is considered an intellectual pleasure, not a social problem. Don\'t be alarmed by vigorous debate at dinner — it means you\'re among people who respect your intelligence.' },
+      { rule: 'Compliment the food, not the decor', desc: 'If invited for dinner, complimenting the food is always welcome. Gushing over the apartment or furniture can seem materialistic. Focus on the quality of what\'s been prepared for you.' },
     ],
   },
   {
     title: 'In Public',
     icon: '🏙️',
     rules: [
-      { rule: 'Keep your voice down in public', desc: 'Loud conversations in public are seen as intrusive. The French tend to speak at a moderate volume even in groups.' },
-      { rule: 'Queue properly', desc: 'The French take queueing seriously. Cutting in line is a serious social offence.' },
-      { rule: 'Dress thoughtfully', desc: 'The French tend to dress elegantly even casually. Visiting a church requires covered shoulders. Going to a restaurant in very casual clothes may feel out of place.' },
-      { rule: 'Smile with context', desc: 'Smiling at strangers on the street is unusual in France — unlike in some countries. It can be misread. Smiling in context (greeting, conversation) is perfectly normal.' },
+      { rule: 'Moderate your speaking volume', desc: 'Loud conversations in public — on the phone, in restaurants, on public transport — are seen as intrusive and inconsiderate. The French tend to speak at a moderate volume even in groups. Laughing loudly in the street can attract disapproving looks.' },
+      { rule: 'Queue (faire la queue) properly', desc: 'The French take queueing seriously. Cutting in line (resquiller) is a genuine social offence. "Il y a une queue, Monsieur/Madame" (There is a queue, Sir/Madam) is the correct response to a queue-cutter.' },
+      { rule: 'Dress with some thought', desc: 'The French tend to dress with care even for casual outings. Visiting churches or formal establishments requires covered shoulders and non-beach attire. Very casual dress (athletic wear) in a nice restaurant can feel out of place.' },
+      { rule: 'Smiling at strangers is unusual', desc: 'Smiling at strangers on the street without cause is unusual in France (and in much of Europe). It can be misread as strange or flirtatious. Smiling in context — in conversation, as a greeting — is completely normal and warm.' },
+      { rule: 'Keep streets and spaces clean', desc: 'Paris in particular has worked hard to improve cleanliness. Dropping litter is considered genuinely antisocial. Dogs\' mess (le crotin) is a longtime Parisian issue — less so now with better enforcement.' },
+    ],
+  },
+  {
+    title: 'Work & Professional',
+    icon: '💼',
+    rules: [
+      { rule: '"Tutoyez-vous ?" — wait before using tu', desc: 'In most French workplaces, you use "vous" until your colleagues explicitly invite you to switch to "tu". Start-ups and younger companies default to "tu" quickly; traditional companies (law, finance) may keep "vous" indefinitely.' },
+      { rule: 'Long lunches are not wasted time', desc: 'A 1.5–2 hour lunch is normal in French professional culture. The "déjeuner de travail" (working lunch) is genuine networking and relationship-building. Eating quickly at a desk is seen as somewhat sad.' },
+      { rule: 'Email sign-offs are elaborate', desc: 'French professional emails end with formulas like "Veuillez agréer, Madame/Monsieur, l\'expression de mes salutations distinguées" or "Cordialement" (more informal). The sign-off is as important as the content. Ending with just "Merci" is abrupt.' },
+      { rule: 'August is sacred', desc: 'Many French businesses — including major companies — operate with skeleton staff or close entirely in August. Planning any significant business for August is futile. "Il est en vacances" is the most common response to emails in August.' },
     ],
   },
 ]
 
 const POLITE_PHRASES = [
-  { fr: 'Bonjour Madame / Monsieur.', en: 'Hello, Madam / Sir.', note: 'Use this when entering shops, etc.' },
-  { fr: 'S\'il vous plaît.', en: 'Please.', note: 'Essential. Never omit it in requests.' },
-  { fr: 'Merci beaucoup.', en: 'Thank you very much.' },
-  { fr: 'Je vous en prie.', en: 'You\'re welcome. (formal)', note: '"De rien" is informal; "je vous en prie" is more elegant' },
-  { fr: 'Excusez-moi.', en: 'Excuse me. (formal)', note: '"Pardon" also works for bumping into someone' },
-  { fr: 'Je suis désolé(e).', en: 'I\'m sorry.', note: 'More sincere than "pardon"' },
-  { fr: 'Avec plaisir.', en: 'With pleasure.', note: 'A gracious way to say yes to a request' },
-  { fr: 'À votre santé !', en: 'Cheers! (lit. To your health!)', note: 'Maintain eye contact when clinking glasses — it\'s considered polite' },
+  { fr: 'Bonjour Madame / Monsieur.', en: 'Hello, Madam / Sir.', note: 'Use this when entering shops, appointments, or meeting someone for the first time that day.' },
+  { fr: 'S\'il vous plaît.', en: 'Please. (formal)', note: 'Essential. Never omit it in requests. "S\'il te plaît" = informal version.' },
+  { fr: 'Merci beaucoup.', en: 'Thank you very much.', note: 'Also: "Je vous remercie" (formal, to a professional) or "C\'est très gentil" (very kind).' },
+  { fr: 'Je vous en prie.', en: 'You\'re welcome. (formal)', note: '"De rien" is informal; "je vous en prie" is the polished version used in formal contexts.' },
+  { fr: 'Excusez-moi de vous déranger.', en: 'Excuse me for disturbing you.', note: '"Excusez-moi" alone is fine; this longer form is extra polite when interrupting someone.' },
+  { fr: 'Je suis désolé(e).', en: 'I\'m sorry.', note: 'More sincere apology than "pardon". "Toutes mes excuses" = my sincerest apologies.' },
+  { fr: 'Avec plaisir.', en: 'With pleasure.', note: 'A gracious and warm way to say yes to a request — nicer than "oui".' },
+  { fr: 'À votre santé !', en: 'Cheers! (lit. To your health!)', note: 'Always maintain eye contact when clinking glasses — breaking eye contact is considered rude.' },
+  { fr: 'Bonne journée !', en: 'Have a good day!', note: 'Said when leaving a shop or ending a daytime interaction.' },
+  { fr: 'Bonne soirée !', en: 'Have a good evening!', note: 'Used from late afternoon onwards.' },
+  { fr: 'Bon appétit !', en: 'Enjoy your meal!', note: 'Always said before eating — the host says it first, then everyone repeats it.' },
+  { fr: 'C\'est très gentil de votre part.', en: 'That\'s very kind of you.', note: '"Votre part" = formal. "Ta part" = informal. A warm and elegant thank-you phrase.' },
+  { fr: 'Enchanté(e) de faire votre connaissance.', en: 'Delighted to meet you.', note: 'Slightly formal but always appreciated at a first meeting.' },
 ]
 
 export default function FrenchEtiquette() {
@@ -66,11 +86,16 @@ export default function FrenchEtiquette() {
 
   return (
     <div className="min-h-screen bg-cream-50 dark:bg-dark-warm-300">
-      <SEO title="French Etiquette & Social Customs | SayBonjour!" description="Understand French social etiquette — greetings, dining manners, social customs, and polite phrases." />
+      <SEO title="French Etiquette & Social Customs | SayBonjour!" description="Master French social etiquette — greetings, dining manners, la bise, professional customs, and polite phrases." />
       <div className="max-w-3xl mx-auto px-4 py-10">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold font-playfair text-gray-900 dark:text-cream-50">French Etiquette</h1>
-          <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Les bonnes manières — social customs and polite behaviour in France</p>
+          <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Les bonnes manières — social customs, dining etiquette, and polite French behaviour</p>
+        </div>
+
+        <div className="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-700 rounded-xl px-4 py-3 mb-6 flex items-start gap-2">
+          <AlertCircle size={16} className="text-amber-600 shrink-0 mt-0.5" />
+          <p className="text-sm text-amber-800 dark:text-amber-300">French politeness is precise and formal by international standards — but once mastered, it creates genuine warmth. The French distinguish sharply between those who know the codes and those who don't.</p>
         </div>
 
         <div className="flex gap-3 mb-6 flex-wrap">
@@ -95,12 +120,13 @@ export default function FrenchEtiquette() {
             <div className="space-y-4">
               {ETIQUETTE_SECTIONS[activeSection].rules.map((rule, i) => (
                 <motion.div key={rule.rule} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}
-                  className="bg-white dark:bg-dark-warm-100 rounded-2xl shadow border border-gray-100 dark:border-dark-warm-50 p-5">
+                  className="bg-white dark:bg-dark-warm-100 rounded-2xl shadow border border-gray-100 dark:border-dark-warm-50 p-5"
+                  onClick={() => addXP(3, 'vocabulary')}>
                   <div className="flex items-start gap-3">
                     <Star size={16} className="text-amber-400 shrink-0 mt-0.5" />
                     <div>
                       <h3 className="font-bold text-gray-900 dark:text-cream-50 font-playfair mb-1">{rule.rule}</h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">{rule.desc}</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{rule.desc}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -113,7 +139,8 @@ export default function FrenchEtiquette() {
           <div className="space-y-3">
             {POLITE_PHRASES.map((p, i) => (
               <motion.div key={p.fr} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}
-                className="bg-white dark:bg-dark-warm-100 rounded-xl shadow border border-gray-100 dark:border-dark-warm-50 p-4 flex items-start gap-3">
+                className="bg-white dark:bg-dark-warm-100 rounded-xl shadow border border-gray-100 dark:border-dark-warm-50 p-4 flex items-start gap-3"
+                onClick={() => addXP(2, 'vocabulary')}>
                 <SpeakButton text={p.fr} size="sm" />
                 <div>
                   <p className="font-medium text-sm italic text-gray-800 dark:text-cream-50">"{p.fr}"</p>
