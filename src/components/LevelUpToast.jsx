@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
 import { getProgress } from '../utils/progress'
+import Confetti from './Confetti'
 
 export default function LevelUpToast() {
   const [show, setShow] = useState(false)
@@ -31,7 +32,9 @@ export default function LevelUpToast() {
   }, [])
 
   return (
-    <AnimatePresence>
+    <>
+      <Confetti trigger={show} />
+      <AnimatePresence>
       {show && (
         <motion.div
           initial={{ opacity: 0, y: 64, scale: 0.82 }}
@@ -57,5 +60,6 @@ export default function LevelUpToast() {
         </motion.div>
       )}
     </AnimatePresence>
+    </>
   )
 }

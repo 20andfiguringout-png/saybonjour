@@ -4,7 +4,53 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { getProgress, getAllBadges, getXPForNextLevel, getRank, RANKS, getXPMultiplier } from '../utils/progress'
 import { getHappyHourStatus, formatMins } from '../utils/happyHour'
 import { getFreezesCount, activateFreeze } from '../utils/streakFreeze'
+import Confetti from '../components/Confetti'
 import SEO from '../components/SEO'
+
+const GOAL_OPTIONS = [50, 100, 150, 200]
+const GOAL_KEY = 'saybonjour_daily_xp_goal'
+
+const DailyGoalRing = ({ todayXP, goal, onGoalChange }) => {
+  const pct = Math.min(100, (todayXP / goal) * 100)
+  const r = 26
+  const circ = 2 * Math.PI * r
+  const dash = circ * (1 - pct / 100)
+  const reached = pct >= 100
+  return (
+    <div className="flex items-center gap-4 flex-wrap">
+      <div className="relative w-16 h-16 shrink-0">
+        <svg className="w-16 h-16 -rotate-90" viewBox="0 0 64 64">
+          <circle cx="32" cy="32" r={r} fill="none" stroke="currentColor" strokeWidth="6" className="text-gray-100 dark:text-dark-warm-200" />
+          <circle cx="32" cy="32" r={r} fill="none" strokeWidth="6" strokeLinecap="round"
+            stroke={reached ? '#10b981' : '#f59e0b'}
+            strokeDasharray={circ}
+            strokeDashoffset={dash}
+            style={{ transition: 'stroke-dashoffset 0.6s ease' }}
+          />
+        </svg>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className={`text-xs font-black ${reached ? 'text-emerald-600' : 'text-amber-600'}`}>{Math.round(pct)}%</span>
+        </div>
+      </div>
+      <div className="flex-1">
+        <p className="text-sm font-bold text-gray-800 dark:text-cream-50">Daily XP Goal</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">{todayXP} / {goal} XP today</p>
+        {reached
+          ? <p className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold mt-0.5">🎉 Goal reached! Amazing!</p>
+          : <p className="text-xs text-gray-400 mt-0.5">{goal - todayXP} XP to go</p>
+        }
+        <div className="flex gap-1 mt-1.5">
+          {GOAL_OPTIONS.map(g => (
+            <button key={g} onClick={() => onGoalChange(g)}
+              className={`px-2 py-0.5 rounded-full text-[10px] font-bold transition-all ${goal === g ? 'bg-amber-400 text-white' : 'bg-gray-100 dark:bg-dark-warm-200 text-gray-500 hover:bg-amber-100 dark:hover:bg-amber-900/20'}`}>
+              {g}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
 
 const cefrColors = {
   A1: 'text-emerald-600 bg-emerald-100',
@@ -287,13 +333,35 @@ const Progress = () => {
   const [happyHour, setHappyHour] = useState(() => getHappyHourStatus())
   const [freezes, setFreezes] = useState(() => getFreezesCount())
   const [freezeMsg, setFreezeMsg] = useState(null)
+  const [dailyGoal, setDailyGoal] = useState(() => Number(localStorage.getItem(GOAL_KEY)) || 50)
+  const [goalConfetti, setGoalConfetti] = useState(false)
   const allBadges = getAllBadges()
+
+  const todayStr = new Date().toISOString().split('T')[0]
+
+  const getTodayXP = (p) => {
+    if (!p) return 0
+    const entry = (p.weeklyXP || []).find(e => e.date === todayStr)
+    return entry?.xp || 0
+  }
 
   useEffect(() => {
     setProgress(getProgress())
     const handler = () => { setProgress(getProgress()); setFreezes(getFreezesCount()) }
     window.addEventListener('progressUpdated', handler)
-    return () => window.removeEventListener('progressUpdated', handler)
+    const xpHandler = () => {
+      const p = getProgress()
+      const todayXP = getTodayXP(p)
+      const goal = Number(localStorage.getItem(GOAL_KEY)) || 50
+      if (todayXP >= goal) { setGoalConfetti(true); setTimeout(() => setGoalConfetti(false), 100) }
+      setProgress(p)
+      setFreezes(getFreezesCount())
+    }
+    window.addEventListener('xpGained', xpHandler)
+    return () => {
+      window.removeEventListener('progressUpdated', handler)
+      window.removeEventListener('xpGained', xpHandler)
+    }
   }, [])
 
   useEffect(() => {
@@ -301,6 +369,11 @@ const Progress = () => {
     const id = setInterval(tick, 30000)
     return () => clearInterval(id)
   }, [])
+
+  const handleGoalChange = (g) => {
+    setDailyGoal(g)
+    localStorage.setItem(GOAL_KEY, g)
+  }
 
   const handleActivateFreeze = () => {
     const ok = activateFreeze()
@@ -392,6 +465,17 @@ const Progress = () => {
               )}
             </div>
             <XPBar xp={progress.xp} level={progress.level} />
+          </motion.div>
+
+          {/* Daily XP Goal */}
+          <motion.div
+            className="bg-white dark:bg-dark-warm-100 rounded-2xl border border-cream-200 dark:border-dark-warm-50 shadow-sm p-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 }}
+          >
+            <Confetti trigger={goalConfetti} />
+            <DailyGoalRing todayXP={getTodayXP(progress)} goal={dailyGoal} onGoalChange={handleGoalChange} />
           </motion.div>
 
           {/* Stats grid */}

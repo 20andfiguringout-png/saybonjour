@@ -97,9 +97,10 @@ export default function Profile() {
   const handleLogout = () => { logout(); navigate('/') }
 
   const xp = progress?.xp || 0
-  const streak = progress?.loginStreak || 0
-  const wordsLearned = progress?.wordsLearned || 0
-  const quizzesTaken = progress?.quizzesTaken || 0
+  const streak = progress?.loginStreak || progress?.streak || 0
+  const longestStreak = progress?.longestStreak || streak
+  const wordsLearned = progress?.wordsLearned || progress?.totalWordsLearned || 0
+  const quizzesTaken = progress?.quizzesTaken || progress?.totalQuizzesTaken || 0
 
   const inputCls = 'w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-dark-warm-50 bg-gray-50 dark:bg-dark-warm-200 text-gray-800 dark:text-cream-50 text-sm focus:outline-none focus:ring-2 focus:ring-burgundy-400 transition-all'
 
@@ -177,7 +178,7 @@ export default function Profile() {
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {[
                   { label: 'Total XP', value: xp.toLocaleString(), icon: Star, color: 'text-amber-500' },
-                  { label: 'Day Streak', value: streak, icon: Flame, color: 'text-orange-500' },
+                  { label: 'Best Streak', value: `${longestStreak}d`, icon: Flame, color: 'text-orange-500' },
                   { label: 'Words Learned', value: wordsLearned, icon: BookOpen, color: 'text-blue-500' },
                   { label: 'Quizzes Taken', value: quizzesTaken, icon: Brain, color: 'text-purple-500' },
                 ].map(({ label, value, icon: Icon, color }) => (
