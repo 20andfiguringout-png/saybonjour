@@ -44,6 +44,8 @@ import InteractiveStory from './pages/InteractiveStory'
 import TravelFrench from './pages/TravelFrench'
 import FrenchJokes from './pages/FrenchJokes'
 import WritingTemplates from './pages/WritingTemplates'
+import Pronunciation from './pages/Pronunciation'
+import Conversation from './pages/Conversation'
 import NotFound from './pages/NotFound'
 import { claimDailyLoginReward } from './utils/progress'
 
@@ -115,6 +117,8 @@ function App() {
                     <Route path="/learning-path" element={<LearningPath />} />
                     <Route path="/history" element={<StudyHistory />} />
                     <Route path="/settings" element={<AccountSettings />} />
+                    <Route path="/pronunciation" element={<Pronunciation />} />
+                    <Route path="/conversation" element={<Conversation />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </main>

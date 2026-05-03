@@ -1071,9 +1071,9 @@ const Home = () => {
                 <li><Link to="/culture" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">Cultural Insights</Link></li>
                 <li><Link to="/france-map" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">Interactive France Map</Link></li>
                 <li><Link to="/media" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">French in Media</Link></li>
-                <li><span className="text-cream-300">French Movies</span></li>
-                <li><span className="text-cream-300">French Music</span></li>
-                <li><span className="text-cream-300">French TV Shows</span></li>
+                <li><Link to="/media" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">French Movies</Link></li>
+                <li><Link to="/media" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">French Music</Link></li>
+                <li><Link to="/media" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">French TV Shows</Link></li>
               </ul>
             </div>
 
@@ -1081,13 +1081,13 @@ const Home = () => {
             <div>
               <h3 className="text-burgundy-300 font-semibold text-sm uppercase tracking-wider mb-4">Levels</h3>
               <ul className="space-y-3 text-sm">
-                <li><span className="text-cream-200">Beginner (A1-A2)</span></li>
-                <li><span className="text-cream-200">Intermediate (B1-B2)</span></li>
-                <li><span className="text-cream-200">Advanced (C1-C2)</span></li>
-                <li><span className="text-cream-300">Grammar Basics</span></li>
-                <li><span className="text-cream-300">Vocabulary Building</span></li>
-                <li><span className="text-cream-300">Pronunciation Guide</span></li>
-                <li><span className="text-cream-300">Conversation Practice</span></li>
+                <li><Link to="/resources" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">Beginner (A1-A2)</Link></li>
+                <li><Link to="/resources" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">Intermediate (B1-B2)</Link></li>
+                <li><Link to="/resources" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">Advanced (C1-C2)</Link></li>
+                <li><Link to="/grammar" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">Grammar Basics</Link></li>
+                <li><Link to="/vocabulary" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">Vocabulary Building</Link></li>
+                <li><Link to="/pronunciation" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">Pronunciation Guide</Link></li>
+                <li><Link to="/conversation" className="text-cream-200 hover:text-cream-50 transition-colors duration-200">Conversation Practice</Link></li>
               </ul>
             </div>
 
