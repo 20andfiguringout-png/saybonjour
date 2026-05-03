@@ -857,7 +857,7 @@ const Admin = () => {
               onClick={() => activeTab === 'sections' ? setShowSectionForm(true) : setShowForm(true)}
               className="btn-primary flex items-center space-x-2"
             >
-              <Plus size={16} />
+              <Plus size="md" />
               <span>Add {activeTab === 'sections' ? 'Section' : activeTab === 'articles' ? 'Article' : activeTab === 'quizzes' ? 'Quiz' : activeTab === 'worksheets' ? 'Worksheet' : 'Phrase'}</span>
             </button>
           </div>
@@ -869,7 +869,7 @@ const Admin = () => {
             <div className="flex items-center justify-between mb-4">
               <p className="text-sm text-gray-600 dark:text-gray-400">{vocabWords.length} custom word{vocabWords.length !== 1 ? 's' : ''} added</p>
               <button onClick={() => { setEditingVocab(null); setVocabForm({ french: '', english: '', category: 'Custom', list_name: 'Custom Words', difficulty: 'Beginner', notes: '' }); setShowVocabForm(true) }} className="btn-primary flex items-center space-x-2">
-                <Plus size={16} /><span>Add Word</span>
+                <Plus size="md" /><span>Add Word</span>
               </button>
             </div>
             <div className="bg-amber-50 dark:bg-dark-warm-100 shadow rounded-md overflow-hidden">
@@ -891,7 +891,7 @@ const Admin = () => {
                         {w.notes && <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">{w.notes}</p>}
                       </div>
                       <div className="flex items-center gap-2 flex-shrink-0">
-                        <SpeakButton text={w.french} lang="fr-FR" size={14} />
+                        <SpeakButton text={w.french} lang="fr-FR" size="sm" />
                         <button onClick={() => handleEditVocab(w)} className="text-burgundy-600 hover:text-burgundy-700"><Edit size={15} /></button>
                         <button onClick={() => handleDeleteVocab(w.id)} className="text-red-600 hover:text-red-700"><Trash2 size={15} /></button>
                       </div>
@@ -906,7 +906,7 @@ const Admin = () => {
                 <div className="relative top-10 mx-auto p-5 border w-full max-w-lg shadow-lg rounded-md bg-amber-50 dark:bg-dark-warm-100">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-lg font-medium text-gray-900 dark:text-cream-50">{editingVocab ? 'Edit Word' : 'Add Vocabulary Word'}</h3>
-                    <button onClick={() => setShowVocabForm(false)} className="text-gray-400 hover:text-gray-600"><X size={20} /></button>
+                    <button onClick={() => setShowVocabForm(false)} className="text-gray-400 hover:text-gray-600"><X size="lg" /></button>
                   </div>
                   <form onSubmit={handleVocabSubmit} className="space-y-3">
                     <div className="grid grid-cols-2 gap-3">
@@ -956,7 +956,7 @@ const Admin = () => {
             <div className="flex items-center justify-between mb-4">
               <p className="text-sm text-gray-600 dark:text-gray-400">{dailyVocab.length} daily vocab entr{dailyVocab.length !== 1 ? 'ies' : 'y'}</p>
               <button onClick={() => { setEditingDailyVocab(null); setDailyVocabForm({ french: '', english: '', category: 'General' }); setShowDailyVocabForm(true) }} className="btn-primary flex items-center space-x-2">
-                <Plus size={16} /><span>Add Entry</span>
+                <Plus size="md" /><span>Add Entry</span>
               </button>
             </div>
             <div className="bg-amber-50 dark:bg-dark-warm-100 shadow rounded-md overflow-hidden">
@@ -976,7 +976,7 @@ const Admin = () => {
                         </div>
                       </div>
                       <div className="flex items-center gap-2 flex-shrink-0">
-                        <SpeakButton text={w.french} lang="fr-FR" size={14} />
+                        <SpeakButton text={w.french} lang="fr-FR" size="sm" />
                         <button onClick={() => handleEditDailyVocab(w)} className="text-burgundy-600 hover:text-burgundy-700"><Edit size={15} /></button>
                         <button onClick={() => handleDeleteDailyVocab(w.id)} className="text-red-600 hover:text-red-700"><Trash2 size={15} /></button>
                       </div>
@@ -990,7 +990,7 @@ const Admin = () => {
                 <div className="relative top-10 mx-auto p-5 border w-full max-w-md shadow-lg rounded-md bg-amber-50 dark:bg-dark-warm-100">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-lg font-medium text-gray-900 dark:text-cream-50">{editingDailyVocab ? 'Edit Entry' : 'Add Daily Vocab Entry'}</h3>
-                    <button onClick={() => setShowDailyVocabForm(false)} className="text-gray-400 hover:text-gray-600"><X size={20} /></button>
+                    <button onClick={() => setShowDailyVocabForm(false)} className="text-gray-400 hover:text-gray-600"><X size="lg" /></button>
                   </div>
                   <form onSubmit={handleDailyVocabSubmit} className="space-y-3">
                     <div>
@@ -1108,20 +1108,20 @@ const Admin = () => {
                         className="text-blue-600 hover:text-blue-700"
                         title="Download worksheet"
                       >
-                        <Download size={16} />
+                        <Download size="md" />
                       </button>
                     )}
                     <button
                       onClick={() => activeTab === 'sections' ? handleEditSection(item) : handleEdit(item)}
                       className="text-burgundy-600 hover:text-burgundy-700"
                     >
-                      <Edit size={16} />
+                      <Edit size="md" />
                     </button>
                     <button
                       onClick={() => activeTab === 'sections' ? handleDeleteSection(item.id) : handleDelete(item.id)}
                       className="text-red-600 hover:text-red-700"
                     >
-                      <Trash2 size={16} />
+                      <Trash2 size="md" />
                     </button>
                   </div>
                 </div>
@@ -1143,7 +1143,7 @@ const Admin = () => {
                   onClick={resetForm}
                   className="text-gray-400 hover:text-gray-600 flex-shrink-0"
                 >
-                  <X size={20} />
+                  <X size="lg" />
                 </button>
               </div>
 
@@ -1246,7 +1246,7 @@ const Admin = () => {
                           className="p-2 hover:bg-gray-200 rounded transition-colors"
                           title="Bold"
                         >
-                          <Bold size={16} />
+                          <Bold size="md" />
                         </button>
                         <button
                           type="button"
@@ -1254,7 +1254,7 @@ const Admin = () => {
                           className="p-2 hover:bg-gray-200 rounded transition-colors"
                           title="Italic"
                         >
-                          <Italic size={16} />
+                          <Italic size="md" />
                         </button>
                         <button
                           type="button"
@@ -1262,7 +1262,7 @@ const Admin = () => {
                           className="p-2 hover:bg-gray-200 rounded transition-colors"
                           title="Underline"
                         >
-                          <Underline size={16} />
+                          <Underline size="md" />
                         </button>
                         <button
                           type="button"
@@ -1315,7 +1315,7 @@ const Admin = () => {
                           className="p-2 hover:bg-gray-200 rounded transition-colors"
                           title="Align Left"
                         >
-                          <AlignLeft size={16} />
+                          <AlignLeft size="md" />
                         </button>
                         <button
                           type="button"
@@ -1323,7 +1323,7 @@ const Admin = () => {
                           className="p-2 hover:bg-gray-200 rounded transition-colors"
                           title="Align Center"
                         >
-                          <AlignCenter size={16} />
+                          <AlignCenter size="md" />
                         </button>
                         <button
                           type="button"
@@ -1331,7 +1331,7 @@ const Admin = () => {
                           className="p-2 hover:bg-gray-200 rounded transition-colors"
                           title="Align Right"
                         >
-                          <AlignRight size={16} />
+                          <AlignRight size="md" />
                         </button>
                         <button
                           type="button"
@@ -1351,7 +1351,7 @@ const Admin = () => {
                           className="p-2 hover:bg-gray-200 rounded transition-colors"
                           title="Bullet List"
                         >
-                          <List size={16} />
+                          <List size="md" />
                         </button>
                         <button
                           type="button"
@@ -1359,7 +1359,7 @@ const Admin = () => {
                           className="p-2 hover:bg-gray-200 rounded transition-colors"
                           title="Numbered List"
                         >
-                          <ListOrdered size={16} />
+                          <ListOrdered size="md" />
                         </button>
                       </div>
 
@@ -1933,7 +1933,7 @@ const Admin = () => {
                             onClick={() => removeQuestion(qIndex)}
                             className="text-red-600 hover:text-red-700"
                           >
-                            <Trash2 size={16} />
+                            <Trash2 size="md" />
                           </button>
                         </div>
 
@@ -1982,7 +1982,7 @@ const Admin = () => {
                     type="submit"
                     className="btn-primary flex items-center justify-center space-x-2 w-full sm:w-auto"
                   >
-                    <Save size={16} />
+                    <Save size="md" />
                     <span>{editingItem ? 'Update' : 'Create'}</span>
                   </button>
                 </div>
@@ -2003,7 +2003,7 @@ const Admin = () => {
                   onClick={resetSectionForm}
                   className="text-gray-400 hover:text-gray-600"
                 >
-                  <X size={20} />
+                  <X size="lg" />
                 </button>
               </div>
 
@@ -2048,7 +2048,7 @@ const Admin = () => {
                     type="submit"
                     className="btn-primary flex items-center justify-center space-x-2 w-full sm:w-auto"
                   >
-                    <Save size={16} />
+                    <Save size="md" />
                     <span>{editingSection ? 'Update' : 'Create'} Section</span>
                   </button>
                 </div>

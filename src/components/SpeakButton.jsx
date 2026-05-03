@@ -108,7 +108,9 @@ const SpeakButton = ({
       : 'bg-transparent text-amber-500 dark:text-amber-300 hover:text-amber-600 dark:hover:text-amber-400'
   }
 
-  const config = sizeConfig[size]
+  const config = typeof size === 'number'
+    ? { button: size <= 14 ? 'w-7 h-7' : 'w-9 h-9', icon: size, text: 'text-xs' }
+    : (sizeConfig[size] || sizeConfig.md)
   const variantClass = variantConfig[variant]
 
   // Show a disabled button with explanation if TTS is not supported
@@ -117,17 +119,17 @@ const SpeakButton = ({
       <div className={`${className} flex items-center space-x-2`}>
         <div
           className={`
-            ${sizeConfig[size].button}
+            ${config.button}
             bg-gray-100 dark:bg-dark-warm-100 text-gray-400
             rounded-lg flex items-center justify-center
             cursor-not-allowed opacity-50
           `}
           title="Text-to-speech not supported in this browser"
         >
-          <VolumeX size={sizeConfig[size].icon} />
+          <VolumeX size={config.icon} />
         </div>
         {showText && (
-          <span className={`${sizeConfig[size].text} text-gray-400`}>
+          <span className={`${config.text} text-gray-400`}>
             Audio not available
           </span>
         )}

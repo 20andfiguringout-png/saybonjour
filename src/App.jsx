@@ -48,6 +48,112 @@ import Pronunciation from './pages/Pronunciation'
 import Conversation from './pages/Conversation'
 import Levels from './pages/Levels'
 import NotFound from './pages/NotFound'
+import FrenchNumbers from './pages/FrenchNumbers'
+import Hangman from './pages/Hangman'
+import WordScramble from './pages/WordScramble'
+import SpellingBee from './pages/SpellingBee'
+import Dictation from './pages/Dictation'
+import CulturalCalendar from './pages/CulturalCalendar'
+import FalseFriends from './pages/FalseFriends'
+import TongueTwisters from './pages/TongueTwisters'
+import VocabularyThemes from './pages/VocabularyThemes'
+import VerbDrills from './pages/VerbDrills'
+import Leaderboard from './pages/Leaderboard'
+import Achievements from './pages/Achievements'
+import StudyPlanner from './pages/StudyPlanner'
+import GenderPractice from './pages/GenderPractice'
+import Crossword from './pages/Crossword'
+import PictureVocabulary from './pages/PictureVocabulary'
+import VocabularyExport from './pages/VocabularyExport'
+import PrintableSheets from './pages/PrintableSheets'
+import HighScores from './pages/HighScores'
+import FrenchKeyboard from './pages/FrenchKeyboard'
+import FrenchProverbs from './pages/FrenchProverbs'
+import GrammarTips from './pages/GrammarTips'
+import FrenchSongs from './pages/FrenchSongs'
+import FrenchMovies from './pages/FrenchMovies'
+import QuickTranslator from './pages/QuickTranslator'
+import WordOfTheDay from './pages/WordOfTheDay'
+import FrenchRadio from './pages/FrenchRadio'
+import RegionalAccents from './pages/RegionalAccents'
+import FrenchFoodGuide from './pages/FrenchFoodGuide'
+import DELFPrep from './pages/DELFPrep'
+import VerbConjugationQuiz from './pages/VerbConjugationQuiz'
+import ListeningPractice from './pages/ListeningPractice'
+import FrenchQuotes from './pages/FrenchQuotes'
+import PhrasalVerbs from './pages/PhrasalVerbs'
+import FrenchIdiomsPage from './pages/FrenchIdiomsPage'
+import MiniFlashcards from './pages/MiniFlashcards'
+import NotificationCenter from './pages/NotificationCenter'
+import FrenchArt from './pages/FrenchArt'
+import FrenchPoetry from './pages/FrenchPoetry'
+import FrenchGestures from './pages/FrenchGestures'
+import FrenchNamesGuide from './pages/FrenchNamesGuide'
+import ColorsInFrench from './pages/ColorsInFrench'
+import SeasonalVocabulary from './pages/SeasonalVocabulary'
+import FalseFriendsDeep from './pages/FalseFriendsDeep'
+import LanguageExchange from './pages/LanguageExchange'
+import FrenchFashion from './pages/FrenchFashion'
+import FrenchArchitecture from './pages/FrenchArchitecture'
+import FrenchLiterature from './pages/FrenchLiterature'
+import FrenchBodyLanguage from './pages/FrenchBodyLanguage'
+import FrenchMathVocab from './pages/FrenchMathVocab'
+import FrenchWeather from './pages/FrenchWeather'
+import FrenchEmotions from './pages/FrenchEmotions'
+import FrenchSchoolVocab from './pages/FrenchSchoolVocab'
+import FrenchFamilyVocab from './pages/FrenchFamilyVocab'
+import FrenchAtWork from './pages/FrenchAtWork'
+import FrenchRestaurantGuide from './pages/FrenchRestaurantGuide'
+import FrenchSports from './pages/FrenchSports'
+import FrenchPolitics from './pages/FrenchPolitics'
+import FrenchPhilosophy from './pages/FrenchPhilosophy'
+import FrenchTechnology from './pages/FrenchTechnology'
+import FrenchEnvironment from './pages/FrenchEnvironment'
+import FrenchHealth from './pages/FrenchHealth'
+import FrenchTravel from './pages/FrenchTravel'
+import FrenchHousing from './pages/FrenchHousing'
+import FrenchCooking from './pages/FrenchCooking'
+import FrenchTransport from './pages/FrenchTransport'
+import FrenchMusic from './pages/FrenchMusic'
+import FrenchSlang from './pages/FrenchSlang'
+import FrenchNegation from './pages/FrenchNegation'
+import FrenchQuestions from './pages/FrenchQuestions'
+import FrenchColors from './pages/FrenchColors'
+import FrenchDates from './pages/FrenchDates'
+import FrenchAdjectives from './pages/FrenchAdjectives'
+import FrenchAnimals from './pages/FrenchAnimals'
+import FrenchCafeCulture from './pages/FrenchCafeCulture'
+import FrenchPrepositions from './pages/FrenchPrepositions'
+import FrenchBodyParts from './pages/FrenchBodyParts'
+import FrenchNature from './pages/FrenchNature'
+import FrenchShoppingVocab from './pages/FrenchShoppingVocab'
+import FrenchHolidays from './pages/FrenchHolidays'
+import FrenchPronunciationGuide from './pages/FrenchPronunciationGuide'
+import FrenchEtiquette from './pages/FrenchEtiquette'
+import FrenchTuVous from './pages/FrenchTuVous'
+import FrenchVerbs from './pages/FrenchVerbs'
+import FrenchTenses from './pages/FrenchTenses'
+import FrenchDirections from './pages/FrenchDirections'
+import FrenchSchoolSystem from './pages/FrenchSchoolSystem'
+import FrenchMedical from './pages/FrenchMedical'
+import FrenchLoveRomance from './pages/FrenchLoveRomance'
+import FrenchBusiness2 from './pages/FrenchBusiness2'
+import FrenchHobbies from './pages/FrenchHobbies'
+import FrenchArticles from './pages/FrenchArticles'
+import FrenchWeeklyRoutine from './pages/FrenchWeeklyRoutine'
+import FrenchOpinions from './pages/FrenchOpinions'
+import FrenchFoodVocab from './pages/FrenchFoodVocab'
+import FrenchComparatives from './pages/FrenchComparatives'
+import FrenchRelativePronouns from './pages/FrenchRelativePronouns'
+import FrenchNumbers2 from './pages/FrenchNumbers2'
+import FrenchFalseFriends from './pages/FrenchFalseFriends'
+import FrenchPronounsGuide from './pages/FrenchPronounsGuide'
+import FrenchInterrogatives from './pages/FrenchInterrogatives'
+import FrenchAccents from './pages/FrenchAccents'
+import FrenchSubjunctive from './pages/FrenchSubjunctive'
+import FrenchPassiveVoice from './pages/FrenchPassiveVoice'
+import FrenchConversationTopics from './pages/FrenchConversationTopics'
+import FrenchRegionalFrance from './pages/FrenchRegionalFrance'
 import { claimDailyLoginReward } from './utils/progress'
 
 const DailyLoginReward = () => {
@@ -121,6 +227,112 @@ function App() {
                     <Route path="/pronunciation" element={<Pronunciation />} />
                     <Route path="/conversation" element={<Conversation />} />
                     <Route path="/levels" element={<Levels />} />
+                    <Route path="/numbers" element={<FrenchNumbers />} />
+                    <Route path="/hangman" element={<Hangman />} />
+                    <Route path="/word-scramble" element={<WordScramble />} />
+                    <Route path="/spelling-bee" element={<SpellingBee />} />
+                    <Route path="/dictation" element={<Dictation />} />
+                    <Route path="/cultural-calendar" element={<CulturalCalendar />} />
+                    <Route path="/false-friends" element={<FalseFriends />} />
+                    <Route path="/tongue-twisters" element={<TongueTwisters />} />
+                    <Route path="/vocabulary-themes" element={<VocabularyThemes />} />
+                    <Route path="/verb-drills" element={<VerbDrills />} />
+                    <Route path="/leaderboard" element={<Leaderboard />} />
+                    <Route path="/achievements" element={<Achievements />} />
+                    <Route path="/study-planner" element={<StudyPlanner />} />
+                    <Route path="/gender-practice" element={<GenderPractice />} />
+                    <Route path="/crossword" element={<Crossword />} />
+                    <Route path="/picture-vocabulary" element={<PictureVocabulary />} />
+                    <Route path="/vocabulary-export" element={<VocabularyExport />} />
+                    <Route path="/printable-sheets" element={<PrintableSheets />} />
+                    <Route path="/high-scores" element={<HighScores />} />
+                    <Route path="/french-keyboard" element={<FrenchKeyboard />} />
+                    <Route path="/proverbs" element={<FrenchProverbs />} />
+                    <Route path="/grammar-tips" element={<GrammarTips />} />
+                    <Route path="/french-songs" element={<FrenchSongs />} />
+                    <Route path="/french-movies" element={<FrenchMovies />} />
+                    <Route path="/quick-translator" element={<QuickTranslator />} />
+                    <Route path="/word-of-the-day" element={<WordOfTheDay />} />
+                    <Route path="/french-radio" element={<FrenchRadio />} />
+                    <Route path="/regional-accents" element={<RegionalAccents />} />
+                    <Route path="/french-food" element={<FrenchFoodGuide />} />
+                    <Route path="/delf-prep" element={<DELFPrep />} />
+                    <Route path="/conjugation-quiz" element={<VerbConjugationQuiz />} />
+                    <Route path="/listening-practice" element={<ListeningPractice />} />
+                    <Route path="/french-quotes" element={<FrenchQuotes />} />
+                    <Route path="/phrasal-verbs" element={<PhrasalVerbs />} />
+                    <Route path="/idioms" element={<FrenchIdiomsPage />} />
+                    <Route path="/mini-flashcards" element={<MiniFlashcards />} />
+                    <Route path="/notifications" element={<NotificationCenter />} />
+                    <Route path="/french-art" element={<FrenchArt />} />
+                    <Route path="/french-poetry" element={<FrenchPoetry />} />
+                    <Route path="/french-gestures" element={<FrenchGestures />} />
+                    <Route path="/french-names" element={<FrenchNamesGuide />} />
+                    <Route path="/colors" element={<ColorsInFrench />} />
+                    <Route path="/seasonal-vocabulary" element={<SeasonalVocabulary />} />
+                    <Route path="/false-friends-deep" element={<FalseFriendsDeep />} />
+                    <Route path="/language-exchange" element={<LanguageExchange />} />
+                    <Route path="/french-fashion" element={<FrenchFashion />} />
+                    <Route path="/french-architecture" element={<FrenchArchitecture />} />
+                    <Route path="/french-literature" element={<FrenchLiterature />} />
+                    <Route path="/french-body-language" element={<FrenchBodyLanguage />} />
+                    <Route path="/french-math" element={<FrenchMathVocab />} />
+                    <Route path="/french-weather" element={<FrenchWeather />} />
+                    <Route path="/french-emotions" element={<FrenchEmotions />} />
+                    <Route path="/french-school" element={<FrenchSchoolVocab />} />
+                    <Route path="/french-family" element={<FrenchFamilyVocab />} />
+                    <Route path="/french-at-work" element={<FrenchAtWork />} />
+                    <Route path="/french-restaurant" element={<FrenchRestaurantGuide />} />
+                    <Route path="/french-sports" element={<FrenchSports />} />
+                    <Route path="/french-politics" element={<FrenchPolitics />} />
+                    <Route path="/french-philosophy" element={<FrenchPhilosophy />} />
+                    <Route path="/french-technology" element={<FrenchTechnology />} />
+                    <Route path="/french-environment" element={<FrenchEnvironment />} />
+                    <Route path="/french-health" element={<FrenchHealth />} />
+                    <Route path="/french-travel" element={<FrenchTravel />} />
+                    <Route path="/french-housing" element={<FrenchHousing />} />
+                    <Route path="/french-cooking" element={<FrenchCooking />} />
+                    <Route path="/french-transport" element={<FrenchTransport />} />
+                    <Route path="/french-music" element={<FrenchMusic />} />
+                    <Route path="/french-slang" element={<FrenchSlang />} />
+                    <Route path="/french-negation" element={<FrenchNegation />} />
+                    <Route path="/french-questions" element={<FrenchQuestions />} />
+                    <Route path="/french-colors" element={<FrenchColors />} />
+                    <Route path="/french-dates" element={<FrenchDates />} />
+                    <Route path="/french-adjectives" element={<FrenchAdjectives />} />
+                    <Route path="/french-animals" element={<FrenchAnimals />} />
+                    <Route path="/french-cafe" element={<FrenchCafeCulture />} />
+                    <Route path="/french-prepositions" element={<FrenchPrepositions />} />
+                    <Route path="/french-body-parts" element={<FrenchBodyParts />} />
+                    <Route path="/french-nature" element={<FrenchNature />} />
+                    <Route path="/french-shopping" element={<FrenchShoppingVocab />} />
+                    <Route path="/french-holidays" element={<FrenchHolidays />} />
+                    <Route path="/french-pronunciation-guide" element={<FrenchPronunciationGuide />} />
+                    <Route path="/french-etiquette" element={<FrenchEtiquette />} />
+                    <Route path="/tu-vs-vous" element={<FrenchTuVous />} />
+                    <Route path="/french-verbs" element={<FrenchVerbs />} />
+                    <Route path="/french-tenses" element={<FrenchTenses />} />
+                    <Route path="/french-directions" element={<FrenchDirections />} />
+                    <Route path="/french-school-system" element={<FrenchSchoolSystem />} />
+                    <Route path="/french-medical" element={<FrenchMedical />} />
+                    <Route path="/french-love" element={<FrenchLoveRomance />} />
+                    <Route path="/french-business-vocab" element={<FrenchBusiness2 />} />
+                    <Route path="/french-hobbies" element={<FrenchHobbies />} />
+                    <Route path="/french-articles" element={<FrenchArticles />} />
+                    <Route path="/french-daily-routine" element={<FrenchWeeklyRoutine />} />
+                    <Route path="/french-opinions" element={<FrenchOpinions />} />
+                    <Route path="/french-food-vocab" element={<FrenchFoodVocab />} />
+                    <Route path="/french-comparatives" element={<FrenchComparatives />} />
+                    <Route path="/french-relative-pronouns" element={<FrenchRelativePronouns />} />
+                    <Route path="/french-numbers-guide" element={<FrenchNumbers2 />} />
+                    <Route path="/french-false-friends-vocab" element={<FrenchFalseFriends />} />
+                    <Route path="/french-pronouns-guide" element={<FrenchPronounsGuide />} />
+                    <Route path="/french-question-words" element={<FrenchInterrogatives />} />
+                    <Route path="/french-accents-guide" element={<FrenchAccents />} />
+                    <Route path="/french-subjunctive" element={<FrenchSubjunctive />} />
+                    <Route path="/french-passive-voice" element={<FrenchPassiveVoice />} />
+                    <Route path="/french-conversation-topics" element={<FrenchConversationTopics />} />
+                    <Route path="/french-regions" element={<FrenchRegionalFrance />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </main>

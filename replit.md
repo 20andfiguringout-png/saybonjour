@@ -41,7 +41,7 @@ An interactive French learning platform called "SayBonjour!" with a React/Vite f
 - `src/utils/progress.js` - XP, streaks, levels, badges, rank tiers, XP multipliers, daily login reward
 - `src/utils/srs.js` - SM-2 spaced repetition algorithm
 
-## Pages (34 routes)
+## Pages (52 routes)
 
 ### Core
 - `/` - Home (hero, features, animated background)
@@ -71,6 +71,15 @@ An interactive French learning platform called "SayBonjour!" with a React/Vite f
 - `/business-french` - Professional vocabulary, phrases, dialogues, quiz
 - `/slang-french` - Street French, verlan, informal register, quiz
 - `/travel-french` - Travel vocab, phrases, real scenarios, quiz — **Phase 3**
+- `/vocabulary-themes` - Themed vocabulary sets (food, family, home, weather, etc.)
+- `/verb-drills` - Timed conjugation drills with leaderboard, level filter, streak
+- `/dictation` - French dictation with TTS, 3 difficulties, spelling check
+- `/study-planner` - Weekly study schedule builder with goal tracking
+- `/numbers` - French numbers 0–1M, ordinals, time-telling, maths vocab, quiz
+- `/hangman` - French Hangman (Le Pendu) with CEFR level filter, SVG gallows, keyboard
+- `/word-scramble` - Unscramble French words with hint, timer, score
+- `/spelling-bee` - French spelling bee with TTS, lives, score
+- `/levels` - CEFR level guide A1–C2
 
 ### Resources
 - `/resources` - Articles and learning content
@@ -82,6 +91,11 @@ An interactive French learning platform called "SayBonjour!" with a React/Vite f
 - `/worksheets` - Downloadable practice sheets
 - `/phrase-of-the-day` - Daily French phrase
 - `/jokes` - French jokes & humour with punchlines and vocab notes — **Phase 3**
+- `/false-friends` - Faux amis quiz and list (French–English lookalikes)
+- `/tongue-twisters` - Virelangues with TTS and difficulty rating
+- `/cultural-calendar` - Monthly French holidays and cultural events
+- `/leaderboard` - Global XP leaderboard with rank/streak display
+- `/achievements` - Badge gallery and progress trophies
 
 ### Admin
 - `/admin` - Comprehensive CMS (requires admin login via `Authorization: Bearer` header)
