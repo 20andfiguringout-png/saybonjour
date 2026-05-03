@@ -4,7 +4,7 @@ import { BookOpen, Brain, Bookmark, MapPin, ArrowRight, Award, Play, TrendingUp,
 import { motion } from 'framer-motion'
 import SEO from '../components/SEO'
 import SpeakButton from '../components/SpeakButton'
-import { updateAndGetStreak, getStreakMotivation, getStreakEmoji } from '../utils/streak'
+import { updateAndGetStreak, getWeekDots, getStreakMotivation, getStreakEmoji } from '../utils/streak'
 
 const TypewriterText = ({ text, delay = 0 }) => {
   const [displayText, setDisplayText] = useState('')
@@ -673,8 +673,31 @@ const Home = () => {
                       </div>
                     </div>
                     <p className="bento-description mb-3">{getStreakMotivation(streak.currentStreak)}</p>
+
+                    {/* Weekly progress dots */}
+                    <div className="mb-4">
+                      <p className="bento-label mb-2 font-semibold">This week</p>
+                      <div className="flex items-center justify-between gap-1">
+                        {['M','T','W','T','F','S','S'].map((label, i) => {
+                          const dots = getWeekDots(streak)
+                          const dot = dots[i]
+                          let dotClass = 'streak-dot-future'
+                          if (dot.isVisited) dotClass = 'streak-dot-visited'
+                          else if (dot.isToday) dotClass = 'streak-dot-today'
+                          return (
+                            <div key={i} className="flex flex-col items-center gap-1">
+                              <div className={dotClass}>
+                                {dot.isVisited ? '✓' : dot.isToday ? '·' : ''}
+                              </div>
+                              <span style={{ fontSize: '10px' }} className="bento-label">{label}</span>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+
                     {streak.longestStreak > 0 && (
-                      <p className="bento-label mb-4">Best streak: <span className="font-semibold">{streak.longestStreak} day{streak.longestStreak !== 1 ? 's' : ''}</span></p>
+                      <p className="bento-label mb-4">Best: <span className="font-semibold">{streak.longestStreak} day{streak.longestStreak !== 1 ? 's' : ''}</span></p>
                     )}
                     <div className="bento-cta">
                       <span>Keep Learning</span>

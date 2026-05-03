@@ -469,6 +469,45 @@
     color: #fffcef;
   }
 
+  .streak-dot {
+    @apply w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300;
+  }
+
+  .streak-dot-visited {
+    @apply streak-dot;
+    background-color: #660019;
+    color: #fffcef;
+  }
+
+  .dark .streak-dot-visited {
+    background-color: #fffcef;
+    color: #330009;
+  }
+
+  .streak-dot-today {
+    @apply streak-dot;
+    background-color: #fee2e2;
+    color: #660019;
+    box-shadow: 0 0 0 2px #660019;
+  }
+
+  .dark .streak-dot-today {
+    background-color: #3a1a1a;
+    color: #fffcef;
+    box-shadow: 0 0 0 2px #fffcef;
+  }
+
+  .streak-dot-future {
+    @apply streak-dot;
+    background-color: #f5f2e8;
+    color: #c4bfb0;
+  }
+
+  .dark .streak-dot-future {
+    background-color: #2c2c2c;
+    color: #5a5a5a;
+  }
+
   .bento-cta {
     @apply inline-flex items-center text-sm font-medium transition-colors duration-200;
     color: #660019;
